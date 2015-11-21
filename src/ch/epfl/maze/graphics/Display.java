@@ -39,7 +39,7 @@ public final class Display implements Runnable {
 
 	/* constants */
 	public static final Color BACKGROUND_COLOR = Color.GRAY;
-	public static final int SQUARE_SIZE = 42;
+	public static final int SQUARE_SIZE = 32;
 	public static final int BUFFERS_NUMBER = 2;
 	public static final int MAX_SPEED = 32;
 	public static final int DEFAULT_SPEED = 2;
