@@ -39,6 +39,7 @@ import ch.epfl.maze.util.LabyrinthGenerator;
  *
  */
 
+
 public class Competition {
 
 	static final String COMPETITION_MAZE_FILE = "labyrinth.txt";

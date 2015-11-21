@@ -85,13 +85,13 @@ public final class Maze extends World {
 
     @Override
     public void reset() {
-/*	for (Animal a : _animalsIn)
+	for (Animal a : _animalsIn)
 	    _animalsOut.add(a.copy());
 
 	_animalsIn.clear();
 	for (Animal a : _animalsOut)
 	    addAnimal(a);
 
-	_animalsOut.clear();*/
+	_animalsOut.clear();
     }
 }
