@@ -21,7 +21,6 @@ public abstract class World {
     public static final int EXIT = 3;
     public static final int NOTHING = -1;
     public static final Direction[] DIRECTIONS = { Direction.UP, Direction.DOWN, Direction.RIGHT, Direction.LEFT, };
-    final protected Vector2D INVALID_POS = new Vector2D(-1, -1);
 
     private int[][] _labyrinth;
 
@@ -72,6 +71,8 @@ public abstract class World {
     public final int getTile(int x, int y) {
 	if ((x >= _labyrinth[0].length) || (y >= _labyrinth.length))
 	    return World.NOTHING;
+	else if ((x < 0) || (y < 0))
+	    return World.NOTHING;
 	else
 	    return _labyrinth[y][x];
     }
@@ -116,18 +117,16 @@ public abstract class World {
      */
 
     public final Direction[] getChoices(Vector2D position) {
-	List<Direction> avaliableDirections = new ArrayList<Direction>();
+	List<Direction> availableDirections = new ArrayList<Direction>();
 	for (Direction dir : DIRECTIONS)
 	    if (isFree(position.addDirectionTo(dir)))
-		avaliableDirections.add(dir);
+		availableDirections.add(dir);
 
-	if (avaliableDirections.isEmpty())
-	    avaliableDirections.add(Direction.NONE);
+	if (availableDirections.isEmpty())
+	    availableDirections.add(Direction.NONE);
 
-	Direction[] returnArray = new Direction[avaliableDirections.size()];
-	for (int i = 0; i < avaliableDirections.size(); i++)
-	    returnArray[i] = avaliableDirections.get(i);
-
+	Direction[] returnArray = new Direction[availableDirections.size()];
+	availableDirections.toArray(returnArray);
 	return returnArray;
     }
 

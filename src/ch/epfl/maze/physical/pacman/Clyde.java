@@ -14,27 +14,32 @@ import ch.epfl.maze.util.Vector2D;
 
 public class Clyde extends Predator {
 
-	/**
-	 * Constructs a Clyde with a starting position.
-	 * 
-	 * @param position
-	 *            Starting position of Clyde in the labyrinth
-	 */
+    /**
+     * Constructs a Clyde with a starting position.
+     * 
+     * @param position
+     *            Starting position of Clyde in the labyrinth
+     */
 
-	public Clyde(Vector2D position) {
-		super(position);
-		// TODO
-	}
+    public Clyde(Vector2D position) {
+	super(position);
+	// TODO
+    }
 
-	@Override
-	public Direction move(Direction[] choices, Daedalus daedalus) {
-		// TODO
-		return Direction.NONE;
-	}
+    @Override
+    public Direction move(Direction[] choices, Daedalus daedalus) {
+	// TODO
+	return Direction.NONE;
+    }
 
-	@Override
-	public Animal copy() {
-		// TODO
-		return null;
-	}
+    @Override
+    public Animal copy() {
+	// TODO
+	return null;
+    }
+    
+    @Override
+    public void reset(Vector2D start) {
+	// TODO
+    }
 }

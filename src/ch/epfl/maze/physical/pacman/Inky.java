@@ -14,27 +14,32 @@ import ch.epfl.maze.util.Vector2D;
 
 public class Inky extends Predator {
 
-	/**
-	 * Constructs a Inky with a starting position.
-	 * 
-	 * @param position
-	 *            Starting position of Inky in the labyrinth
-	 */
+    /**
+     * Constructs a Inky with a starting position.
+     * 
+     * @param position
+     *            Starting position of Inky in the labyrinth
+     */
 
-	public Inky(Vector2D position) {
-		super(position);
-		// TODO
-	}
+    public Inky(Vector2D position) {
+	super(position);
+	// TODO
+    }
 
-	@Override
-	public Direction move(Direction[] choices, Daedalus daedalus) {
-		// TODO
-		return Direction.NONE;
-	}
+    @Override
+    public Direction move(Direction[] choices, Daedalus daedalus) {
+	// TODO
+	return Direction.NONE;
+    }
 
-	@Override
-	public Animal copy() {
-		// TODO
-		return null;
-	}
+    @Override
+    public Animal copy() {
+	// TODO
+	return null;
+    }
+    
+    @Override
+    public void reset(Vector2D start) {
+	// TODO
+    }
 }

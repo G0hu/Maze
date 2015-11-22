@@ -16,37 +16,42 @@ import ch.epfl.maze.util.Vector2D;
  * <p>
  * The way we measure efficiency is made by the test case {@code Competition}.
  * 
- * @see ch.epfl.maze.tests.Competition Competition 
+ * @see ch.epfl.maze.tests.Competition Competition
  * 
  */
 
 public class SpaceInvader extends Animal {
 
-	/**
-	 * Constructs a space invader with a starting position.
-	 * 
-	 * @param position
-	 *            Starting position of the mouse in the labyrinth
-	 */
+    /**
+     * Constructs a space invader with a starting position.
+     * 
+     * @param position
+     *            Starting position of the mouse in the labyrinth
+     */
 
-	public SpaceInvader(Vector2D position) {
-		super(position);
-		// TODO (bonus)
-	}
+    public SpaceInvader(Vector2D position) {
+	super(position);
+	// TODO (bonus)
+    }
 
-	/**
-	 * Moves according to (... please complete with as many details as you can).
-	 */
+    /**
+     * Moves according to (... please complete with as many details as you can).
+     */
 
-	@Override
-	public Direction move(Direction[] choices) {
-		// TODO (bonus)
-		return Direction.NONE;
-	}
+    @Override
+    public Direction move(Direction[] choices) {
+	// TODO (bonus)
+	return Direction.NONE;
+    }
 
-	@Override
-	public Animal copy() {
-		// TODO (bonus)
-		return null;
-	}
+    @Override
+    public Animal copy() {
+	// TODO (bonus)
+	return null;
+    }
+    
+    @Override
+    public void reset(Vector2D start) {
+	// TODO
+    }
 }

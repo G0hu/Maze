@@ -15,70 +15,70 @@ import ch.epfl.maze.physical.World;
 
 public interface Simulation {
 
-	/**
-	 * Asks the {@code Simulation} to compute the next move and, if specified,
-	 * notifies the changes to the listener.
-	 * 
-	 * @param listener
-	 *            The listener to which the function will notify the changes
-	 *            (can be null)
-	 */
+    /**
+     * Asks the {@code Simulation} to compute the next move and, if specified,
+     * notifies the changes to the listener.
+     * 
+     * @param listener
+     *            The listener to which the function will notify the changes
+     *            (can be null)
+     */
 
-	public void move(Animation listener);
+    public void move(Animation listener);
 
-	/**
-	 * Determines if the simulation is over.
-	 * 
-	 * @return <b>true</b> if no more moves can be made, <b>false</b> otherwise
-	 */
+    /**
+     * Determines if the simulation is over.
+     * 
+     * @return <b>true</b> if no more moves can be made, <b>false</b> otherwise
+     */
 
-	public boolean isOver();
+    public boolean isOver();
 
-	/**
-	 * Retrieves the current state of the simulated world.
-	 * 
-	 * @return The {@code World} that is being simulated
-	 */
+    /**
+     * Retrieves the current state of the simulated world.
+     * 
+     * @return The {@code World} that is being simulated
+     */
 
-	public World getWorld();
+    public World getWorld();
 
-	/**
-	 * Retrieves the step counter of the {@code Simulation}.
-	 * 
-	 * @return The current step counter
-	 */
+    /**
+     * Retrieves the step counter of the {@code Simulation}.
+     * 
+     * @return The current step counter
+     */
 
-	public int getSteps();
+    public int getSteps();
 
-	/**
-	 * Retrieves the mapping of the steps done by the animals that have finished
-	 * the simulation.
-	 * 
-	 * @return Map of steps done by animals which have accomplished the
-	 *         simulation
-	 */
+    /**
+     * Retrieves the mapping of the steps done by the animals that have finished
+     * the simulation.
+     * 
+     * @return Map of steps done by animals which have accomplished the
+     *         simulation
+     */
 
-	public Map<Integer, List<Animal>> getArrivalTimes();
+    public Map<Integer, List<Animal>> getArrivalTimes();
 
-	/**
-	 * Retrieves the record table of the animals that have finished the
-	 * simulation.
-	 * 
-	 * @return A {@code String} containing the top 10 animals which have
-	 *         accomplished the simulation
-	 */
+    /**
+     * Retrieves the record table of the animals that have finished the
+     * simulation.
+     * 
+     * @return A {@code String} containing the top 10 animals which have
+     *         accomplished the simulation
+     */
 
-	public String getRecordTable();
+    public String getRecordTable();
 
-	/**
-	 * Restarts the simulation from the beginning.
-	 */
+    /**
+     * Restarts the simulation from the beginning.
+     */
 
-	public void restart();
+    public void restart();
 
-	/**
-	 * Stops abruptly the simulation.
-	 */
+    /**
+     * Stops abruptly the simulation.
+     */
 
-	public void stop();
+    public void stop();
 }

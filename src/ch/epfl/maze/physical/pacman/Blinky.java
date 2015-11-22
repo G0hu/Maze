@@ -13,27 +13,32 @@ import ch.epfl.maze.util.Vector2D;
 
 public class Blinky extends Predator {
 
-	/**
-	 * Constructs a Blinky with a starting position.
-	 * 
-	 * @param position
-	 *            Starting position of Blinky in the labyrinth
-	 */
+    /**
+     * Constructs a Blinky with a starting position.
+     * 
+     * @param position
+     *            Starting position of Blinky in the labyrinth
+     */
 
-	public Blinky(Vector2D position) {
-		super(position);
-		// TODO
-	}
+    public Blinky(Vector2D position) {
+	super(position);
+	// TODO
+    }
 
-	@Override
-	public Direction move(Direction[] choices, Daedalus daedalus) {
-		// TODO
-		return Direction.NONE;
-	}
+    @Override
+    public Direction move(Direction[] choices, Daedalus daedalus) {
+	// TODO
+	return Direction.NONE;
+    }
 
-	@Override
-	public Animal copy() {
-		// TODO
-		return null;
-	}
+    @Override
+    public Animal copy() {
+	// TODO
+	return null;
+    }
+    
+    @Override
+    public void reset(Vector2D start) {
+	// TODO
+    }
 }

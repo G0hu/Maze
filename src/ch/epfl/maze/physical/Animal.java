@@ -76,4 +76,6 @@ abstract public class Animal {
     }
 
     abstract public Animal copy();
+    
+    abstract public void reset(Vector2D start);
 }

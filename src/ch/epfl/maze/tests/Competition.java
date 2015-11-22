@@ -39,126 +39,125 @@ import ch.epfl.maze.util.LabyrinthGenerator;
  *
  */
 
-
 public class Competition {
 
-	static final String COMPETITION_MAZE_FILE = "labyrinth.txt";
-	static final int NUMBER_OF_ROUNDS = 1000;
-	static HashMap<String, Integer> rivalries;
+    static final String COMPETITION_MAZE_FILE = "labyrinth.txt";
+    static final int NUMBER_OF_ROUNDS = 1000;
+    static HashMap<String, Integer> rivalries;
 
-	/**
-	 * Launches the competition between the {@code SpaceInvader} and the other
-	 * animals.
-	 */
+    /**
+     * Launches the competition between the {@code SpaceInvader} and the other
+     * animals.
+     */
 
-	@BeforeClass
-	public static void setUpClass() {
-		int[][] labyrinth = LabyrinthGenerator.readFromFile(COMPETITION_MAZE_FILE);
-		Maze m = new Maze(labyrinth);
-		Simulation simulation = new MazeSimulation(m);
+    @BeforeClass
+    public static void setUpClass() {
+	int[][] labyrinth = LabyrinthGenerator.readFromFile(COMPETITION_MAZE_FILE);
+	Maze m = new Maze(labyrinth);
+	Simulation simulation = new MazeSimulation(m);
 
-		// adds a Mouse
-		m.addAnimal(new Mouse(m.getStart()));
+	// adds a Mouse
+	m.addAnimal(new Mouse(m.getStart()));
 
-		// adds a Monkey
-		m.addAnimal(new Monkey(m.getStart()));
+	// adds a Monkey
+	m.addAnimal(new Monkey(m.getStart()));
 
-		// adds a Hamster
-		m.addAnimal(new Hamster(m.getStart()));
+	// adds a Hamster
+	m.addAnimal(new Hamster(m.getStart()));
 
-		// adds a Bear (if coded)
-		// m.addAnimal(new Bear(m.getStart()));
+	// adds a Bear (if coded)
+	// m.addAnimal(new Bear(m.getStart()));
 
-		// adds a Panda
-		m.addAnimal(new Panda(m.getStart()));
+	// adds a Panda
+	m.addAnimal(new Panda(m.getStart()));
 
-		// adds a Space Invader
-		m.addAnimal(new SpaceInvader(m.getStart()));
+	// adds a Space Invader
+	m.addAnimal(new SpaceInvader(m.getStart()));
 
-		rivalries = new HashMap<String, Integer>();
-		rivalries.put("Mouse", 0);
-		rivalries.put("Hamster", 0);
-		rivalries.put("Monkey", 0);
-		//rivalries.put("Bear", 0); // if coded
-		rivalries.put("Panda", 0);
+	rivalries = new HashMap<String, Integer>();
+	rivalries.put("Mouse", 0);
+	rivalries.put("Hamster", 0);
+	rivalries.put("Monkey", 0);
+	// rivalries.put("Bear", 0); // if coded
+	rivalries.put("Panda", 0);
 
-		System.out.print("Launching competition, please wait... ");
-		for (int i = 0; i < NUMBER_OF_ROUNDS; i++) {
-			simulation.restart();
-			while (!simulation.isOver()) {
-				simulation.move(null);
-			}
+	System.out.print("Launching competition, please wait... ");
+	for (int i = 0; i < NUMBER_OF_ROUNDS; i++) {
+	    simulation.restart();
+	    while (!simulation.isOver()) {
+		simulation.move(null);
+	    }
 
-			int result = MazeSimulation.COUNTER_LIMIT;
-			Map<Integer, List<Animal>> arrivalTimes = simulation.getArrivalTimes();
-			for (Map.Entry<Integer, List<Animal>> entry : arrivalTimes.entrySet()) {
-				for (Animal a : entry.getValue()) {
-					if (a.getClass() == SpaceInvader.class) {
-						result = entry.getKey();
-					}
-				}
-			}
-
-			for (Map.Entry<Integer, List<Animal>> entry : arrivalTimes.entrySet()) {
-				for (Animal a : entry.getValue()) {
-					String animalName = a.getClass().getSimpleName();
-					if (!"SpaceInvader".equals(animalName)) {
-						int score = rivalries.get(animalName);
-						int adversary = entry.getKey();
-						if (adversary < result) {
-							rivalries.put(animalName, --score);
-						} else if (adversary > result) {
-							rivalries.put(animalName, ++score);
-						}
-					}
-				}
-			}
+	    int result = MazeSimulation.COUNTER_LIMIT;
+	    Map<Integer, List<Animal>> arrivalTimes = simulation.getArrivalTimes();
+	    for (Map.Entry<Integer, List<Animal>> entry : arrivalTimes.entrySet()) {
+		for (Animal a : entry.getValue()) {
+		    if (a.getClass() == SpaceInvader.class) {
+			result = entry.getKey();
+		    }
 		}
-		System.out.println("done !");
+	    }
+
+	    for (Map.Entry<Integer, List<Animal>> entry : arrivalTimes.entrySet()) {
+		for (Animal a : entry.getValue()) {
+		    String animalName = a.getClass().getSimpleName();
+		    if (!"SpaceInvader".equals(animalName)) {
+			int score = rivalries.get(animalName);
+			int adversary = entry.getKey();
+			if (adversary < result) {
+			    rivalries.put(animalName, --score);
+			} else if (adversary > result) {
+			    rivalries.put(animalName, ++score);
+			}
+		    }
+		}
+	    }
 	}
+	System.out.println("done !");
+    }
 
-	/**
-	 * Determines if the {@code SpaceInvader} has beaten the {@code Mouse}.
-	 */
+    /**
+     * Determines if the {@code SpaceInvader} has beaten the {@code Mouse}.
+     */
 
-	@Test
-	public void testVSMouse() {
-		assertTrue("The SpaceInvader has not beaten the Mouse", rivalries.get("Mouse") > 0);
-	}
+    @Test
+    public void testVSMouse() {
+	assertTrue("The SpaceInvader has not beaten the Mouse", rivalries.get("Mouse") > 0);
+    }
 
-	/**
-	 * Determines if the {@code SpaceInvader} has beaten the {@code Hamster}.
-	 */
+    /**
+     * Determines if the {@code SpaceInvader} has beaten the {@code Hamster}.
+     */
 
-	@Test
-	public void testVSHamster() {
-		assertTrue("The SpaceInvader has not beaten the Hamster", rivalries.get("Hamster") > 0);
-	}
+    @Test
+    public void testVSHamster() {
+	assertTrue("The SpaceInvader has not beaten the Hamster", rivalries.get("Hamster") > 0);
+    }
 
-	/**
-	 * Determines if the {@code SpaceInvader} has beaten the {@code Monkey}.
-	 */
+    /**
+     * Determines if the {@code SpaceInvader} has beaten the {@code Monkey}.
+     */
 
-	@Test
-	public void testVSMonkey() {
-		assertTrue("The SpaceInvader has not beaten the Monkey", rivalries.get("Monkey") > 0);
-	}
+    @Test
+    public void testVSMonkey() {
+	assertTrue("The SpaceInvader has not beaten the Monkey", rivalries.get("Monkey") > 0);
+    }
 
-	/**
-	 * Determines if the {@code SpaceInvader} has beaten the {@code Bear}.
-	 */
+    /**
+     * Determines if the {@code SpaceInvader} has beaten the {@code Bear}.
+     */
 
-	@Test
-	public void testVSBear() {
-		assertTrue("The SpaceInvader has not beaten the Bear", rivalries.get("Bear") > 0);
-	}
+    @Test
+    public void testVSBear() {
+	assertTrue("The SpaceInvader has not beaten the Bear", rivalries.get("Bear") > 0);
+    }
 
-	/**
-	 * Determines if the {@code SpaceInvader} has beaten the {@code Panda}.
-	 */
+    /**
+     * Determines if the {@code SpaceInvader} has beaten the {@code Panda}.
+     */
 
-	@Test
-	public void testVSPanda() {
-		assertTrue("The SpaceInvader has not beaten the Panda", rivalries.get("Panda") > 0);
-	}
+    @Test
+    public void testVSPanda() {
+	assertTrue("The SpaceInvader has not beaten the Panda", rivalries.get("Panda") > 0);
+    }
 }
