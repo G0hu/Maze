@@ -88,6 +88,7 @@ public abstract class World {
      */
 
     public final boolean isFree(int x, int y) {
+        int rx=0;
 	if ((getTile(x, y) == World.NOTHING) || (getTile(x, y) == World.WALL))
 	    return false;
 	else
