@@ -12,7 +12,7 @@ import ch.epfl.maze.util.Vector2D;
 public class Monkey extends Animal {
 
     private Direction _orientation = Direction.UP;
-    
+
     /**
      * Constructs a monkey with a starting position.
      * 
@@ -23,7 +23,7 @@ public class Monkey extends Animal {
     public Monkey(Vector2D position) {
 	super(position);
     }
-    
+
     public Monkey(Vector2D position, Direction orientation) {
 	super(position);
 	_orientation = orientation;
@@ -44,9 +44,9 @@ public class Monkey extends Animal {
 	    else if (_orientation.relativeDirection(dir) == Direction.UP)
 		up = true;
 	    else if (_orientation.relativeDirection(dir) == Direction.RIGHT)
-	    	right = true;
+		right = true;
 	}
-	
+
 	if (left) {
 	    Direction dir = _orientation.unRelativeDirection(Direction.LEFT);
 	    _orientation = _orientation.rotateLeft();
@@ -64,15 +64,15 @@ public class Monkey extends Animal {
 	    return dir;
 	}
     }
-    
+
     @Override
     public Animal copy() {
-	return new Monkey(_position, _orientation);
+	return new Monkey(getPosition(), _orientation);
     }
-    
+
     @Override
     public void reset(Vector2D start) {
-	_position = start;
+	setPosition(start);
 	_orientation = Direction.UP;
     }
 }

@@ -25,7 +25,7 @@ public class Mouse extends Animal {
     public Mouse(Vector2D position) {
 	super(position);
     }
-    
+
     public Mouse(Vector2D position, Direction last) {
 	super(position);
 	_last = last;
@@ -44,27 +44,27 @@ public class Mouse extends Animal {
 	}
 
 	int index = 0;
-	Direction[] avaliable = new Direction[choices.length - 1];
+	Direction[] available = new Direction[choices.length - 1];
 	for (int i = 0; i < choices.length; i++) {
 	    if (!choices[i].isOpposite(_last)) {
-		avaliable[index] = choices[i];
+		available[index] = choices[i];
 		index++;
 	    }
 	}
 
 	Random r = new Random();
-	_last = avaliable[r.nextInt(avaliable.length)];
+	_last = available[r.nextInt(available.length)];
 	return _last;
     }
 
     @Override
     public Animal copy() {
-	return new Mouse(_position, _last);
+	return new Mouse(getPosition(), _last);
     }
-    
+
     @Override
     public void reset(Vector2D start) {
-	_position = start;
+	setPosition(start);
 	_last = Direction.NONE;
     }
 }

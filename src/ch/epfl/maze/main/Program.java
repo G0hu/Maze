@@ -16,6 +16,7 @@ import ch.epfl.maze.physical.zoo.Panda;
 import ch.epfl.maze.simulation.DaedalusSimulation;
 import ch.epfl.maze.simulation.MazeSimulation;
 import ch.epfl.maze.simulation.Simulation;
+import ch.epfl.maze.util.Direction;
 import ch.epfl.maze.util.LabyrinthGenerator;
 import ch.epfl.maze.util.Vector2D;
 

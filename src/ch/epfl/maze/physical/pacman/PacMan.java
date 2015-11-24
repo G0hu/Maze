@@ -29,7 +29,7 @@ public class PacMan extends Prey {
 	// TODO
 	return null;
     }
-    
+
     @Override
     public void reset(Vector2D start) {
 	// TODO

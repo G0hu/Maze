@@ -28,7 +28,7 @@ public class Hamster extends Animal {
     public Hamster(Vector2D position) {
 	super(position);
     }
-    
+
     public Hamster(Vector2D position, ArrayList<Vector2D> deadLocks, Direction last) {
 	super(position);
 	_last = last;
@@ -46,7 +46,7 @@ public class Hamster extends Animal {
 	if (newChoices.isEmpty()) {
 	    return Direction.NONE;
 	} else if (newChoices.size() == 1) {
-	    _deadLock.add(_position);
+	    _deadLock.add(getPosition());
 	    return newChoices.get(0);
 	} else {
 	    return randomChoose(newChoices);
@@ -55,28 +55,28 @@ public class Hamster extends Animal {
 
     @Override
     public Animal copy() {
-	return new Hamster(_position, _deadLock, _last);
+	return new Hamster(getPosition(), _deadLock, _last);
     }
 
     @Override
     public void reset(Vector2D start) {
-	_position = start;
+	setPosition(start);
 	_deadLock.clear();
 	_last = Direction.NONE;
     }
-    
+
     /**
      * Computes the new list of available choices without the deadlocks
      * 
      * @param choices
-     * 			The list of available directions
-     * @return 
+     *            The list of available directions
+     * @return
      */
-    
+
     private ArrayList<Direction> removeDeadLockTiles(Direction[] choices) {
 	ArrayList<Direction> newChoices = new ArrayList<Direction>();
 	for (Direction dir : choices) {
-	    Vector2D newPos = _position.addDirectionTo(dir);
+	    Vector2D newPos = getPosition().addDirectionTo(dir);
 	    if (!_deadLock.contains(newPos))
 		newChoices.add(dir);
 	}
@@ -88,10 +88,10 @@ public class Hamster extends Animal {
      * Chooses a random tile using the mouse's algorithm
      * 
      * @param choices
-     * 			Available choices without deadlocks
+     *            Available choices without deadlocks
      * @return The chosen direction
      */
-    
+
     private Direction randomChoose(ArrayList<Direction> choices) {
 	ArrayList<Direction> available = new ArrayList<Direction>();
 	for (int i = 0; i < choices.size(); i++)
