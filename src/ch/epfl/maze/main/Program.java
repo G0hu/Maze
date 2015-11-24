@@ -28,6 +28,21 @@ public class Program {
 
     /**
      * Runs one of the two available simulations
+=======
+import ch.epfl.maze.util.Direction;
+import ch.epfl.maze.util.LabyrinthGenerator;
+import ch.epfl.maze.util.Vector2D;
+
+/**
+ * Mini-project main program that will run the simulations on a {@code Display}.
+ * 
+ */
+
+public class Program {
+
+    /**
+     * Runs one of the two available simulations.
+>>>>>>> branch 'master' of https://github.com/G0hu/Maze.git
      * 
      * @see #getMazeSimulation()
      * @see #getDaedalusSimulation()

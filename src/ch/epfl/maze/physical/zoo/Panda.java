@@ -1,5 +1,7 @@
 package ch.epfl.maze.physical.zoo;
 
+import java.util.ArrayList;
+
 import ch.epfl.maze.physical.Animal;
 import ch.epfl.maze.util.Direction;
 import ch.epfl.maze.util.Vector2D;
@@ -10,6 +12,15 @@ import ch.epfl.maze.util.Vector2D;
  */
 public class Panda extends Animal {
 
+    // Algorithm constants
+    private static final int TILE_NEVER_MARKED = 1;
+    private static final int TILE_MARKED_ONCE = 2;
+    private static final int TILE_MARKED_TWICE = 3;
+
+    private Direction _last = Direction.NONE;
+    private ArrayList<Vector2D> _markedOnce = new ArrayList<Vector2D>();
+    private ArrayList<Vector2D> _markedTwice = new ArrayList<Vector2D>();
+
     /**
      * Constructs a panda with a starting position.
      * 
@@ -19,7 +30,6 @@ public class Panda extends Animal {
 
     public Panda(Vector2D position) {
 	super(position);
-	// TODO
     }
 
     /**
@@ -40,9 +50,33 @@ public class Panda extends Animal {
 	// TODO
 	return null;
     }
-    
+
     @Override
     public void reset(Vector2D start) {
 	// TODO
+    }
+
+    private void markTile(Vector2D v, int count) {
+
+    }
+
+    private boolean isIntersection(Direction choices[]) {
+	// TODO
+	return false;
+    }
+
+    private ArrayList<Direction> sortNeverMarkedTiles(Direction[] choices) {
+	// TODO
+	return null;
+    }
+
+    private ArrayList<Direction> sortMarkedOnceTiles(Direction[] choices) {
+	// TODO
+	return null;
+    }
+
+    private ArrayList<Direction> sortMarkedTwiceTiles(Direction[] choices) {
+	// TODO
+	return null;
     }
 }

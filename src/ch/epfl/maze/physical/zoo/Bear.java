@@ -43,7 +43,7 @@ public class Bear extends Animal {
 	// TODO
 	return null;
     }
-    
+
     @Override
     public void reset(Vector2D start) {
 	// TODO

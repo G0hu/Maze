@@ -37,7 +37,7 @@ public class Clyde extends Predator {
 	// TODO
 	return null;
     }
-    
+
     @Override
     public void reset(Vector2D start) {
 	// TODO

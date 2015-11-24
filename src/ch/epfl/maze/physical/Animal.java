@@ -11,8 +11,8 @@ import ch.epfl.maze.util.Vector2D;
 
 abstract public class Animal {
 
-    final protected Vector2D INVALID_POS = new Vector2D(-1, -1); // private?
-    protected Vector2D _position = INVALID_POS;
+    final private Vector2D INVALID_POS = new Vector2D(-1, -1);
+    private Vector2D _position = INVALID_POS;
 
     /**
      * Constructs an animal with a specified position.
@@ -22,7 +22,7 @@ abstract public class Animal {
      */
 
     public Animal(Vector2D position) {
-        _position = position;
+	_position = position;
     }
 
     /**
@@ -49,7 +49,7 @@ abstract public class Animal {
      */
 
     public final void update(Direction dir) {
-        _position = _position.addDirectionTo(dir);
+	_position = _position.addDirectionTo(dir);
     }
 
     /**
@@ -62,7 +62,7 @@ abstract public class Animal {
      */
 
     public final void setPosition(Vector2D position) {
-        _position = position;
+	_position = position;
     }
 
     /**
@@ -72,7 +72,7 @@ abstract public class Animal {
      */
 
     public final Vector2D getPosition() {
-        return _position;
+	return _position;
     }
 
     abstract public Animal copy();
