@@ -28,7 +28,7 @@ import ch.epfl.maze.util.Vector2D;
 public class Program {
 
     /**
-     * Runs one of the two available simulations
+     * Runs one of the two available simulations.
      * 
      * @see #getMazeSimulation()
      * @see #getDaedalusSimulation()
