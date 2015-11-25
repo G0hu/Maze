@@ -35,6 +35,7 @@ public class Monkey extends Animal {
 
     @Override
     public Direction move(Direction[] choices) {
+	boolean isCorner = isCornerTile(choices);
 	boolean right = false;
 	boolean left = false;
 	boolean up = false;
@@ -47,7 +48,7 @@ public class Monkey extends Animal {
 		right = true;
 	}
 
-	if (left) {
+	if (left && isCorner) {
 	    Direction dir = _orientation.unRelativeDirection(Direction.LEFT);
 	    _orientation = _orientation.rotateLeft();
 	    return dir;
@@ -74,5 +75,14 @@ public class Monkey extends Animal {
     public void reset(Vector2D start) {
 	setPosition(start);
 	_orientation = Direction.UP;
+    }
+    
+    private boolean isCornerTile(Direction[] choices) {
+	Vector2D v = getPosition().addDirectionTo(_orientation.unRelativeDirection(Direction.DOWN));
+	for (Direction dir : choices)
+	    if (getPosition().addDirectionTo(dir).equals(v))
+		return true;
+	
+	return false;
     }
 }
