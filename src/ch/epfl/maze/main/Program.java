@@ -67,7 +67,7 @@ public class Program {
 	// m.addAnimal(new Bear(m.getStart()));
 
 	// adds a Panda
-	// m.addAnimal(new Panda(m.getStart()));
+	m.addAnimal(new Panda(m.getStart()));
 
 	return simulation;
     }

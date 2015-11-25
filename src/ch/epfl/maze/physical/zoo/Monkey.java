@@ -11,7 +11,7 @@ import ch.epfl.maze.util.Vector2D;
 
 public class Monkey extends Animal {
 
-    private Direction _orientation = Direction.UP;
+    private Direction _orientation = Direction.NONE;
 
     /**
      * Constructs a monkey with a starting position.
