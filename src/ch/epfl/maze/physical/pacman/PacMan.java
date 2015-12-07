@@ -21,17 +21,19 @@ public class PacMan extends Prey {
     @Override
     public Direction move(Direction[] choices, Daedalus daedalus) {
 	// TODO
-	return Direction.NONE;
+	return move(choices);
     }
 
     @Override
     public Animal copy() {
-	// TODO
-	return null;
+	PacMan p = new PacMan(getPosition());
+	p.setStartPosition(getStartPosition());
+	return p;
     }
 
     @Override
-    public void reset(Vector2D start) {
-	// TODO
+    public void resetAnimal() {
+	super.resetAnimal();
+	setLast(Direction.NONE);
     }
 }

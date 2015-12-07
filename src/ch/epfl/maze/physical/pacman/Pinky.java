@@ -32,13 +32,19 @@ public class Pinky extends Predator {
     }
 
     @Override
+    public int computeMode() {
+	// TODO
+	return 0;
+    }
+    
+    @Override
     public Animal copy() {
 	// TODO
 	return null;
     }
 
     @Override
-    public void reset(Vector2D start) {
+    public void resetAnimal() {
 	// TODO
     }
 }

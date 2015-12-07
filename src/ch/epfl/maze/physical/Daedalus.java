@@ -11,6 +11,11 @@ import java.util.List;
 
 public final class Daedalus extends World {
 
+    List<Prey> _preys = new ArrayList<Prey>();
+    List<Prey> _deadPreys = new ArrayList<Prey>();
+    List<Predator> _predators = new ArrayList<Predator>();
+    List<Predator> _predatorsOut = new ArrayList<Predator>();
+    
     /**
      * Constructs a Daedalus with a labyrinth structure
      * 
@@ -20,12 +25,13 @@ public final class Daedalus extends World {
 
     public Daedalus(int[][] labyrinth) {
 	super(labyrinth);
-	// TODO
     }
 
     @Override
     public boolean isSolved() {
-	// TODO
+	if (_preys.isEmpty())
+	    return true;
+	
 	return false;
     }
 
@@ -37,7 +43,9 @@ public final class Daedalus extends World {
      */
 
     public void addPredator(Predator p) {
-	// TODO
+	p.setStartPosition(p.getPosition());
+	p.resetAnimal();
+	_predators.add(p);
     }
 
     /**
@@ -48,7 +56,9 @@ public final class Daedalus extends World {
      */
 
     public void addPrey(Prey p) {
-	// TODO
+	p.setStartPosition(p.getPosition());
+	p.resetAnimal();
+	_preys.add(p);
     }
 
     /**
@@ -59,7 +69,15 @@ public final class Daedalus extends World {
      */
 
     public void removePredator(Predator p) {
-	// TODO
+	int index = -1;
+	for (int i = 0; i < _predators.size(); i++)
+	    if (_predators.get(i) == p)
+		index = i;
+	
+	if (index >= 0) {
+	    _predatorsOut.add((Predator) p.copy());
+	    _predators.remove(index);
+	}
     }
 
     /**
@@ -70,13 +88,26 @@ public final class Daedalus extends World {
      */
 
     public void removePrey(Prey p) {
-	// TODO
+	int index = -1;
+	for (int i = 0; i < _preys.size(); i++)
+	    if (_preys.get(i) == p)
+		index = i;
+	
+	if (index >= 0) {
+	    _deadPreys.add((Prey) p.copy());
+	    _preys.remove(index);
+	}
     }
 
     @Override
     public List<Animal> getAnimals() {
-	// TODO
-	return null;
+	List<Animal> animals = new ArrayList<Animal>();
+	for (Prey prey : _preys)
+	    animals.add(prey);
+	for (Predator pred : _predators)
+	    animals.add(pred);
+	
+	return animals;
     }
 
     /**
@@ -86,8 +117,11 @@ public final class Daedalus extends World {
      */
 
     public List<Predator> getPredators() {
-	// TODO
-	return new ArrayList<Predator>();
+	List<Predator> copy = new ArrayList<Predator>();
+	for (Predator pred : _predators)
+	    copy.add(pred);
+	
+	return copy;
     }
 
     /**
@@ -97,8 +131,11 @@ public final class Daedalus extends World {
      */
 
     public List<Prey> getPreys() {
-	// TODO
-	return new ArrayList<Prey>();
+	List<Prey> copy = new ArrayList<Prey>();
+	for (Prey prey : _preys)
+	    copy.add(prey);
+	
+	return copy;
     }
 
     /**
@@ -111,7 +148,10 @@ public final class Daedalus extends World {
      */
 
     public boolean hasPredator(Predator p) {
-	// TODO
+	for (Predator pred : _predators)
+	    if (pred == p)
+		return true;
+	
 	return false;
     }
 
@@ -125,12 +165,29 @@ public final class Daedalus extends World {
      */
 
     public boolean hasPrey(Prey p) {
-	// TODO
+	for (Prey prey : _preys)
+	    if (prey == p)
+		return true;
+	
 	return false;
     }
 
     @Override
     public void reset() {
-	// TODO
+	for (Prey p : _preys)
+	    _deadPreys.add((Prey) p.copy());
+	_preys.clear();
+	
+	for (Prey p : _deadPreys)
+	    addPrey(p);
+	_deadPreys.clear();
+	
+	for (Predator p : _predators)
+	    _predatorsOut.add((Predator) p.copy());
+	_predators.clear();
+	
+	for (Predator p : _predatorsOut)
+	    addPredator(p);
+	_predatorsOut.clear();
     }
 }

@@ -96,10 +96,5 @@ public class AnimalTest extends TestCase {
 	public Animal copy() {
 	    return null;
 	}
-
-	@Override
-	public void reset(Vector2D start) {
-	    // TODO
-	}
     }
 }

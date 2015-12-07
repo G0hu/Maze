@@ -13,6 +13,7 @@ abstract public class Animal {
 
     final private Vector2D INVALID_POS = new Vector2D(-1, -1);
     private Vector2D _position = INVALID_POS;
+    private Vector2D _startPos = INVALID_POS;
 
     /**
      * Constructs an animal with a specified position.
@@ -75,7 +76,18 @@ abstract public class Animal {
 	return _position;
     }
 
+    public final Vector2D getStartPosition() {
+	return _startPos;
+    }
+    
+    public final void setStartPosition(Vector2D pos) {
+	if (_startPos.equals(INVALID_POS))
+	    _startPos = pos;
+    }
+    
+    public void resetAnimal() {
+	setPosition(getStartPosition());
+    };
+    
     abstract public Animal copy();
-
-    abstract public void reset(Vector2D start);
 }

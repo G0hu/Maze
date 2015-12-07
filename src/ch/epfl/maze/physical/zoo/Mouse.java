@@ -4,6 +4,7 @@ import ch.epfl.maze.physical.Animal;
 import ch.epfl.maze.util.Direction;
 import ch.epfl.maze.util.Vector2D;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -43,17 +44,13 @@ public class Mouse extends Animal {
 	    return _last;
 	}
 
-	int index = 0;
-	Direction[] available = new Direction[choices.length - 1];
-	for (int i = 0; i < choices.length; i++) {
-	    if (!choices[i].isOpposite(_last)) {
-		available[index] = choices[i];
-		index++;
-	    }
-	}
+	ArrayList<Direction> available = new ArrayList<Direction>();
+	for (int i = 0; i < choices.length; i++)
+	    if (!choices[i].isOpposite(_last))
+		available.add(choices[i]);
 
 	Random r = new Random();
-	_last = available[r.nextInt(available.length)];
+	_last = available.get(r.nextInt(available.size()));
 	return _last;
     }
 
@@ -63,8 +60,8 @@ public class Mouse extends Animal {
     }
 
     @Override
-    public void reset(Vector2D start) {
-	setPosition(start);
+    public void resetAnimal() {
+	super.resetAnimal();
 	_last = Direction.NONE;
     }
 }

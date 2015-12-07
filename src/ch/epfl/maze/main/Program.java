@@ -36,8 +36,8 @@ public class Program {
     public static void main(String[] args) {
 	Simulation simulation;
 
-	simulation = getMazeSimulation();
-	// simulation = getDaedalusSimulation();
+	// simulation = getMazeSimulation();
+	simulation = getDaedalusSimulation();
 
 	Display display = new Display(simulation);
 	display.run();
@@ -50,7 +50,7 @@ public class Program {
      */
 
     public static Simulation getMazeSimulation() {
-	int[][] labyrinth = LabyrinthGenerator.getSmall();
+	int[][] labyrinth = LabyrinthGenerator.getLarge();
 	Maze m = new Maze(labyrinth);
 	Simulation simulation = new MazeSimulation(m);
 
@@ -64,7 +64,7 @@ public class Program {
 	m.addAnimal(new Hamster(m.getStart()));
 
 	// adds a Bear (if this bonus is coded)
-	// m.addAnimal(new Bear(m.getStart()));
+	m.addAnimal(new Bear(m.getStart()));
 
 	// adds a Panda
 	m.addAnimal(new Panda(m.getStart()));
@@ -93,13 +93,13 @@ public class Program {
 	d.addPredator(new Blinky(new Vector2D(17, 1)));
 
 	// adds Pinky
-	d.addPredator(new Pinky(new Vector2D(1, 1)));
+	// d.addPredator(new Pinky(new Vector2D(1, 1)));
 
 	// adds Inky
-	d.addPredator(new Inky(new Vector2D(17, 17)));
+	// d.addPredator(new Inky(new Vector2D(17, 17)));
 
 	// adds Clyde
-	d.addPredator(new Clyde(new Vector2D(1, 17)));
+	// d.addPredator(new Clyde(new Vector2D(1, 17)));
 
 	return simulation;
     }

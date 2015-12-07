@@ -61,7 +61,8 @@ public final class Maze extends World {
      */
 
     public void addAnimal(Animal a) {
-	a.reset(getStart());
+	a.setStartPosition(getStart());
+	a.resetAnimal();
 	_animalsIn.add(a);
     }
 

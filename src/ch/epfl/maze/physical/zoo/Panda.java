@@ -92,8 +92,8 @@ public class Panda extends Animal {
     }
 
     @Override
-    public void reset(Vector2D start) {
-	setPosition(start);
+    public void resetAnimal() {
+	super.resetAnimal();
 	_markedOnce.clear();
 	_markedTwice.clear();
 	_last = Direction.NONE;

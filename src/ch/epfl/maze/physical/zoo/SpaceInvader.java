@@ -51,7 +51,7 @@ public class SpaceInvader extends Animal {
     }
 
     @Override
-    public void reset(Vector2D start) {
+    public void resetAnimal() {
 	// TODO
     }
 }

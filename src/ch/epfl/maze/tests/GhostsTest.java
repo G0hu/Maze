@@ -147,8 +147,7 @@ public class GhostsTest extends TestCase {
 	}
 
 	@Override
-	public void reset(Vector2D start) {
-	    // TODO
+	public void resetAnimal() {
 	}
     }
 }

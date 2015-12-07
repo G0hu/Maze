@@ -1,5 +1,9 @@
 package ch.epfl.maze.physical;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import ch.epfl.maze.util.Direction;
 import ch.epfl.maze.util.Vector2D;
 
@@ -10,6 +14,8 @@ import ch.epfl.maze.util.Vector2D;
 
 abstract public class Prey extends Animal {
 
+    private Direction _last = Direction.NONE;
+    
     /**
      * Constructs a prey with a specified position.
      * 
@@ -19,7 +25,11 @@ abstract public class Prey extends Animal {
 
     public Prey(Vector2D position) {
 	super(position);
-	// TODO
+    }
+    
+    public Prey(Vector2D position, Direction last) {
+	super(position);
+	setLast(last);
     }
 
     /**
@@ -30,8 +40,32 @@ abstract public class Prey extends Animal {
 
     @Override
     public final Direction move(Direction[] choices) {
-	// TODO
-	return Direction.NONE;
+	if (choices.length == 0) {
+	    setLast(Direction.NONE);
+	    return Direction.NONE;
+	} else if (choices.length == 1) {
+	    setLast(choices[0]);
+	    return choices[0];
+	}
+	
+	List<Direction> filteredChoices = new ArrayList<Direction>();
+	for (Direction dir : choices)
+	    if (!dir.isOpposite(getLast()))
+		filteredChoices.add(dir);
+	
+	Random rand = new Random();
+	Direction choice = filteredChoices.get(rand.nextInt(filteredChoices.size()));
+	
+	setLast(choice);
+	return choice;
+    }
+    
+    public final Direction getLast() {
+	return _last;
+    }
+    
+    public final void setLast(Direction last) {
+	_last = last;
     }
 
     /**

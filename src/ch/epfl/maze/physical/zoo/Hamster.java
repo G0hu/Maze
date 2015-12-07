@@ -59,8 +59,8 @@ public class Hamster extends Animal {
     }
 
     @Override
-    public void reset(Vector2D start) {
-	setPosition(start);
+    public void resetAnimal() {
+	super.resetAnimal();
 	_deadLock.clear();
 	_last = Direction.NONE;
     }
