@@ -15,9 +15,10 @@ public interface WallFollower {
      */
 
     default public Direction followLeftWall(Direction[] choices, Direction orientation) {
-	if (choices.length == 0)
+	if (choices.length == 0) {
 	    return Direction.NONE;
-
+	}
+	
 	boolean right = false;
 	boolean left = false;
 	boolean up = false;

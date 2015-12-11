@@ -33,7 +33,8 @@ public final class Maze extends World {
 
     @Override
     public List<Animal> getAnimals() {
-	return _animalsIn;
+	List<Animal> copy = new ArrayList<Animal>(_animalsIn);
+	return copy;
     }
 
     /**

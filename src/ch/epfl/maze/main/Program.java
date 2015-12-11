@@ -51,7 +51,7 @@ public class Program {
      */
 
     public static Simulation getMazeSimulation() {
-	int[][] labyrinth = LabyrinthGenerator.getLarge();
+	int[][] labyrinth = LabyrinthGenerator.getMedium();
 	Maze m = new Maze(labyrinth);
 	Simulation simulation = new MazeSimulation(m);
 
@@ -71,7 +71,7 @@ public class Program {
 	m.addAnimal(new Panda(m.getStart()));
 
 	// adds a SpaceInvader
-	m.addAnimal(new SpaceInvader(m.getStart()));
+	// m.addAnimal(new SpaceInvader(m.getStart()));
 
 	return simulation;
     }
