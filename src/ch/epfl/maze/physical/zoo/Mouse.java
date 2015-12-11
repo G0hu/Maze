@@ -1,7 +1,7 @@
 package ch.epfl.maze.physical.zoo;
 
 import ch.epfl.maze.physical.Animal;
-import ch.epfl.maze.physical.RandomChoose;
+import ch.epfl.maze.physical.RandomChooser;
 import ch.epfl.maze.util.Direction;
 import ch.epfl.maze.util.Vector2D;
 
@@ -10,9 +10,7 @@ import ch.epfl.maze.util.Vector2D;
  * 
  */
 
-public class Mouse extends Animal implements RandomChoose {
-
-    private Direction _last = Direction.NONE;
+public class Mouse extends RandomChooser {
 
     /**
      * Constructs a mouse with a starting position.
@@ -36,19 +34,7 @@ public class Mouse extends Animal implements RandomChoose {
 
     public Mouse(Vector2D position, Direction last) {
 	super(position);
-	_last = last;
-    }
-
-    /*
-     * GETTERS AND SETTERS
-     */
-
-    public Direction getLast() {
-	return _last;
-    }
-
-    public void setLast(Direction d) {
-	_last = d;
+	setLast(last);
     }
 
     /**
@@ -58,7 +44,7 @@ public class Mouse extends Animal implements RandomChoose {
 
     @Override
     public Direction move(Direction[] choices) {
-	setLast(randomMove(choices, getLast()));
+	setLast(randomMove(choices));
 	return getLast();
     }
 

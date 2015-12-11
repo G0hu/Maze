@@ -10,9 +10,8 @@ import ch.epfl.maze.util.Vector2D;
  * 
  */
 
-public class Bear extends Animal implements WallFollower {
+public class Bear extends WallFollower {
 
-    private Direction _orientation = Direction.UP;
     private Direction _preferred = Direction.NONE;
     private int _counter = 0;
 
@@ -42,10 +41,9 @@ public class Bear extends Animal implements WallFollower {
      */
 
     public Bear(Vector2D position, Direction preferred, Direction orientation, int counter) {
-	super(position);
-	setCounter(_counter);
+	super(position, orientation);
 	setPreferred(preferred);
-	setOrientation(orientation);
+	setCounter(_counter);
     }
 
     /*
@@ -56,20 +54,12 @@ public class Bear extends Animal implements WallFollower {
 	return _preferred;
     }
 
-    public Direction getOrientation() {
-	return _orientation;
-    }
-
     public int getCounter() {
 	return _counter;
     }
 
     public void setPreferred(Direction d) {
 	_preferred = d;
-    }
-
-    public void setOrientation(Direction d) {
-	_orientation = d;
     }
 
     public void setCounter(int c) {
@@ -118,18 +108,18 @@ public class Bear extends Animal implements WallFollower {
 		setOrientation(getOrientation().rotateRight());
 
 		// Monkey Move
-		Direction choice = followLeftWall(choices, getOrientation());
-		setOrientation(computeOrientation(choice, getOrientation()));
-		setCounter(computeRotationCounter(choice, getOrientation(), getCounter()));
+		Direction choice = followLeftWall(choices);
+		computeRotationCounter(choice);
+		computeOrientation(choice);
 
 		return choice;
 	    }
 
 	} else {
 	    // Monkey Move
-	    Direction choice = followLeftWall(choices, getOrientation());
-	    setOrientation(computeOrientation(choice, getOrientation()));
-	    setCounter(computeRotationCounter(choice, getOrientation(), getCounter()));
+	    Direction choice = followLeftWall(choices);
+	    computeRotationCounter(choice);
+	    computeOrientation(choice);
 
 	    return choice;
 	}
@@ -146,5 +136,27 @@ public class Bear extends Animal implements WallFollower {
 	setCounter(0);
 	setPreferred(Direction.NONE);
 	setOrientation(Direction.UP);
+    }
+
+    /**
+     * Computes the rotation counter depending on the direction the animal just
+     * took and the previous value of the counter
+     * 
+     * @param choice
+     *            The direction chosen by the animal
+     * @param orientation
+     *            It's current orientation in the maze
+     * @param counter
+     *            The current value of the animal's rotation counter
+     * @return
+     */
+
+    private void computeRotationCounter(Direction choice) {
+	if (getOrientation().relativeDirection(choice) == Direction.LEFT)
+	    setCounter(getCounter() - 1);
+	else if (getOrientation().relativeDirection(choice) == Direction.RIGHT)
+	    setCounter(getCounter() + 1);
+	else if (getOrientation().relativeDirection(choice) == Direction.DOWN)
+	    setCounter(getCounter() + 2);
     }
 }

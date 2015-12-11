@@ -10,9 +10,7 @@ import ch.epfl.maze.util.Vector2D;
  * 
  */
 
-public class Monkey extends Animal implements WallFollower {
-
-    private Direction _orientation = Direction.UP;
+public class Monkey extends WallFollower {
 
     /**
      * Constructs a monkey with a starting position.
@@ -33,20 +31,7 @@ public class Monkey extends Animal implements WallFollower {
      */
 
     public Monkey(Vector2D position, Direction orientation) {
-	super(position);
-	setOrientation(orientation);
-    }
-
-    /*
-     * GETTERS AND SETTERS
-     */
-
-    public Direction getOrientation() {
-	return _orientation;
-    }
-
-    public void setOrientation(Direction o) {
-	_orientation = o;
+	super(position, orientation);
     }
 
     /**
@@ -55,8 +40,8 @@ public class Monkey extends Animal implements WallFollower {
 
     @Override
     public Direction move(Direction[] choices) {
-	Direction choice = followLeftWall(choices, getOrientation());
-	setOrientation(computeOrientation(choice, getOrientation()));
+	Direction choice = followLeftWall(choices);
+	computeOrientation(choice);
 
 	return choice;
     }

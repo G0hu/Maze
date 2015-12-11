@@ -3,7 +3,7 @@ package ch.epfl.maze.physical.zoo;
 import java.util.ArrayList;
 
 import ch.epfl.maze.physical.Animal;
-import ch.epfl.maze.physical.RandomChoose;
+import ch.epfl.maze.physical.RandomChooser;
 import ch.epfl.maze.util.Direction;
 import ch.epfl.maze.util.Vector2D;
 
@@ -11,14 +11,13 @@ import ch.epfl.maze.util.Vector2D;
  * Panda A.I. that implements Trémeaux's Algorithm.
  * 
  */
-public class Panda extends Animal implements RandomChoose {
+public class Panda extends RandomChooser {
 
     // Algorithm constants
     private static final int TILE_NEVER_MARKED = 1;
     private static final int TILE_MARKED_ONCE = 2;
     private static final int TILE_MARKED_TWICE = 3;
-
-    private Direction _last = Direction.NONE;
+    
     private ArrayList<Vector2D> _markedOnce = new ArrayList<Vector2D>();
     private ArrayList<Vector2D> _markedTwice = new ArrayList<Vector2D>();
 
@@ -49,18 +48,6 @@ public class Panda extends Animal implements RandomChoose {
 	_markedTwice = markedTwice;
     }
 
-    /*
-     * GETTERS AND SETTERS
-     */
-
-    public Direction getLast() {
-	return _last;
-    }
-
-    public void setLast(Direction d) {
-	_last = d;
-    }
-
     /**
      * Moves according to <i>Trémeaux's Algorithm</i>: when the panda moves, it
      * will mark the ground at most two times (with two different colors). It
@@ -71,32 +58,32 @@ public class Panda extends Animal implements RandomChoose {
     @Override
     public Direction move(Direction[] choices) {
 	boolean mark = true;
-	Direction choosen = Direction.NONE;
+	Direction chosen = Direction.NONE;
 	ArrayList<Direction> never = sortNeverMarkedTiles(choices);
 	ArrayList<Direction> once = sortMarkedOnceTiles(choices);
 	ArrayList<Direction> twice = sortMarkedTwiceTiles(choices);
 
 	if (isIntersection(choices) && (once.size() == choices.length))
-	    choosen = getLast().reverse();
+	    chosen = getLast().reverse();
 
 	// We mark the tile only once because it will marked a second time
 	// before the return
 	if ((choices.length == 1) && (getTileMark(getPosition().addDirectionTo(choices[0])) == TILE_MARKED_ONCE))
 	    markTile(getPosition());
 
-	if (choosen == Direction.NONE) {
+	if (chosen == Direction.NONE) {
 	    if (!never.isEmpty())
-		choosen = randomMove(never, getLast());
+		chosen = randomMove(never);
 	    else if (!once.isEmpty())
-		choosen = randomMove(once, getLast());
+		chosen = randomMove(once);
 	    else if (!twice.isEmpty())
-		choosen = randomMove(twice, getLast());
+		chosen = randomMove(twice);
 	    else
 		return Direction.NONE;
 	}
 
-	once.remove(choosen);
-	never.remove(choosen);
+	once.remove(chosen);
+	never.remove(chosen);
 	if (isIntersection(choices) && (getTileMark(getPosition()) == TILE_MARKED_ONCE)
 		&& ((never.size() + once.size()) >= 1))
 	    mark = false;
@@ -104,8 +91,8 @@ public class Panda extends Animal implements RandomChoose {
 	if (mark)
 	    markTile(getPosition());
 
-	setLast(choosen);
-	return choosen;
+	setLast(chosen);
+	return chosen;
     }
 
     @Override

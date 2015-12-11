@@ -3,7 +3,7 @@ package ch.epfl.maze.physical.zoo;
 import java.util.ArrayList;
 
 import ch.epfl.maze.physical.Animal;
-import ch.epfl.maze.physical.RandomChoose;
+import ch.epfl.maze.physical.RandomChooser;
 import ch.epfl.maze.util.Direction;
 import ch.epfl.maze.util.Vector2D;
 
@@ -13,10 +13,9 @@ import ch.epfl.maze.util.Vector2D;
  * 
  */
 
-public class Hamster extends Animal implements RandomChoose {
+public class Hamster extends RandomChooser {
 
     private ArrayList<Vector2D> _deadLock = new ArrayList<Vector2D>();
-    private Direction _last = Direction.NONE;
 
     /**
      * Constructs a hamster with a starting position.
@@ -29,24 +28,19 @@ public class Hamster extends Animal implements RandomChoose {
 	super(position);
     }
 
+    /**
+     * 
+     * @param position
+     * @param deadLocks
+     * @param last
+     */
+    
     public Hamster(Vector2D position, ArrayList<Vector2D> deadLocks, Direction last) {
 	super(position);
-	_last = last;
+	setLast(last);
 	_deadLock = deadLocks;
     }
-
-    /*
-     * GETTERS AND SETTERS
-     */
-
-    public Direction getLast() {
-	return _last;
-    }
-
-    public void setLast(Direction d) {
-	_last = d;
-    }
-
+    
     /**
      * Moves without retracing directly its steps and by avoiding the dead-ends
      * it learns during its journey.
@@ -61,7 +55,7 @@ public class Hamster extends Animal implements RandomChoose {
 	    _deadLock.add(getPosition());
 	    return newChoices.get(0);
 	} else {
-	    setLast(randomMove(newChoices, getLast()));
+	    setLast(randomMove(newChoices));
 	    return getLast();
 	}
     }
