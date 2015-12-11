@@ -13,20 +13,33 @@ import ch.epfl.maze.util.Vector2D;
 
 public class PacMan extends Prey {
 
+    private Direction _orientation = Direction.UP;
+
     public PacMan(Vector2D position) {
 	super(position);
-	// TODO
+    }
+
+    public PacMan(Vector2D position, Direction o) {
+	super(position);
+	setOrientation(o);
     }
 
     @Override
     public Direction move(Direction[] choices, Daedalus daedalus) {
-	// TODO
-	return move(choices);
+	Direction choice = move(choices);
+	if (choice == _orientation.unRelativeDirection(Direction.LEFT))
+	    setOrientation(_orientation.rotateLeft());
+	else if (choice == _orientation.unRelativeDirection(Direction.RIGHT))
+	    setOrientation(_orientation.rotateRight());
+	else if (choice == _orientation.unRelativeDirection(Direction.DOWN))
+	    setOrientation(_orientation.reverse());
+
+	return choice;
     }
 
     @Override
     public Animal copy() {
-	PacMan p = new PacMan(getPosition());
+	PacMan p = new PacMan(getPosition(), getOrientation());
 	p.setStartPosition(getStartPosition());
 	return p;
     }
@@ -35,5 +48,14 @@ public class PacMan extends Prey {
     public void resetAnimal() {
 	super.resetAnimal();
 	setLast(Direction.NONE);
+	setOrientation(Direction.UP);
+    }
+
+    public Direction getOrientation() {
+	return _orientation;
+    }
+
+    public void setOrientation(Direction d) {
+	_orientation = d;
     }
 }

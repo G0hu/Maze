@@ -23,29 +23,61 @@ public class Clyde extends Predator {
 
     public Clyde(Vector2D position) {
 	super(position);
-	// TODO
+    }
+
+    /**
+     * Constructs a Blinky with specified position, last move and mode
+     * 
+     * @param position
+     *            Position of Blinky in the labyrith
+     * @param last
+     *            Last move made by Blinky, defaults to INVALID_POS
+     * @param mode
+     *            Current mode Blinky, defaults to UNDEFINED_MODE
+     * @param modeCount
+     *            Number of steps since last mode swap, defaults to 0
+     */
+
+    public Clyde(Vector2D position, Direction last, int mode, int modeCount) {
+	super(position);
+	setLast(last);
+	setMode(mode);
+	setModeCount(modeCount);
     }
 
     @Override
     public Direction move(Direction[] choices, Daedalus daedalus) {
-	// TODO
-	return Direction.NONE;
+	if (daedalus.getPreys().isEmpty())
+	    return move(choices);
+
+	int mode = computeMode();
+	boolean fakingScatter = false;
+	double dist = euclidianDistance(getPosition(), daedalus.getPreys().get(0).getPosition());
+	if (dist <= 4)
+	    fakingScatter = true;
+
+	Vector2D target = null;
+	if (mode == SCATTER_MODE || fakingScatter)
+	    target = getStartPosition();
+	else if (mode == CHASE_MODE)
+	    target = daedalus.getPreys().get(0).getPosition();
+
+	if (target == null)
+	    return move(choices);
+
+	return moveToTarget(choices, target);
     }
 
     @Override
-    public int computeMode() {
-	// TODO
-	return 0;
-    }
-    
-    @Override
     public Animal copy() {
-	// TODO
-	return null;
+	Clyde c = new Clyde(getPosition(), getLast(), getMode(), getModeCount());
+	c.setStartPosition(getStartPosition());
+	
+	return c;
     }
 
     @Override
     public void resetAnimal() {
-	// TODO
+	super.resetAnimal();
     }
 }

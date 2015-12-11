@@ -15,7 +15,7 @@ import ch.epfl.maze.util.Vector2D;
 abstract public class Prey extends Animal {
 
     private Direction _last = Direction.NONE;
-    
+
     /**
      * Constructs a prey with a specified position.
      * 
@@ -26,7 +26,7 @@ abstract public class Prey extends Animal {
     public Prey(Vector2D position) {
 	super(position);
     }
-    
+
     public Prey(Vector2D position, Direction last) {
 	super(position);
 	setLast(last);
@@ -47,23 +47,23 @@ abstract public class Prey extends Animal {
 	    setLast(choices[0]);
 	    return choices[0];
 	}
-	
+
 	List<Direction> filteredChoices = new ArrayList<Direction>();
 	for (Direction dir : choices)
 	    if (!dir.isOpposite(getLast()))
 		filteredChoices.add(dir);
-	
+
 	Random rand = new Random();
 	Direction choice = filteredChoices.get(rand.nextInt(filteredChoices.size()));
-	
+
 	setLast(choice);
 	return choice;
     }
-    
+
     public final Direction getLast() {
 	return _last;
     }
-    
+
     public final void setLast(Direction last) {
 	_last = last;
     }

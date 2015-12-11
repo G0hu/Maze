@@ -23,20 +23,20 @@ public class Blinky extends Predator {
     public Blinky(Vector2D position) {
 	super(position);
     }
-    
+
     /**
      * Constructs a Blinky with specified position, last move and mode
      * 
      * @param position
-     * 		Position of Blinky in the labyrith
+     *            Position of Blinky in the labyrith
      * @param last
-     * 		Last move made by Blinky, defaults to INVALID_POS
+     *            Last move made by Blinky, defaults to INVALID_POS
      * @param mode
-     * 		Current mode Blinky, defaults to UNDEFINED_MODE
+     *            Current mode Blinky, defaults to UNDEFINED_MODE
      * @param modeCount
-     * 		Number of steps since last mode swap, defaults to 0
+     *            Number of steps since last mode swap, defaults to 0
      */
-    
+
     public Blinky(Vector2D position, Direction last, int mode, int modeCount) {
 	super(position, last, mode, modeCount);
     }
@@ -57,42 +57,15 @@ public class Blinky extends Predator {
     }
 
     @Override
-    public int computeMode() {
-	if (getMode() == SCATTER_MODE) {
-	    if (getModeCount() >= SCATTER_DURATION) {
-		setMode(CHASE_MODE);
-		setModeCount(0);
-	    }
-	    
-	    incrementModeCount();
-	    return getMode();
-	} else if (getMode() == CHASE_MODE) {
-	    if (getModeCount() >= CHASE_DURATION) {
-		setMode(SCATTER_MODE);
-		setModeCount(0);
-	    }
-	    
-	    incrementModeCount();
-	    return getMode();
-	}
-	
-	setMode(CHASE_MODE);
-	setModeCount(1);
-	return getMode();
-    }
-    
-    @Override
     public Animal copy() {
 	Blinky b = new Blinky(getPosition(), getLast(), getMode(), getModeCount());
 	b.setStartPosition(getStartPosition());
+
 	return b;
     }
 
     @Override
     public void resetAnimal() {
 	super.resetAnimal();
-	setLast(Direction.NONE);
-	setMode(UNDEFINED_MODE);
-	setModeCount(0);
     }
 }

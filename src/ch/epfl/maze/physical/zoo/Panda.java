@@ -58,11 +58,12 @@ public class Panda extends Animal {
 
 	if (isIntersection(choices) && (once.size() == choices.length))
 	    choosen = _last.reverse();
-	
-	//We mark the tile only once because it will marked a second time before the return
+
+	// We mark the tile only once because it will marked a second time
+	// before the return
 	if ((choices.length == 1) && (getTileMark(getPosition().addDirectionTo(choices[0])) == TILE_MARKED_ONCE))
 	    markTile(getPosition());
-	
+
 	if (choosen == Direction.NONE) {
 	    if (!never.isEmpty())
 		choosen = randomChoose(never);
@@ -76,9 +77,10 @@ public class Panda extends Animal {
 
 	once.remove(choosen);
 	never.remove(choosen);
-	if (isIntersection(choices) && (getTileMark(getPosition()) == TILE_MARKED_ONCE) && ((never.size() + once.size()) >= 1))
+	if (isIntersection(choices) && (getTileMark(getPosition()) == TILE_MARKED_ONCE)
+		&& ((never.size() + once.size()) >= 1))
 	    mark = false;
-	
+
 	if (mark)
 	    markTile(getPosition());
 
@@ -102,7 +104,7 @@ public class Panda extends Animal {
     private Direction randomChoose(ArrayList<Direction> choices) {
 	if (choices.size() == 1)
 	    return choices.get(0);
-	
+
 	ArrayList<Direction> filteredChoices = new ArrayList<Direction>();
 	for (Direction dir : choices)
 	    if (!_last.isOpposite(dir))

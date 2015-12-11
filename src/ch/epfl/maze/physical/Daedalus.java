@@ -15,7 +15,7 @@ public final class Daedalus extends World {
     List<Prey> _deadPreys = new ArrayList<Prey>();
     List<Predator> _predators = new ArrayList<Predator>();
     List<Predator> _predatorsOut = new ArrayList<Predator>();
-    
+
     /**
      * Constructs a Daedalus with a labyrinth structure
      * 
@@ -31,7 +31,7 @@ public final class Daedalus extends World {
     public boolean isSolved() {
 	if (_preys.isEmpty())
 	    return true;
-	
+
 	return false;
     }
 
@@ -73,7 +73,7 @@ public final class Daedalus extends World {
 	for (int i = 0; i < _predators.size(); i++)
 	    if (_predators.get(i) == p)
 		index = i;
-	
+
 	if (index >= 0) {
 	    _predatorsOut.add((Predator) p.copy());
 	    _predators.remove(index);
@@ -92,7 +92,7 @@ public final class Daedalus extends World {
 	for (int i = 0; i < _preys.size(); i++)
 	    if (_preys.get(i) == p)
 		index = i;
-	
+
 	if (index >= 0) {
 	    _deadPreys.add((Prey) p.copy());
 	    _preys.remove(index);
@@ -106,7 +106,7 @@ public final class Daedalus extends World {
 	    animals.add(prey);
 	for (Predator pred : _predators)
 	    animals.add(pred);
-	
+
 	return animals;
     }
 
@@ -120,7 +120,7 @@ public final class Daedalus extends World {
 	List<Predator> copy = new ArrayList<Predator>();
 	for (Predator pred : _predators)
 	    copy.add(pred);
-	
+
 	return copy;
     }
 
@@ -134,7 +134,7 @@ public final class Daedalus extends World {
 	List<Prey> copy = new ArrayList<Prey>();
 	for (Prey prey : _preys)
 	    copy.add(prey);
-	
+
 	return copy;
     }
 
@@ -151,7 +151,7 @@ public final class Daedalus extends World {
 	for (Predator pred : _predators)
 	    if (pred == p)
 		return true;
-	
+
 	return false;
     }
 
@@ -168,7 +168,7 @@ public final class Daedalus extends World {
 	for (Prey prey : _preys)
 	    if (prey == p)
 		return true;
-	
+
 	return false;
     }
 
@@ -177,15 +177,15 @@ public final class Daedalus extends World {
 	for (Prey p : _preys)
 	    _deadPreys.add((Prey) p.copy());
 	_preys.clear();
-	
+
 	for (Prey p : _deadPreys)
 	    addPrey(p);
 	_deadPreys.clear();
-	
+
 	for (Predator p : _predators)
 	    _predatorsOut.add((Predator) p.copy());
 	_predators.clear();
-	
+
 	for (Predator p : _predatorsOut)
 	    addPredator(p);
 	_predatorsOut.clear();

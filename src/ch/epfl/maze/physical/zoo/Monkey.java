@@ -1,5 +1,7 @@
 package ch.epfl.maze.physical.zoo;
 
+import java.util.Random;
+
 import ch.epfl.maze.physical.Animal;
 import ch.epfl.maze.util.Direction;
 import ch.epfl.maze.util.Vector2D;
@@ -76,13 +78,13 @@ public class Monkey extends Animal {
 	super.resetAnimal();
 	_orientation = Direction.UP;
     }
-    
+
     private boolean isCornerTile(Direction[] choices) {
 	Vector2D v = getPosition().addDirectionTo(_orientation.unRelativeDirection(Direction.DOWN));
 	for (Direction dir : choices)
 	    if (getPosition().addDirectionTo(dir).equals(v))
 		return true;
-	
+
 	return false;
     }
 }

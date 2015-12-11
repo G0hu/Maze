@@ -13,6 +13,7 @@ import ch.epfl.maze.physical.zoo.Hamster;
 import ch.epfl.maze.physical.zoo.Monkey;
 import ch.epfl.maze.physical.zoo.Mouse;
 import ch.epfl.maze.physical.zoo.Panda;
+import ch.epfl.maze.physical.zoo.SpaceInvader;
 import ch.epfl.maze.simulation.DaedalusSimulation;
 import ch.epfl.maze.simulation.MazeSimulation;
 import ch.epfl.maze.simulation.Simulation;
@@ -69,6 +70,9 @@ public class Program {
 	// adds a Panda
 	m.addAnimal(new Panda(m.getStart()));
 
+	// adds a SpaceInvader
+	m.addAnimal(new SpaceInvader(m.getStart()));
+
 	return simulation;
     }
 
@@ -93,13 +97,13 @@ public class Program {
 	d.addPredator(new Blinky(new Vector2D(17, 1)));
 
 	// adds Pinky
-	// d.addPredator(new Pinky(new Vector2D(1, 1)));
+	d.addPredator(new Pinky(new Vector2D(1, 1)));
 
 	// adds Inky
-	// d.addPredator(new Inky(new Vector2D(17, 17)));
+	d.addPredator(new Inky(new Vector2D(17, 17)));
 
 	// adds Clyde
-	// d.addPredator(new Clyde(new Vector2D(1, 17)));
+	d.addPredator(new Clyde(new Vector2D(1, 17)));
 
 	return simulation;
     }
