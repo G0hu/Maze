@@ -1,9 +1,9 @@
 package ch.epfl.maze.physical.zoo;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import ch.epfl.maze.physical.Animal;
+import ch.epfl.maze.physical.RandomChoose;
 import ch.epfl.maze.util.Direction;
 import ch.epfl.maze.util.Vector2D;
 
@@ -11,7 +11,7 @@ import ch.epfl.maze.util.Vector2D;
  * Panda A.I. that implements Trémeaux's Algorithm.
  * 
  */
-public class Panda extends Animal {
+public class Panda extends Animal implements RandomChoose {
 
     // Algorithm constants
     private static final int TILE_NEVER_MARKED = 1;
@@ -33,12 +33,32 @@ public class Panda extends Animal {
 	super(position);
     }
 
+    /**
+     * 
+     * @param position
+     * @param markedOnce
+     * @param markedTwice
+     * @param lastMove
+     */
+
     public Panda(Vector2D position, ArrayList<Vector2D> markedOnce, ArrayList<Vector2D> markedTwice,
 	    Direction lastMove) {
 	super(position);
-	_last = lastMove;
+	setLast(lastMove);
 	_markedOnce = markedOnce;
 	_markedTwice = markedTwice;
+    }
+
+    /*
+     * GETTERS AND SETTERS
+     */
+
+    public Direction getLast() {
+	return _last;
+    }
+
+    public void setLast(Direction d) {
+	_last = d;
     }
 
     /**
@@ -57,7 +77,7 @@ public class Panda extends Animal {
 	ArrayList<Direction> twice = sortMarkedTwiceTiles(choices);
 
 	if (isIntersection(choices) && (once.size() == choices.length))
-	    choosen = _last.reverse();
+	    choosen = getLast().reverse();
 
 	// We mark the tile only once because it will marked a second time
 	// before the return
@@ -66,11 +86,11 @@ public class Panda extends Animal {
 
 	if (choosen == Direction.NONE) {
 	    if (!never.isEmpty())
-		choosen = randomChoose(never);
+		choosen = randomMove(never, getLast());
 	    else if (!once.isEmpty())
-		choosen = randomChoose(once);
+		choosen = randomMove(once, getLast());
 	    else if (!twice.isEmpty())
-		choosen = randomChoose(twice);
+		choosen = randomMove(twice, getLast());
 	    else
 		return Direction.NONE;
 	}
@@ -84,13 +104,13 @@ public class Panda extends Animal {
 	if (mark)
 	    markTile(getPosition());
 
-	_last = choosen;
+	setLast(choosen);
 	return choosen;
     }
 
     @Override
     public Animal copy() {
-	return new Panda(getPosition(), _markedOnce, _markedTwice, _last);
+	return new Panda(getPosition(), _markedOnce, _markedTwice, getLast());
     }
 
     @Override
@@ -98,20 +118,7 @@ public class Panda extends Animal {
 	super.resetAnimal();
 	_markedOnce.clear();
 	_markedTwice.clear();
-	_last = Direction.NONE;
-    }
-
-    private Direction randomChoose(ArrayList<Direction> choices) {
-	if (choices.size() == 1)
-	    return choices.get(0);
-
-	ArrayList<Direction> filteredChoices = new ArrayList<Direction>();
-	for (Direction dir : choices)
-	    if (!_last.isOpposite(dir))
-		filteredChoices.add(dir);
-
-	Random rand = new Random();
-	return filteredChoices.get(rand.nextInt(filteredChoices.size()));
+	setLast(Direction.NONE);
     }
 
     private void markTile(Vector2D v) {

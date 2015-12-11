@@ -72,7 +72,7 @@ public class Clyde extends Predator {
     public Animal copy() {
 	Clyde c = new Clyde(getPosition(), getLast(), getMode(), getModeCount());
 	c.setStartPosition(getStartPosition());
-	
+
 	return c;
     }
 

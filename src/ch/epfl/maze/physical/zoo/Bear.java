@@ -1,6 +1,7 @@
 package ch.epfl.maze.physical.zoo;
 
 import ch.epfl.maze.physical.Animal;
+import ch.epfl.maze.physical.WallFollower;
 import ch.epfl.maze.util.Direction;
 import ch.epfl.maze.util.Vector2D;
 
@@ -9,10 +10,11 @@ import ch.epfl.maze.util.Vector2D;
  * 
  */
 
-public class Bear extends Animal {
-    private Direction _prefered;
-    private Direction _orientation;
-    private int _counter;
+public class Bear extends Animal implements WallFollower {
+
+    private Direction _orientation = Direction.UP;
+    private Direction _preferred = Direction.NONE;
+    private int _counter = 0;
 
     /**
      * Constructs a bear with a starting position.
@@ -23,16 +25,55 @@ public class Bear extends Animal {
 
     public Bear(Vector2D position) {
 	super(position);
-	_prefered = Direction.NONE;
-	_orientation = Direction.UP;
-	_counter = 0;
     }
 
-    public Bear(Vector2D position, Direction prefered, Direction orientation, int counter) {
+    /**
+     * Constructs a bear with a starting position, a preferred direction, an
+     * orientation and a rotation counter
+     * 
+     * @param position
+     *            Starting position of the bear in the labyrinth
+     * @param preferred
+     *            Preferred direction when the rotation counter is 0
+     * @param orientation
+     *            Current orientation of the bear in the maze
+     * @param counter
+     *            Rotation counter
+     */
+
+    public Bear(Vector2D position, Direction preferred, Direction orientation, int counter) {
 	super(position);
-	_prefered = prefered;
-	_orientation = orientation;
-	_counter = counter;
+	setCounter(_counter);
+	setPreferred(preferred);
+	setOrientation(orientation);
+    }
+
+    /*
+     * GETTERS AND SETTERS
+     */
+
+    public Direction getPreferred() {
+	return _preferred;
+    }
+
+    public Direction getOrientation() {
+	return _orientation;
+    }
+
+    public int getCounter() {
+	return _counter;
+    }
+
+    public void setPreferred(Direction d) {
+	_preferred = d;
+    }
+
+    public void setOrientation(Direction d) {
+	_orientation = d;
+    }
+
+    public void setCounter(int c) {
+	_counter = c;
     }
 
     /**
@@ -46,90 +87,64 @@ public class Bear extends Animal {
 
     @Override
     public Direction move(Direction[] choices) {
-	boolean prefered = false;
-
-	// choose favorite direction from the available one at Start position
-
-	if (_prefered == Direction.NONE) {
-	    if (choices.length == 0) {
+	if (getPreferred() == Direction.NONE) {
+	    if (choices.length == 0)
 		return Direction.NONE;
-	    }
-	    _prefered = choices[0];
-	}
-	// check if favorite direction available
 
-	for (Direction dir : choices) {
-	    if (dir == _prefered) {
-		prefered = true;
-	    }
+	    // choose favorite direction from the available one at Start
+	    // position
+	    setPreferred(choices[0]);
 	}
 
-	if (_counter == 0) {
-	    if (prefered) {
-		if (_orientation.relativeDirection(_prefered) == Direction.LEFT) {
-		    _orientation = _orientation.rotateLeft();
-		} else if (_orientation.relativeDirection(_prefered) == Direction.DOWN) {
-		    _orientation = _orientation.reverse();
-		} else if (_orientation.relativeDirection(_prefered) == Direction.RIGHT) {
-		    _orientation = _orientation.rotateRight();
-		}
-		return _prefered;
+	// check if favorite direction is available
+	boolean preferred = false;
+	for (Direction dir : choices)
+	    if (dir == getPreferred())
+		preferred = true;
+
+	if (getCounter() == 0) {
+	    if (preferred) {
+		if (getOrientation().relativeDirection(getPreferred()) == Direction.LEFT)
+		    setOrientation(getOrientation().rotateLeft());
+		else if (getOrientation().relativeDirection(getPreferred()) == Direction.DOWN)
+		    setOrientation(getOrientation().reverse());
+		else if (getOrientation().relativeDirection(getPreferred()) == Direction.RIGHT)
+		    setOrientation(getOrientation().rotateRight());
+
+		return getPreferred();
+
 	    } else {
-		_counter = 1;
-		_orientation = _orientation.rotateRight();
-		return monkeyMove(choices);
-	    }
-	} else {
-	    return monkeyMove(choices);
-	}
+		setCounter(1);
+		setOrientation(getOrientation().rotateRight());
 
+		// Monkey Move
+		Direction choice = followLeftWall(choices, getOrientation());
+		setOrientation(computeOrientation(choice, getOrientation()));
+		setCounter(computeRotationCounter(choice, getOrientation(), getCounter()));
+
+		return choice;
+	    }
+
+	} else {
+	    // Monkey Move
+	    Direction choice = followLeftWall(choices, getOrientation());
+	    setOrientation(computeOrientation(choice, getOrientation()));
+	    setCounter(computeRotationCounter(choice, getOrientation(), getCounter()));
+
+	    return choice;
+	}
     }
 
     @Override
     public Animal copy() {
-	return new Bear(getPosition(), _prefered, _orientation, _counter);
+	return new Bear(getPosition(), getPreferred(), getOrientation(), getCounter());
     }
 
     @Override
     public void resetAnimal() {
 	super.resetAnimal();
-	_prefered = Direction.NONE;
-	_orientation = Direction.UP;
-	_counter = 0;
-    }
-
-    private Direction monkeyMove(Direction[] choices) {
-	boolean up = false;
-	boolean left = false;
-	boolean right = false;
-
-	for (Direction dir : choices) {
-	    if (_orientation.relativeDirection(dir) == Direction.LEFT)
-		left = true;
-	    else if (_orientation.relativeDirection(dir) == Direction.UP)
-		up = true;
-	    else if (_orientation.relativeDirection(dir) == Direction.RIGHT)
-		right = true;
-	}
-
-	if (left) {
-	    Direction dir = _orientation.unRelativeDirection(Direction.LEFT);
-	    _orientation = _orientation.rotateLeft();
-	    _counter -= 1;
-	    return dir;
-	} else if (up) {
-	    Direction dir = _orientation.unRelativeDirection(Direction.UP);
-	    return dir;
-	} else if (right) {
-	    Direction dir = _orientation.unRelativeDirection(Direction.RIGHT);
-	    _orientation = _orientation.rotateRight();
-	    _counter += 1;
-	    return dir;
-	} else {
-	    Direction dir = _orientation.unRelativeDirection(Direction.DOWN);
-	    _orientation = _orientation.reverse();
-	    _counter += 2;
-	    return dir;
-	}
+	setCounter(0);
+	setPreferred(Direction.NONE);
+	setOrientation(Direction.UP);
     }
 }

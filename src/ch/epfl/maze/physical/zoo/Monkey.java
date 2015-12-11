@@ -1,8 +1,7 @@
 package ch.epfl.maze.physical.zoo;
 
-import java.util.Random;
-
 import ch.epfl.maze.physical.Animal;
+import ch.epfl.maze.physical.WallFollower;
 import ch.epfl.maze.util.Direction;
 import ch.epfl.maze.util.Vector2D;
 
@@ -11,7 +10,7 @@ import ch.epfl.maze.util.Vector2D;
  * 
  */
 
-public class Monkey extends Animal {
+public class Monkey extends Animal implements WallFollower {
 
     private Direction _orientation = Direction.UP;
 
@@ -26,9 +25,28 @@ public class Monkey extends Animal {
 	super(position);
     }
 
+    /**
+     * Constructs a monkey with a starting position.
+     * 
+     * @param position
+     *            Starting position of the monkey in the labyrinth
+     */
+
     public Monkey(Vector2D position, Direction orientation) {
 	super(position);
-	_orientation = orientation;
+	setOrientation(orientation);
+    }
+
+    /*
+     * GETTERS AND SETTERS
+     */
+
+    public Direction getOrientation() {
+	return _orientation;
+    }
+
+    public void setOrientation(Direction o) {
+	_orientation = o;
     }
 
     /**
@@ -37,54 +55,20 @@ public class Monkey extends Animal {
 
     @Override
     public Direction move(Direction[] choices) {
-	boolean isCorner = isCornerTile(choices);
-	boolean right = false;
-	boolean left = false;
-	boolean up = false;
-	for (Direction dir : choices) {
-	    if (_orientation.relativeDirection(dir) == Direction.LEFT)
-		left = true;
-	    else if (_orientation.relativeDirection(dir) == Direction.UP)
-		up = true;
-	    else if (_orientation.relativeDirection(dir) == Direction.RIGHT)
-		right = true;
-	}
+	Direction choice = followLeftWall(choices, getOrientation());
+	setOrientation(computeOrientation(choice, getOrientation()));
 
-	if (left && isCorner) {
-	    Direction dir = _orientation.unRelativeDirection(Direction.LEFT);
-	    _orientation = _orientation.rotateLeft();
-	    return dir;
-	} else if (up) {
-	    Direction dir = _orientation.unRelativeDirection(Direction.UP);
-	    return dir;
-	} else if (right) {
-	    Direction dir = _orientation.unRelativeDirection(Direction.RIGHT);
-	    _orientation = _orientation.rotateRight();
-	    return dir;
-	} else {
-	    Direction dir = _orientation.unRelativeDirection(Direction.DOWN);
-	    _orientation = _orientation.reverse();
-	    return dir;
-	}
+	return choice;
     }
 
     @Override
     public Animal copy() {
-	return new Monkey(getPosition(), _orientation);
+	return new Monkey(getPosition(), getOrientation());
     }
 
     @Override
     public void resetAnimal() {
 	super.resetAnimal();
-	_orientation = Direction.UP;
-    }
-
-    private boolean isCornerTile(Direction[] choices) {
-	Vector2D v = getPosition().addDirectionTo(_orientation.unRelativeDirection(Direction.DOWN));
-	for (Direction dir : choices)
-	    if (getPosition().addDirectionTo(dir).equals(v))
-		return true;
-
-	return false;
+	setOrientation(Direction.UP);
     }
 }

@@ -37,8 +37,8 @@ public class Console {
     public static void main(String[] args) {
 	Simulation simulation;
 
-	// simulation = getMazeSimulation();
-	simulation = getDaedalusSimulation();
+	simulation = getMazeSimulation();
+	// simulation = getDaedalusSimulation();
 
 	System.out.print("Launching " + NUMBER_OF_SIMULATIONS + " simulations...");
 	Map<String, List<Integer>> results = Statistics.computeStatistics(simulation, NUMBER_OF_SIMULATIONS);

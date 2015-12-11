@@ -39,7 +39,7 @@ public class Inky extends Predator {
      * @param modeCount
      *            Number of steps since last mode swap, defaults to 0
      */
-    
+
     public Inky(Vector2D position, Direction last, int mode, int modeCount) {
 	super(position);
 	setLast(last);

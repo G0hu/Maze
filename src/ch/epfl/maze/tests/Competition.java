@@ -66,7 +66,7 @@ public class Competition {
 	m.addAnimal(new Hamster(m.getStart()));
 
 	// adds a Bear (if coded)
-	// m.addAnimal(new Bear(m.getStart()));
+	m.addAnimal(new Bear(m.getStart()));
 
 	// adds a Panda
 	m.addAnimal(new Panda(m.getStart()));

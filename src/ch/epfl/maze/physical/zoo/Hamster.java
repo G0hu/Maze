@@ -1,9 +1,9 @@
 package ch.epfl.maze.physical.zoo;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import ch.epfl.maze.physical.Animal;
+import ch.epfl.maze.physical.RandomChoose;
 import ch.epfl.maze.util.Direction;
 import ch.epfl.maze.util.Vector2D;
 
@@ -13,7 +13,7 @@ import ch.epfl.maze.util.Vector2D;
  * 
  */
 
-public class Hamster extends Animal {
+public class Hamster extends Animal implements RandomChoose {
 
     private ArrayList<Vector2D> _deadLock = new ArrayList<Vector2D>();
     private Direction _last = Direction.NONE;
@@ -35,6 +35,18 @@ public class Hamster extends Animal {
 	_deadLock = deadLocks;
     }
 
+    /*
+     * GETTERS AND SETTERS
+     */
+
+    public Direction getLast() {
+	return _last;
+    }
+
+    public void setLast(Direction d) {
+	_last = d;
+    }
+
     /**
      * Moves without retracing directly its steps and by avoiding the dead-ends
      * it learns during its journey.
@@ -49,20 +61,21 @@ public class Hamster extends Animal {
 	    _deadLock.add(getPosition());
 	    return newChoices.get(0);
 	} else {
-	    return randomChoose(newChoices);
+	    setLast(randomMove(newChoices, getLast()));
+	    return getLast();
 	}
     }
 
     @Override
     public Animal copy() {
-	return new Hamster(getPosition(), _deadLock, _last);
+	return new Hamster(getPosition(), _deadLock, getLast());
     }
 
     @Override
     public void resetAnimal() {
 	super.resetAnimal();
 	_deadLock.clear();
-	_last = Direction.NONE;
+	setLast(Direction.NONE);
     }
 
     /**
@@ -82,24 +95,5 @@ public class Hamster extends Animal {
 	}
 
 	return newChoices;
-    }
-
-    /**
-     * Chooses a random tile using the mouse's algorithm
-     * 
-     * @param choices
-     *            Available choices without deadlocks
-     * @return The chosen direction
-     */
-
-    private Direction randomChoose(ArrayList<Direction> choices) {
-	ArrayList<Direction> available = new ArrayList<Direction>();
-	for (int i = 0; i < choices.size(); i++)
-	    if (!choices.get(i).isOpposite(_last))
-		available.add(choices.get(i));
-
-	Random r = new Random();
-	_last = available.get(r.nextInt(available.size()));
-	return _last;
     }
 }

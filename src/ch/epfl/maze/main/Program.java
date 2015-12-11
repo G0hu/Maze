@@ -37,8 +37,8 @@ public class Program {
     public static void main(String[] args) {
 	Simulation simulation;
 
-	// simulation = getMazeSimulation();
-	simulation = getDaedalusSimulation();
+	simulation = getMazeSimulation();
+	// simulation = getDaedalusSimulation();
 
 	Display display = new Display(simulation);
 	display.run();
