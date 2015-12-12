@@ -78,7 +78,7 @@ public class Competition {
 	rivalries.put("Mouse", 0);
 	rivalries.put("Hamster", 0);
 	rivalries.put("Monkey", 0);
-	// rivalries.put("Bear", 0); // if coded
+	rivalries.put("Bear", 0);
 	rivalries.put("Panda", 0);
 
 	System.out.print("Launching competition, please wait... ");

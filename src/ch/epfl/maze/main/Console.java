@@ -16,6 +16,7 @@ import ch.epfl.maze.physical.zoo.Hamster;
 import ch.epfl.maze.physical.zoo.Monkey;
 import ch.epfl.maze.physical.zoo.Mouse;
 import ch.epfl.maze.physical.zoo.Panda;
+import ch.epfl.maze.physical.zoo.SpaceInvader;
 import ch.epfl.maze.simulation.DaedalusSimulation;
 import ch.epfl.maze.simulation.MazeSimulation;
 import ch.epfl.maze.simulation.Simulation;
@@ -32,7 +33,7 @@ import ch.epfl.maze.util.Vector2D;
 public class Console {
 
     /** Number of simulations launched. */
-    public static final int NUMBER_OF_SIMULATIONS = 1000;
+    public static final int NUMBER_OF_SIMULATIONS = 10000;
 
     public static void main(String[] args) {
 	Simulation simulation;
@@ -57,7 +58,7 @@ public class Console {
      */
 
     public static Simulation getMazeSimulation() {
-	int[][] labyrinth = LabyrinthGenerator.getMedium();
+	int[][] labyrinth = LabyrinthGenerator.getLarge();
 	Maze m = new Maze(labyrinth);
 	Simulation simulation = new MazeSimulation(m);
 
@@ -75,6 +76,9 @@ public class Console {
 
 	// adds a Panda
 	m.addAnimal(new Panda(m.getStart()));
+	
+	// adds a SpaceInvader
+	m.addAnimal(new SpaceInvader(m.getStart()));
 
 	return simulation;
     }

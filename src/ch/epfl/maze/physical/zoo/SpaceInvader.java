@@ -23,7 +23,10 @@ import ch.epfl.maze.util.Vector2D;
 
 public class SpaceInvader extends Animal {
     private Direction _orientation;
-    private int _counterOfTry;
+    private boolean _reseted;
+    private boolean _unknown = false;
+
+    private Vector2D _lastPosition;
     private Direction _last;
     private ArrayList<Vector2D> _markedOnce = new ArrayList<Vector2D>();
     private ArrayList<Vector2D> _markedTwice = new ArrayList<Vector2D>();
@@ -38,18 +41,21 @@ public class SpaceInvader extends Animal {
     public SpaceInvader(Vector2D position) {
 	super(position);
 	_orientation = Direction.UP;
-	_counterOfTry = 0;
 	_last = Direction.NONE;
+	_lastPosition = new Vector2D(-1, -1);
+	_unknown = false;
+	_reseted = false;
+
     }
 
-    public SpaceInvader(Vector2D position, Direction orientation, Direction last, int counterOfTry,
-	    ArrayList<Vector2D> markedOnce, ArrayList<Vector2D> markedTwice) {
+    public SpaceInvader(Vector2D position, Direction orientation, Direction last, ArrayList<Vector2D> markedOnce,
+	    ArrayList<Vector2D> markedTwice, Vector2D lastPosition) {
 	super(position);
 	_orientation = orientation;
 	_last = last;
-	_counterOfTry = counterOfTry;
 	_markedOnce = markedOnce;
 	_markedTwice = markedTwice;
+	_lastPosition = lastPosition;
     }
 
     /**
@@ -58,52 +64,33 @@ public class SpaceInvader extends Animal {
 
     @Override
     public Direction move(Direction[] choices) {
-	Direction next = Direction.NONE;
-	if (_counterOfTry >= 2) {
-	    if (isIntersection(choices)) {
-		for (Direction dir : choices) {
-		    Vector2D v = getPosition().addDirectionTo(dir);
-		    if ((_markedOnce.contains(v)) && (!_last.isOpposite(dir))) {
-
-			next = dir;
-		    }
-		}
-
-		_last = next;
-		if (_orientation.relativeDirection(_last) == Direction.LEFT)
-		    _orientation = _orientation.rotateLeft();
-		else if (_orientation.relativeDirection(_last) == Direction.RIGHT) {
-		    _orientation = _orientation.rotateRight();
-		}
-
-		else {
-		    _orientation = _orientation.reverse();
-		}
-
-		return _last;
-
-	    } else {
-		return monkeyMove(choices);
-	    }
+	if (getPosition().equals(_lastPosition)) {
+	    _unknown = true;
+	}
+	if (_unknown) {
+	    return discoveryMode(choices);
 
 	} else {
 
-	    markTile(getPosition());
-	    return monkeyMove(choices);
+	    return memoryMode(choices);
+
 	}
     }
 
     @Override
     public Animal copy() {
-	return new SpaceInvader(getPosition(), _orientation, _last, _counterOfTry, _markedOnce, _markedTwice);
+	return new SpaceInvader(getPosition(), _orientation, _last, _markedOnce, _markedTwice, _lastPosition);
     }
 
     @Override
     public void resetAnimal() {
+	_lastPosition = getPosition();
 	super.resetAnimal();
+	
 	_orientation = Direction.UP;
-	_counterOfTry += 1;
 	_last = Direction.NONE;
+	_unknown = false;
+	_reseted = true;
     }
 
     private void markTile(Vector2D v) {
@@ -113,11 +100,10 @@ public class SpaceInvader extends Animal {
 	} else if (!(_markedTwice.contains(v))) {
 	    _markedOnce.add(v);
 	}
-	return;
     }
 
     private Direction monkeyMove(Direction[] choices) {
-	boolean isCorner = isCornerTile(choices);
+
 	boolean right = false;
 	boolean left = false;
 	boolean up = false;
@@ -130,10 +116,10 @@ public class SpaceInvader extends Animal {
 		right = true;
 	}
 
-	if (left && isCorner) {
+	if (left) {
 	    Direction dir = _orientation.unRelativeDirection(Direction.LEFT);
 	    _orientation = _orientation.rotateLeft();
-	    _last = Direction.LEFT;
+	    _last = dir;
 	    return dir;
 	} else if (up) {
 	    Direction dir = _orientation.unRelativeDirection(Direction.UP);
@@ -150,16 +136,11 @@ public class SpaceInvader extends Animal {
 	    _last = dir;
 	    return dir;
 	}
-
     }
 
-    private boolean isCornerTile(Direction[] choices) {
-	Vector2D v = getPosition().addDirectionTo(_orientation.unRelativeDirection(Direction.DOWN));
-	for (Direction dir : choices)
-	    if (getPosition().addDirectionTo(dir).equals(v))
-		return true;
-
-	return false;
+    private Direction discoveryMode(Direction[] choices) {
+	markTile(getPosition());
+	return monkeyMove(choices);
     }
 
     private boolean isIntersection(Direction choices[]) {
@@ -167,5 +148,35 @@ public class SpaceInvader extends Animal {
 	    return true;
 
 	return false;
+    }
+
+    private Direction memoryMode(Direction[] choices) {
+	Direction next = Direction.NONE;
+	if (isIntersection(choices)) {
+	    for (Direction dir : choices) {
+		Vector2D v = getPosition().addDirectionTo(dir);
+		if ((_markedOnce.contains(v)) && (!_last.isOpposite(dir))) {
+		    next = dir;
+		}
+	    }
+
+	    if (next == Direction.NONE) {
+		return monkeyMove(choices);
+	    }
+
+	    _last = next;
+	    if (_orientation.relativeDirection(_last) == Direction.LEFT)
+		_orientation = _orientation.rotateLeft();
+	    else if (_orientation.relativeDirection(_last) == Direction.RIGHT) {
+		_orientation = _orientation.rotateRight();
+	    } else if (_orientation.relativeDirection(_last) == Direction.DOWN) {
+		_orientation = _orientation.reverse();
+	    }
+
+	    return _last;
+
+	} else {
+	    return monkeyMove(choices);
+	}
     }
 }
