@@ -23,13 +23,13 @@ public final class Action {
      */
 
     public Action(Direction dir) {
-	if (dir != null) {
-	    mDirection = dir;
-	} else {
-	    mDirection = Direction.NONE;
-	}
-	mSuccess = true;
-	mDies = false;
+        if (dir != null) {
+            mDirection = dir;
+        } else {
+            mDirection = Direction.NONE;
+        }
+        mSuccess = true;
+        mDies = false;
     }
 
     /**
@@ -43,9 +43,9 @@ public final class Action {
      */
 
     public Action(Direction dir, boolean successful) {
-	mDirection = dir;
-	mSuccess = successful;
-	mDies = false;
+        mDirection = dir;
+        mSuccess = successful;
+        mDies = false;
     }
 
     /**
@@ -62,9 +62,9 @@ public final class Action {
      */
 
     public Action(Direction dir, boolean successful, boolean dies) {
-	mDirection = dir;
-	mSuccess = successful;
-	mDies = dies;
+        mDirection = dir;
+        mSuccess = successful;
+        mDies = dies;
     }
 
     /**
@@ -74,7 +74,7 @@ public final class Action {
      */
 
     public Direction getDirection() {
-	return mDirection;
+        return mDirection;
     }
 
     /**
@@ -84,7 +84,7 @@ public final class Action {
      */
 
     public boolean isSuccessful() {
-	return mSuccess;
+        return mSuccess;
     }
 
     /**
@@ -96,6 +96,6 @@ public final class Action {
      */
 
     public boolean diesBetweenSquares() {
-	return mDies;
+        return mDies;
     }
 }

@@ -30,14 +30,14 @@ public final class Statistics {
      */
 
     public static int total(List<Integer> results) {
-	int total = 0;
-	for (Integer result : results) {
-	    if (result == Integer.MAX_VALUE) {
-		return Integer.MAX_VALUE;
-	    }
-	    total += result;
-	}
-	return total;
+        int total = 0;
+        for (Integer result : results) {
+            if (result == Integer.MAX_VALUE) {
+                return Integer.MAX_VALUE;
+            }
+            total += result;
+        }
+        return total;
     }
 
     /**
@@ -51,11 +51,11 @@ public final class Statistics {
      */
 
     public static int mean(List<Integer> results) {
-	int total = total(results);
-	if (total == Integer.MAX_VALUE) {
-	    return Integer.MAX_VALUE;
-	}
-	return total / results.size();
+        int total = total(results);
+        if (total == Integer.MAX_VALUE) {
+            return Integer.MAX_VALUE;
+        }
+        return total / results.size();
     }
 
     /**
@@ -69,15 +69,15 @@ public final class Statistics {
      */
 
     public static double var(List<Integer> results) {
-	double mean = mean(results);
-	if (mean == Integer.MAX_VALUE) {
-	    return Integer.MAX_VALUE;
-	}
-	double var = 0;
-	for (Integer result : results) {
-	    var += (result - mean) * (result - mean);
-	}
-	return var / results.size();
+        double mean = mean(results);
+        if (mean == Integer.MAX_VALUE) {
+            return Integer.MAX_VALUE;
+        }
+        double var = 0;
+        for (Integer result : results) {
+            var += (result - mean) * (result - mean);
+        }
+        return var / results.size();
     }
 
     /**
@@ -91,7 +91,7 @@ public final class Statistics {
      */
 
     public static double std(List<Integer> results) {
-	return Math.sqrt(var(results));
+        return Math.sqrt(var(results));
     }
 
     /**
@@ -103,36 +103,39 @@ public final class Statistics {
      *            The number of simulations
      */
 
-    public static Map<String, List<Integer>> computeStatistics(Simulation simulation, int numberOfSimulations) {
-	// maps animals' names with their overall results (which are
-	// linked-list)
-	Map<String, List<Integer>> results = new TreeMap<String, List<Integer>>();
+    public static Map<String, List<Integer>> computeStatistics(
+            Simulation simulation, int numberOfSimulations) {
+        // maps animals' names with their overall results (which are
+        // linked-list)
+        Map<String, List<Integer>> results = new TreeMap<String, List<Integer>>();
 
-	for (Animal a : simulation.getWorld().getAnimals()) {
-	    results.put(a.getClass().getSimpleName(), new LinkedList<Integer>());
-	}
+        for (Animal a : simulation.getWorld().getAnimals()) {
+            results.put(a.getClass().getSimpleName(), new LinkedList<Integer>());
+        }
 
-	// simulates world a lot of times
-	for (int i = 0; i < numberOfSimulations; i++) {
+        // simulates world a lot of times
+        for (int i = 0; i < numberOfSimulations; i++) {
 
-	    // simulates world until the end
-	    simulation.restart();
-	    while (!simulation.isOver()) {
-		simulation.move(null);
-	    }
+            // simulates world until the end
+            simulation.restart();
+            while (!simulation.isOver()) {
+                simulation.move(null);
+            }
 
-	    // retrieves arrival times and appends them to the results
-	    Map<Integer, List<Animal>> arrivalTimes = simulation.getArrivalTimes();
-	    for (Map.Entry<Integer, List<Animal>> entry : arrivalTimes.entrySet()) {
-		for (Animal a : entry.getValue()) {
-		    String animalName = a.getClass().getSimpleName();
-		    List<Integer> list = results.get(animalName);
-		    list.add(entry.getKey());
-		}
-	    }
-	}
+            // retrieves arrival times and appends them to the results
+            Map<Integer, List<Animal>> arrivalTimes = simulation
+                    .getArrivalTimes();
+            for (Map.Entry<Integer, List<Animal>> entry : arrivalTimes
+                    .entrySet()) {
+                for (Animal a : entry.getValue()) {
+                    String animalName = a.getClass().getSimpleName();
+                    List<Integer> list = results.get(animalName);
+                    list.add(entry.getKey());
+                }
+            }
+        }
 
-	return results;
+        return results;
     }
 
     /**
@@ -144,53 +147,54 @@ public final class Statistics {
 
     public static void printDistribution(List<Integer> results) {
 
-	int min = results.get(0);
-	int max = results.get(results.size() - 1);
-	int length = (max - min) / X_LENGTH;
+        int min = results.get(0);
+        int max = results.get(results.size() - 1);
+        int length = (max - min) / X_LENGTH;
 
-	// counts number of steps inside a range
-	int lowerBound = Integer.MIN_VALUE;
-	int upperBound = min + length;
-	int index = 0;
-	List<Integer> boxPlot = new ArrayList<>();
-	for (int i = 0; i < X_LENGTH; i++) {
-	    int counter = 0;
+        // counts number of steps inside a range
+        int lowerBound = Integer.MIN_VALUE;
+        int upperBound = min + length;
+        int index = 0;
+        List<Integer> boxPlot = new ArrayList<>();
+        for (int i = 0; i < X_LENGTH; i++) {
+            int counter = 0;
 
-	    while (index < results.size() && (results.get(index) > lowerBound && results.get(index) <= upperBound)) {
-		counter++;
-		index++;
-	    }
-	    boxPlot.add(counter);
-	    lowerBound = upperBound;
-	    upperBound += length;
-	}
+            while (index < results.size()
+                    && (results.get(index) > lowerBound && results.get(index) <= upperBound)) {
+                counter++;
+                index++;
+            }
+            boxPlot.add(counter);
+            lowerBound = upperBound;
+            upperBound += length;
+        }
 
-	// draws plot on string
-	String[] printPlot = new String[Y_LENGTH];
-	for (int i = 0; i < Y_LENGTH; i++) {
-	    printPlot[i] = "| ";
-	}
+        // draws plot on string
+        String[] printPlot = new String[Y_LENGTH];
+        for (int i = 0; i < Y_LENGTH; i++) {
+            printPlot[i] = "| ";
+        }
 
-	int maxCount = Collections.max(boxPlot);
-	for (Integer count : boxPlot) {
-	    for (int i = 0; i < Y_LENGTH; i++) {
-		if (count > (i * maxCount) / Y_LENGTH) {
-		    printPlot[i] += "#";
-		} else {
-		    printPlot[i] += " ";
-		}
-	    }
-	}
+        int maxCount = Collections.max(boxPlot);
+        for (Integer count : boxPlot) {
+            for (int i = 0; i < Y_LENGTH; i++) {
+                if (count > (i * maxCount) / Y_LENGTH) {
+                    printPlot[i] += "#";
+                } else {
+                    printPlot[i] += " ";
+                }
+            }
+        }
 
-	// prints plot
-	System.out.println("\n^");
-	for (int i = Y_LENGTH - 1; i > 0; i--) {
-	    System.out.println(printPlot[i]);
-	}
-	System.out.print("--");
-	for (int i = 0; i < X_LENGTH; i++) {
-	    System.out.print("-");
-	}
-	System.out.println(">");
+        // prints plot
+        System.out.println("\n^");
+        for (int i = Y_LENGTH - 1; i > 0; i--) {
+            System.out.println(printPlot[i]);
+        }
+        System.out.print("--");
+        for (int i = 0; i < X_LENGTH; i++) {
+            System.out.print("-");
+        }
+        System.out.println(">");
     }
 }

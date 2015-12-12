@@ -33,7 +33,7 @@ abstract public class Predator extends Animal {
      */
 
     public Predator(Vector2D position) {
-	super(position);
+        super(position);
     }
 
     /**
@@ -50,18 +50,18 @@ abstract public class Predator extends Animal {
      */
 
     public Predator(Vector2D position, Direction last, int mode, int modeCount) {
-	super(position);
-	setLast(last);
-	setMode(mode);
-	setModeCount(modeCount);
+        super(position);
+        setLast(last);
+        setMode(mode);
+        setModeCount(modeCount);
     }
 
     @Override
     public void resetAnimal() {
-	super.resetAnimal();
-	setModeCount(0);
-	setMode(UNDEFINED_MODE);
-	setLast(Direction.NONE);
+        super.resetAnimal();
+        setModeCount(0);
+        setMode(UNDEFINED_MODE);
+        setLast(Direction.NONE);
     }
 
     /**
@@ -69,7 +69,7 @@ abstract public class Predator extends Animal {
      */
 
     public final Direction getLast() {
-	return _last;
+        return _last;
     }
 
     /**
@@ -80,7 +80,7 @@ abstract public class Predator extends Animal {
      */
 
     public final void setLast(Direction last) {
-	_last = last;
+        _last = last;
     }
 
     /**
@@ -88,7 +88,7 @@ abstract public class Predator extends Animal {
      */
 
     public final int getMode() {
-	return _mode;
+        return _mode;
     }
 
     /**
@@ -99,8 +99,8 @@ abstract public class Predator extends Animal {
      */
 
     public final void setMode(int mode) {
-	if ((mode == SCATTER_MODE) || (mode == CHASE_MODE))
-	    _mode = mode;
+        if ((mode == SCATTER_MODE) || (mode == CHASE_MODE))
+            _mode = mode;
     }
 
     /**
@@ -108,7 +108,7 @@ abstract public class Predator extends Animal {
      */
 
     public final int getModeCount() {
-	return _modeCount;
+        return _modeCount;
     }
 
     /**
@@ -119,8 +119,8 @@ abstract public class Predator extends Animal {
      */
 
     public final void setModeCount(int count) {
-	if (count >= 0)
-	    _modeCount = count;
+        if (count >= 0)
+            _modeCount = count;
     }
 
     /**
@@ -128,7 +128,7 @@ abstract public class Predator extends Animal {
      */
 
     public final void incrementModeCount() {
-	setModeCount(getModeCount() + 1);
+        setModeCount(getModeCount() + 1);
     }
 
     /**
@@ -139,27 +139,27 @@ abstract public class Predator extends Animal {
      */
 
     public final int computeMode() {
-	if (getMode() == SCATTER_MODE) {
-	    if (getModeCount() >= SCATTER_DURATION) {
-		setMode(CHASE_MODE);
-		setModeCount(0);
-	    }
+        if (getMode() == SCATTER_MODE) {
+            if (getModeCount() >= SCATTER_DURATION) {
+                setMode(CHASE_MODE);
+                setModeCount(0);
+            }
 
-	    incrementModeCount();
-	    return getMode();
-	} else if (getMode() == CHASE_MODE) {
-	    if (getModeCount() >= CHASE_DURATION) {
-		setMode(SCATTER_MODE);
-		setModeCount(0);
-	    }
+            incrementModeCount();
+            return getMode();
+        } else if (getMode() == CHASE_MODE) {
+            if (getModeCount() >= CHASE_DURATION) {
+                setMode(SCATTER_MODE);
+                setModeCount(0);
+            }
 
-	    incrementModeCount();
-	    return getMode();
-	}
+            incrementModeCount();
+            return getMode();
+        }
 
-	setMode(CHASE_MODE);
-	setModeCount(1);
-	return getMode();
+        setMode(CHASE_MODE);
+        setModeCount(1);
+        return getMode();
     };
 
     /**
@@ -173,8 +173,8 @@ abstract public class Predator extends Animal {
      */
 
     public final double euclidianDistance(Vector2D a, Vector2D b) {
-	Vector2D diff = a.sub(b);
-	return diff.dist();
+        Vector2D diff = a.sub(b);
+        return diff.dist();
     }
 
     /**
@@ -185,24 +185,25 @@ abstract public class Predator extends Animal {
 
     @Override
     public final Direction move(Direction[] choices) {
-	if (choices.length == 0) {
-	    setLast(Direction.NONE);
-	    return Direction.NONE;
-	} else if (choices.length == 1) {
-	    setLast(choices[0]);
-	    return choices[0];
-	}
+        if (choices.length == 0) {
+            setLast(Direction.NONE);
+            return Direction.NONE;
+        } else if (choices.length == 1) {
+            setLast(choices[0]);
+            return choices[0];
+        }
 
-	List<Direction> filteredChoices = new ArrayList<Direction>();
-	for (Direction dir : choices)
-	    if (!dir.isOpposite(getLast()))
-		filteredChoices.add(dir);
+        List<Direction> filteredChoices = new ArrayList<Direction>();
+        for (Direction dir : choices)
+            if (!dir.isOpposite(getLast()))
+                filteredChoices.add(dir);
 
-	Random rand = new Random();
-	Direction choice = filteredChoices.get(rand.nextInt(filteredChoices.size()));
+        Random rand = new Random();
+        Direction choice = filteredChoices.get(rand.nextInt(filteredChoices
+                .size()));
 
-	setLast(choice);
-	return choice;
+        setLast(choice);
+        return choice;
     }
 
     /**
@@ -216,22 +217,22 @@ abstract public class Predator extends Animal {
      */
 
     public final Direction moveToTarget(Direction[] choices, Vector2D target) {
-	if ((choices.length == 0) || (choices.length == 1))
-	    return move(choices);
+        if ((choices.length == 0) || (choices.length == 1))
+            return move(choices);
 
-	Direction bestDirection = Direction.NONE;
-	double bestValue = Double.POSITIVE_INFINITY;
-	for (Direction dir : choices) {
-	    Vector2D newPos = getPosition().addDirectionTo(dir);
-	    double distance = euclidianDistance(newPos, target);
-	    if ((distance < bestValue) && (!dir.isOpposite(getLast()))) {
-		bestValue = distance;
-		bestDirection = dir;
-	    }
-	}
+        Direction bestDirection = Direction.NONE;
+        double bestValue = Double.POSITIVE_INFINITY;
+        for (Direction dir : choices) {
+            Vector2D newPos = getPosition().addDirectionTo(dir);
+            double distance = euclidianDistance(newPos, target);
+            if ((distance < bestValue) && (!dir.isOpposite(getLast()))) {
+                bestValue = distance;
+                bestDirection = dir;
+            }
+        }
 
-	setLast(bestDirection);
-	return bestDirection;
+        setLast(bestDirection);
+        return bestDirection;
     }
 
     /**

@@ -24,15 +24,15 @@ public final class Daedalus extends World {
      */
 
     public Daedalus(int[][] labyrinth) {
-	super(labyrinth);
+        super(labyrinth);
     }
 
     @Override
     public boolean isSolved() {
-	if (_preys.isEmpty())
-	    return true;
+        if (_preys.isEmpty())
+            return true;
 
-	return false;
+        return false;
     }
 
     /**
@@ -43,9 +43,9 @@ public final class Daedalus extends World {
      */
 
     public void addPredator(Predator p) {
-	p.setStartPosition(p.getPosition());
-	p.resetAnimal();
-	_predators.add(p);
+        p.setStartPosition(p.getPosition());
+        p.resetAnimal();
+        _predators.add(p);
     }
 
     /**
@@ -56,9 +56,9 @@ public final class Daedalus extends World {
      */
 
     public void addPrey(Prey p) {
-	p.setStartPosition(p.getPosition());
-	p.resetAnimal();
-	_preys.add(p);
+        p.setStartPosition(p.getPosition());
+        p.resetAnimal();
+        _preys.add(p);
     }
 
     /**
@@ -69,15 +69,15 @@ public final class Daedalus extends World {
      */
 
     public void removePredator(Predator p) {
-	int index = -1;
-	for (int i = 0; i < _predators.size(); i++)
-	    if (_predators.get(i) == p)
-		index = i;
+        int index = -1;
+        for (int i = 0; i < _predators.size(); i++)
+            if (_predators.get(i) == p)
+                index = i;
 
-	if (index >= 0) {
-	    _predatorsOut.add((Predator) p.copy());
-	    _predators.remove(index);
-	}
+        if (index >= 0) {
+            _predatorsOut.add((Predator) p.copy());
+            _predators.remove(index);
+        }
     }
 
     /**
@@ -88,26 +88,26 @@ public final class Daedalus extends World {
      */
 
     public void removePrey(Prey p) {
-	int index = -1;
-	for (int i = 0; i < _preys.size(); i++)
-	    if (_preys.get(i) == p)
-		index = i;
+        int index = -1;
+        for (int i = 0; i < _preys.size(); i++)
+            if (_preys.get(i) == p)
+                index = i;
 
-	if (index >= 0) {
-	    _deadPreys.add((Prey) p.copy());
-	    _preys.remove(index);
-	}
+        if (index >= 0) {
+            _deadPreys.add((Prey) p.copy());
+            _preys.remove(index);
+        }
     }
 
     @Override
     public List<Animal> getAnimals() {
-	List<Animal> animals = new ArrayList<Animal>();
-	for (Prey prey : _preys)
-	    animals.add(prey);
-	for (Predator pred : _predators)
-	    animals.add(pred);
+        List<Animal> animals = new ArrayList<Animal>();
+        for (Prey prey : _preys)
+            animals.add(prey);
+        for (Predator pred : _predators)
+            animals.add(pred);
 
-	return animals;
+        return animals;
     }
 
     /**
@@ -117,11 +117,11 @@ public final class Daedalus extends World {
      */
 
     public List<Predator> getPredators() {
-	List<Predator> copy = new ArrayList<Predator>();
-	for (Predator pred : _predators)
-	    copy.add(pred);
+        List<Predator> copy = new ArrayList<Predator>();
+        for (Predator pred : _predators)
+            copy.add(pred);
 
-	return copy;
+        return copy;
     }
 
     /**
@@ -131,11 +131,11 @@ public final class Daedalus extends World {
      */
 
     public List<Prey> getPreys() {
-	List<Prey> copy = new ArrayList<Prey>();
-	for (Prey prey : _preys)
-	    copy.add(prey);
+        List<Prey> copy = new ArrayList<Prey>();
+        for (Prey prey : _preys)
+            copy.add(prey);
 
-	return copy;
+        return copy;
     }
 
     /**
@@ -148,11 +148,11 @@ public final class Daedalus extends World {
      */
 
     public boolean hasPredator(Predator p) {
-	for (Predator pred : _predators)
-	    if (pred == p)
-		return true;
+        for (Predator pred : _predators)
+            if (pred == p)
+                return true;
 
-	return false;
+        return false;
     }
 
     /**
@@ -165,29 +165,29 @@ public final class Daedalus extends World {
      */
 
     public boolean hasPrey(Prey p) {
-	for (Prey prey : _preys)
-	    if (prey == p)
-		return true;
+        for (Prey prey : _preys)
+            if (prey == p)
+                return true;
 
-	return false;
+        return false;
     }
 
     @Override
     public void reset() {
-	for (Prey p : _preys)
-	    _deadPreys.add((Prey) p.copy());
-	_preys.clear();
+        for (Prey p : _preys)
+            _deadPreys.add((Prey) p.copy());
+        _preys.clear();
 
-	for (Prey p : _deadPreys)
-	    addPrey(p);
-	_deadPreys.clear();
+        for (Prey p : _deadPreys)
+            addPrey(p);
+        _deadPreys.clear();
 
-	for (Predator p : _predators)
-	    _predatorsOut.add((Predator) p.copy());
-	_predators.clear();
+        for (Predator p : _predators)
+            _predatorsOut.add((Predator) p.copy());
+        _predators.clear();
 
-	for (Predator p : _predatorsOut)
-	    addPredator(p);
-	_predatorsOut.clear();
+        for (Predator p : _predatorsOut)
+            addPredator(p);
+        _predatorsOut.clear();
     }
 }

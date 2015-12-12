@@ -20,7 +20,7 @@ public class Monkey extends WallFollower {
      */
 
     public Monkey(Vector2D position) {
-	super(position);
+        super(position);
     }
 
     /**
@@ -31,7 +31,7 @@ public class Monkey extends WallFollower {
      */
 
     public Monkey(Vector2D position, Direction orientation) {
-	super(position, orientation);
+        super(position, orientation);
     }
 
     /**
@@ -40,20 +40,20 @@ public class Monkey extends WallFollower {
 
     @Override
     public Direction move(Direction[] choices) {
-	Direction choice = followLeftWall(choices);
-	computeOrientation(choice);
+        Direction choice = followLeftWall(choices);
+        computeOrientation(choice);
 
-	return choice;
+        return choice;
     }
 
     @Override
     public Animal copy() {
-	return new Monkey(getPosition(), getOrientation());
+        return new Monkey(getPosition(), getOrientation());
     }
 
     @Override
     public void resetAnimal() {
-	super.resetAnimal();
-	setOrientation(Direction.UP);
+        super.resetAnimal();
+        setOrientation(Direction.UP);
     }
 }

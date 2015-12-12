@@ -23,18 +23,18 @@ public final class Maze extends World {
      */
 
     public Maze(int[][] labyrinth) {
-	super(labyrinth);
+        super(labyrinth);
     }
 
     @Override
     public boolean isSolved() {
-	return _animalsIn.isEmpty();
+        return _animalsIn.isEmpty();
     }
 
     @Override
     public List<Animal> getAnimals() {
-	List<Animal> copy = new ArrayList<Animal>(_animalsIn);
-	return copy;
+        List<Animal> copy = new ArrayList<Animal>(_animalsIn);
+        return copy;
     }
 
     /**
@@ -47,11 +47,11 @@ public final class Maze extends World {
      */
 
     public boolean hasAnimal(Animal a) {
-	for (Animal an : _animalsIn)
-	    if (an == a)
-		return true;
+        for (Animal an : _animalsIn)
+            if (an == a)
+                return true;
 
-	return false;
+        return false;
     }
 
     /**
@@ -62,9 +62,9 @@ public final class Maze extends World {
      */
 
     public void addAnimal(Animal a) {
-	a.setStartPosition(getStart());
-	a.resetAnimal();
-	_animalsIn.add(a);
+        a.setStartPosition(getStart());
+        a.resetAnimal();
+        _animalsIn.add(a);
     }
 
     /**
@@ -75,25 +75,25 @@ public final class Maze extends World {
      */
 
     public void removeAnimal(Animal a) {
-	int index = -1;
-	_animalsOut.add(a.copy());
-	for (int i = 0; i < _animalsIn.size(); i++)
-	    if (_animalsIn.get(i) == a)
-		index = i;
+        int index = -1;
+        _animalsOut.add(a.copy());
+        for (int i = 0; i < _animalsIn.size(); i++)
+            if (_animalsIn.get(i) == a)
+                index = i;
 
-	if (index >= 0)
-	    _animalsIn.remove(index);
+        if (index >= 0)
+            _animalsIn.remove(index);
     }
 
     @Override
     public void reset() {
-	for (Animal a : _animalsIn)
-	    _animalsOut.add(a.copy());
+        for (Animal a : _animalsIn)
+            _animalsOut.add(a.copy());
 
-	_animalsIn.clear();
-	for (Animal a : _animalsOut)
-	    addAnimal(a);
+        _animalsIn.clear();
+        for (Animal a : _animalsOut)
+            addAnimal(a);
 
-	_animalsOut.clear();
+        _animalsOut.clear();
     }
 }

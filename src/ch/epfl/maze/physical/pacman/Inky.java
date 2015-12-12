@@ -24,7 +24,7 @@ public class Inky extends Predator {
      */
 
     public Inky(Vector2D position) {
-	super(position);
+        super(position);
     }
 
     /**
@@ -41,47 +41,48 @@ public class Inky extends Predator {
      */
 
     public Inky(Vector2D position, Direction last, int mode, int modeCount) {
-	super(position);
-	setLast(last);
-	setMode(mode);
-	setModeCount(modeCount);
+        super(position);
+        setLast(last);
+        setMode(mode);
+        setModeCount(modeCount);
     }
 
     @Override
     public Direction move(Direction[] choices, Daedalus daedalus) {
-	if (daedalus.getPreys().isEmpty())
-	    return move(choices);
+        if (daedalus.getPreys().isEmpty())
+            return move(choices);
 
-	int mode = computeMode();
-	if (mode == CHASE_MODE) {
-	    Blinky blinky = getBlinky(daedalus.getPredators());
-	    if (blinky == null)
-		return Direction.NONE;
+        int mode = computeMode();
+        if (mode == CHASE_MODE) {
+            Blinky blinky = getBlinky(daedalus.getPredators());
+            if (blinky == null)
+                return Direction.NONE;
 
-	    Vector2D target = daedalus.getPreys().get(0).getPosition().mul(2).sub(blinky.getPosition());
-	    return moveToTarget(choices, target);
-	} else
-	    return moveToTarget(choices, getStartPosition());
+            Vector2D target = daedalus.getPreys().get(0).getPosition().mul(2)
+                    .sub(blinky.getPosition());
+            return moveToTarget(choices, target);
+        } else
+            return moveToTarget(choices, getStartPosition());
     }
 
     @Override
     public Animal copy() {
-	Inky i = new Inky(getPosition(), getLast(), getMode(), getModeCount());
-	i.setStartPosition(getStartPosition());
+        Inky i = new Inky(getPosition(), getLast(), getMode(), getModeCount());
+        i.setStartPosition(getStartPosition());
 
-	return i;
+        return i;
     }
 
     @Override
     public void resetAnimal() {
-	super.resetAnimal();
+        super.resetAnimal();
     }
 
     private Blinky getBlinky(List<Predator> predators) {
-	for (Predator p : predators)
-	    if (p instanceof Blinky)
-		return (Blinky) p;
+        for (Predator p : predators)
+            if (p instanceof Blinky)
+                return (Blinky) p;
 
-	return null;
+        return null;
     }
 }

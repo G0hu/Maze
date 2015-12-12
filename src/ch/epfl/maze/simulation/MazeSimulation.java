@@ -39,96 +39,96 @@ public final class MazeSimulation implements Simulation {
      */
 
     public MazeSimulation(Maze maze) {
-	mMaze = maze;
-	mArrivalTimes = new TreeMap<Integer, List<Animal>>();
-	mStepCounter = 0;
+        mMaze = maze;
+        mArrivalTimes = new TreeMap<Integer, List<Animal>>();
+        mStepCounter = 0;
     }
 
     @Override
     public void move(Animation listener) {
-	if (isOver()) {
-	    return;
-	}
+        if (isOver()) {
+            return;
+        }
 
-	// increments counter
-	mStepCounter++;
+        // increments counter
+        mStepCounter++;
 
-	// if counter exceeded limit, it considers animals lost
-	if (mStepCounter > COUNTER_LIMIT) {
-	    stop();
-	    return;
-	}
+        // if counter exceeded limit, it considers animals lost
+        if (mStepCounter > COUNTER_LIMIT) {
+            stop();
+            return;
+        }
 
-	// asks animals to move
-	moveAnimals(listener);
+        // asks animals to move
+        moveAnimals(listener);
 
-	// notifies animation that all the changes are done
-	if (listener != null) {
-	    listener.doneUpdating();
-	}
+        // notifies animation that all the changes are done
+        if (listener != null) {
+            listener.doneUpdating();
+        }
     }
 
     @Override
     public boolean isOver() {
-	return mMaze.isSolved();
+        return mMaze.isSolved();
     }
 
     @Override
     public World getWorld() {
-	return mMaze;
+        return mMaze;
     }
 
     @Override
     public int getSteps() {
-	return mStepCounter;
+        return mStepCounter;
     }
 
     public Map<Integer, List<Animal>> getArrivalTimes() {
-	return new TreeMap<Integer, List<Animal>>(mArrivalTimes);
+        return new TreeMap<Integer, List<Animal>>(mArrivalTimes);
     }
 
     public String getRecordTable() {
-	String recordTable = "";
-	int position = 1;
-	for (Map.Entry<Integer, List<Animal>> entry : mArrivalTimes.entrySet()) {
-	    // only returns the 10 first
-	    if (position > 10) {
-		return recordTable;
-	    }
+        String recordTable = "";
+        int position = 1;
+        for (Map.Entry<Integer, List<Animal>> entry : mArrivalTimes.entrySet()) {
+            // only returns the 10 first
+            if (position > 10) {
+                return recordTable;
+            }
 
-	    for (Animal animal : entry.getValue()) {
-		if (entry.getKey() == Integer.MAX_VALUE) {
-		    recordTable += "-- ";
-		    recordTable += animal.getClass().getSimpleName();
-		    recordTable += " - never finished\n";
-		} else {
-		    recordTable += position + ". ";
-		    recordTable += animal.getClass().getSimpleName();
-		    recordTable += " - " + entry.getKey() + " steps\n";
-		}
-	    }
-	    position += entry.getValue().size();
-	}
+            for (Animal animal : entry.getValue()) {
+                if (entry.getKey() == Integer.MAX_VALUE) {
+                    recordTable += "-- ";
+                    recordTable += animal.getClass().getSimpleName();
+                    recordTable += " - never finished\n";
+                } else {
+                    recordTable += position + ". ";
+                    recordTable += animal.getClass().getSimpleName();
+                    recordTable += " - " + entry.getKey() + " steps\n";
+                }
+            }
+            position += entry.getValue().size();
+        }
 
-	return recordTable;
+        return recordTable;
     }
 
     @Override
     public void restart() {
-	mMaze.reset();
-	mArrivalTimes.clear();
-	mStepCounter = 0;
+        mMaze.reset();
+        mArrivalTimes.clear();
+        mStepCounter = 0;
     }
 
     @Override
     public void stop() {
-	List<Animal> forgottenAnimals = new LinkedList<Animal>();
-	List<Animal> tmp = new ArrayList<Animal>(mMaze.getAnimals());
-	for (Animal animal : tmp) {
-	    forgottenAnimals.add(animal);
-	    mMaze.removeAnimal(animal);
-	}
-	mArrivalTimes.put(Integer.MAX_VALUE, forgottenAnimals);
+        List<Animal> forgottenAnimals = new LinkedList<Animal>();
+        List<Animal> tmp = new ArrayList<Animal>(mMaze.getAnimals());
+        for (Animal animal : tmp) {
+            forgottenAnimals.add(animal);
+            mMaze.removeAnimal(animal);
+        }
+        mArrivalTimes.put(Integer.MAX_VALUE, forgottenAnimals);
     }
 
     /**
@@ -140,66 +140,69 @@ public final class MazeSimulation implements Simulation {
      */
 
     private void moveAnimals(Animation listener) {
-	List<Animal> animals = mMaze.getAnimals();
-	for (int i = 0; i < animals.size(); i++) {
-	    Animal animal = animals.get(i);
-	    Vector2D position = animal.getPosition();
-	    Direction[] choices = mMaze.getChoices(position);
+        List<Animal> animals = mMaze.getAnimals();
+        for (int i = 0; i < animals.size(); i++) {
+            Animal animal = animals.get(i);
+            Vector2D position = animal.getPosition();
+            Direction[] choices = mMaze.getChoices(position);
 
-	    // tries to make animal move
-	    Direction choice;
-	    try {
-		choice = animal.move(choices);
-		if (!animal.getPosition().equals(position)) {
-		    System.err.println("Error : Animal position changed while choosing direction.");
-		    System.err.println("\tDid you call setPosition(Vector2D) or update(Direction) ?\n");
-		    animal.setPosition(position);
-		    choice = null;
-		}
-	    } catch (Exception E) {
-		System.err.print("Exception occurred while moving animals: ");
-		E.printStackTrace();
-		choice = null;
-	    }
+            // tries to make animal move
+            Direction choice;
+            try {
+                choice = animal.move(choices);
+                if (!animal.getPosition().equals(position)) {
+                    System.err
+                            .println("Error : Animal position changed while choosing direction.");
+                    System.err
+                            .println("\tDid you call setPosition(Vector2D) or update(Direction) ?\n");
+                    animal.setPosition(position);
+                    choice = null;
+                }
+            } catch (Exception E) {
+                System.err.print("Exception occurred while moving animals: ");
+                E.printStackTrace();
+                choice = null;
+            }
 
-	    // if animal could move
-	    if (choice != null) {
-		Vector2D futurePosition = animal.getPosition();
-		futurePosition = futurePosition.addDirectionTo(choice);
+            // if animal could move
+            if (choice != null) {
+                Vector2D futurePosition = animal.getPosition();
+                futurePosition = futurePosition.addDirectionTo(choice);
 
-		int x = futurePosition.getX();
-		int y = futurePosition.getY();
+                int x = futurePosition.getX();
+                int y = futurePosition.getY();
 
-		if (mMaze.isFree(x, y)) {
-		    // asks animation to draw the action of the animal
-		    if (listener != null) {
-			Action action = new Action(choice, true);
-			listener.update(animal, i, action);
-		    }
+                if (mMaze.isFree(x, y)) {
+                    // asks animation to draw the action of the animal
+                    if (listener != null) {
+                        Action action = new Action(choice, true);
+                        listener.update(animal, i, action);
+                    }
 
-		    // if at the end of the maze
-		    if (mMaze.getTile(x, y) == World.EXIT) {
-			mMaze.removeAnimal(animal);
+                    // if at the end of the maze
+                    if (mMaze.getTile(x, y) == World.EXIT) {
+                        mMaze.removeAnimal(animal);
 
-			// records arrival time
-			if (mArrivalTimes.get(mStepCounter) == null) {
-			    mArrivalTimes.put(mStepCounter, new LinkedList<Animal>());
-			}
-			mArrivalTimes.get(mStepCounter).add(animal);
-		    } else {
-			animal.update(choice);
-		    }
-		} else if (listener != null) {
-		    // asks animation to draw an interrupted movement
-		    Action action = new Action(choice, false);
-		    listener.update(animal, i, action);
-		}
+                        // records arrival time
+                        if (mArrivalTimes.get(mStepCounter) == null) {
+                            mArrivalTimes.put(mStepCounter,
+                                    new LinkedList<Animal>());
+                        }
+                        mArrivalTimes.get(mStepCounter).add(animal);
+                    } else {
+                        animal.update(choice);
+                    }
+                } else if (listener != null) {
+                    // asks animation to draw an interrupted movement
+                    Action action = new Action(choice, false);
+                    listener.update(animal, i, action);
+                }
 
-	    } else if (listener != null) {
-		// asks animation to draw a confused animal
-		Action action = new Action(Direction.NONE, false);
-		listener.update(animal, i, action);
-	    }
-	}
+            } else if (listener != null) {
+                // asks animation to draw a confused animal
+                Action action = new Action(Direction.NONE, false);
+                listener.update(animal, i, action);
+            }
+        }
     }
 }

@@ -29,16 +29,16 @@ public class ZooTest extends TestCase {
 
     @Test
     public void testMouse() {
-	int[][] labyrinth = LabyrinthGenerator.getDebugMouse();
+        int[][] labyrinth = LabyrinthGenerator.getDebugMouse();
 
-	Maze m = new Maze(labyrinth);
-	Simulation simulation = new MazeSimulation(m);
+        Maze m = new Maze(labyrinth);
+        Simulation simulation = new MazeSimulation(m);
 
-	m.addAnimal(new Mouse(m.getStart()));
+        m.addAnimal(new Mouse(m.getStart()));
 
-	Display display = new Display(simulation);
-	display.setDebug(true);
-	display.run();
+        Display display = new Display(simulation);
+        display.setDebug(true);
+        display.run();
     }
 
     /**
@@ -49,16 +49,16 @@ public class ZooTest extends TestCase {
 
     @Test
     public void testHamster() {
-	int[][] labyrinth = LabyrinthGenerator.getDebugHamster();
+        int[][] labyrinth = LabyrinthGenerator.getDebugHamster();
 
-	Maze m = new Maze(labyrinth);
-	Simulation simulation = new MazeSimulation(m);
+        Maze m = new Maze(labyrinth);
+        Simulation simulation = new MazeSimulation(m);
 
-	m.addAnimal(new Hamster(m.getStart()));
+        m.addAnimal(new Hamster(m.getStart()));
 
-	Display display = new Display(simulation);
-	display.setDebug(true);
-	display.run();
+        Display display = new Display(simulation);
+        display.setDebug(true);
+        display.run();
     }
 
     /**
@@ -69,16 +69,16 @@ public class ZooTest extends TestCase {
 
     @Test
     public void testMonkey() {
-	int[][] labyrinth = LabyrinthGenerator.getDebugMonkey();
+        int[][] labyrinth = LabyrinthGenerator.getDebugMonkey();
 
-	Maze m = new Maze(labyrinth);
-	Simulation simulation = new MazeSimulation(m);
+        Maze m = new Maze(labyrinth);
+        Simulation simulation = new MazeSimulation(m);
 
-	m.addAnimal(new Monkey(m.getStart()));
+        m.addAnimal(new Monkey(m.getStart()));
 
-	Display display = new Display(simulation);
-	display.setDebug(true);
-	display.run();
+        Display display = new Display(simulation);
+        display.setDebug(true);
+        display.run();
     }
 
     /**
@@ -91,16 +91,16 @@ public class ZooTest extends TestCase {
 
     @Test
     public void testBear1() {
-	int[][] labyrinth = LabyrinthGenerator.getDebugBear1();
+        int[][] labyrinth = LabyrinthGenerator.getDebugBear1();
 
-	Maze m = new Maze(labyrinth);
-	Simulation simulation = new MazeSimulation(m);
+        Maze m = new Maze(labyrinth);
+        Simulation simulation = new MazeSimulation(m);
 
-	m.addAnimal(new Bear(m.getStart()));
+        m.addAnimal(new Bear(m.getStart()));
 
-	Display display = new Display(simulation);
-	display.setDebug(true);
-	display.run();
+        Display display = new Display(simulation);
+        display.setDebug(true);
+        display.run();
     }
 
     /**
@@ -112,16 +112,16 @@ public class ZooTest extends TestCase {
 
     @Test
     public void testBear2() {
-	int[][] labyrinth = LabyrinthGenerator.getDebugBear2();
+        int[][] labyrinth = LabyrinthGenerator.getDebugBear2();
 
-	Maze m = new Maze(labyrinth);
-	Simulation simulation = new MazeSimulation(m);
+        Maze m = new Maze(labyrinth);
+        Simulation simulation = new MazeSimulation(m);
 
-	m.addAnimal(new Bear(m.getStart()));
+        m.addAnimal(new Bear(m.getStart()));
 
-	Display display = new Display(simulation);
-	display.setDebug(true);
-	display.run();
+        Display display = new Display(simulation);
+        display.setDebug(true);
+        display.run();
     }
 
     /**
@@ -133,16 +133,16 @@ public class ZooTest extends TestCase {
 
     @Test
     public void testPanda1() {
-	int[][] labyrinth = LabyrinthGenerator.getDebugPanda1();
+        int[][] labyrinth = LabyrinthGenerator.getDebugPanda1();
 
-	Maze m = new Maze(labyrinth);
-	Simulation simulation = new MazeSimulation(m);
+        Maze m = new Maze(labyrinth);
+        Simulation simulation = new MazeSimulation(m);
 
-	m.addAnimal(new Panda(m.getStart()));
+        m.addAnimal(new Panda(m.getStart()));
 
-	Display display = new Display(simulation);
-	display.setDebug(true);
-	display.run();
+        Display display = new Display(simulation);
+        display.setDebug(true);
+        display.run();
     }
 
     /**
@@ -154,16 +154,16 @@ public class ZooTest extends TestCase {
 
     @Test
     public void testPanda2() {
-	int[][] labyrinth = LabyrinthGenerator.getDebugPanda2();
+        int[][] labyrinth = LabyrinthGenerator.getDebugPanda2();
 
-	Maze m = new Maze(labyrinth);
-	Simulation simulation = new MazeSimulation(m);
+        Maze m = new Maze(labyrinth);
+        Simulation simulation = new MazeSimulation(m);
 
-	m.addAnimal(new Panda(m.getStart()));
+        m.addAnimal(new Panda(m.getStart()));
 
-	Display display = new Display(simulation);
-	display.setDebug(true);
-	display.run();
+        Display display = new Display(simulation);
+        display.setDebug(true);
+        display.run();
     }
 
     /**
@@ -174,16 +174,16 @@ public class ZooTest extends TestCase {
 
     @Test
     public void testBearVsMonkey() {
-	int[][] labyrinth = LabyrinthGenerator.getBearVsMonkey();
+        int[][] labyrinth = LabyrinthGenerator.getBearVsMonkey();
 
-	Maze m = new Maze(labyrinth);
-	Simulation simulation = new MazeSimulation(m);
+        Maze m = new Maze(labyrinth);
+        Simulation simulation = new MazeSimulation(m);
 
-	m.addAnimal(new Bear(m.getStart()));
-	m.addAnimal(new Monkey(m.getStart()));
+        m.addAnimal(new Bear(m.getStart()));
+        m.addAnimal(new Monkey(m.getStart()));
 
-	Display display = new Display(simulation);
-	display.run();
+        Display display = new Display(simulation);
+        display.run();
     }
 
     /**
@@ -195,15 +195,15 @@ public class ZooTest extends TestCase {
 
     @Test
     public void testPandaVsHamster() {
-	int[][] labyrinth = LabyrinthGenerator.getPandaVsHamster();
+        int[][] labyrinth = LabyrinthGenerator.getPandaVsHamster();
 
-	Maze m = new Maze(labyrinth);
-	Simulation simulation = new MazeSimulation(m);
+        Maze m = new Maze(labyrinth);
+        Simulation simulation = new MazeSimulation(m);
 
-	m.addAnimal(new Panda(m.getStart()));
-	m.addAnimal(new Hamster(m.getStart()));
+        m.addAnimal(new Panda(m.getStart()));
+        m.addAnimal(new Hamster(m.getStart()));
 
-	Display display = new Display(simulation);
-	display.run();
+        Display display = new Display(simulation);
+        display.run();
     }
 }

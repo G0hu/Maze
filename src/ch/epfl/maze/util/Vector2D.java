@@ -23,8 +23,8 @@ public final class Vector2D {
      */
 
     public Vector2D(int x, int y) {
-	mX = x;
-	mY = y;
+        mX = x;
+        mY = y;
     }
 
     /**
@@ -38,7 +38,7 @@ public final class Vector2D {
      */
 
     public Vector2D add(int x, int y) {
-	return new Vector2D(mX + x, mY + y);
+        return new Vector2D(mX + x, mY + y);
     }
 
     /**
@@ -50,7 +50,7 @@ public final class Vector2D {
      */
 
     public Vector2D add(Vector2D v) {
-	return add(v.mX, v.mY);
+        return add(v.mX, v.mY);
     }
 
     /**
@@ -64,7 +64,7 @@ public final class Vector2D {
      */
 
     public Vector2D sub(int x, int y) {
-	return new Vector2D(mX - x, mY - y);
+        return new Vector2D(mX - x, mY - y);
     }
 
     /**
@@ -76,7 +76,7 @@ public final class Vector2D {
      */
 
     public Vector2D sub(Vector2D v) {
-	return sub(v.mX, v.mY);
+        return sub(v.mX, v.mY);
     }
 
     /**
@@ -86,7 +86,7 @@ public final class Vector2D {
      */
 
     public Vector2D negate() {
-	return new Vector2D(-mX, -mY);
+        return new Vector2D(-mX, -mY);
     }
 
     /**
@@ -98,7 +98,7 @@ public final class Vector2D {
      */
 
     public Vector2D mul(int scalar) {
-	return new Vector2D(scalar * mX, scalar * mY);
+        return new Vector2D(scalar * mX, scalar * mY);
     }
 
     /**
@@ -110,7 +110,7 @@ public final class Vector2D {
      */
 
     public Vector2D div(int scalar) {
-	return new Vector2D(mX / scalar, mY / scalar);
+        return new Vector2D(mX / scalar, mY / scalar);
     }
 
     /**
@@ -120,8 +120,8 @@ public final class Vector2D {
      */
 
     public Vector2D normalize() {
-	double dist = dist();
-	return new Vector2D((int) (mX / dist), (int) (mY / dist));
+        double dist = dist();
+        return new Vector2D((int) (mX / dist), (int) (mY / dist));
     }
 
     /**
@@ -131,7 +131,7 @@ public final class Vector2D {
      */
 
     public double dist() {
-	return Math.sqrt(mX * mX + mY * mY);
+        return Math.sqrt(mX * mX + mY * mY);
     }
 
     /**
@@ -143,23 +143,23 @@ public final class Vector2D {
      */
 
     public Vector2D addDirectionTo(Direction d) {
-	switch (d) {
-	case UP:
-	    return new Vector2D(mX, mY - 1);
+        switch (d) {
+        case UP:
+            return new Vector2D(mX, mY - 1);
 
-	case DOWN:
-	    return new Vector2D(mX, mY + 1);
+        case DOWN:
+            return new Vector2D(mX, mY + 1);
 
-	case LEFT:
-	    return new Vector2D(mX - 1, mY);
+        case LEFT:
+            return new Vector2D(mX - 1, mY);
 
-	case RIGHT:
-	    return new Vector2D(mX + 1, mY);
+        case RIGHT:
+            return new Vector2D(mX + 1, mY);
 
-	case NONE:
-	default:
-	    return new Vector2D(mX, mY);
-	}
+        case NONE:
+        default:
+            return new Vector2D(mX, mY);
+        }
     }
 
     /**
@@ -169,19 +169,19 @@ public final class Vector2D {
      */
 
     public Direction toDirection() {
-	Vector2D normal = this.normalize();
+        Vector2D normal = this.normalize();
 
-	if (normal.mX == 0 && normal.mY == 1) {
-	    return Direction.DOWN;
-	} else if (normal.mX == 0 && normal.mY == -1) {
-	    return Direction.UP;
-	} else if (normal.mX == 1 && normal.mY == 0) {
-	    return Direction.RIGHT;
-	} else if (normal.mX == -1 && normal.mY == 0) {
-	    return Direction.LEFT;
-	} else {
-	    return Direction.NONE;
-	}
+        if (normal.mX == 0 && normal.mY == 1) {
+            return Direction.DOWN;
+        } else if (normal.mX == 0 && normal.mY == -1) {
+            return Direction.UP;
+        } else if (normal.mX == 1 && normal.mY == 0) {
+            return Direction.RIGHT;
+        } else if (normal.mX == -1 && normal.mY == 0) {
+            return Direction.LEFT;
+        } else {
+            return Direction.NONE;
+        }
     }
 
     /**
@@ -191,7 +191,7 @@ public final class Vector2D {
      */
 
     public int getX() {
-	return mX;
+        return mX;
     }
 
     /**
@@ -201,28 +201,28 @@ public final class Vector2D {
      */
 
     public int getY() {
-	return mY;
+        return mY;
     }
 
     @Override
     public String toString() {
-	return "(" + mX + ", " + mY + ")";
+        return "(" + mX + ", " + mY + ")";
     }
 
     @Override
     public int hashCode() {
-	return mX * SHIFT + mY;
+        return mX * SHIFT + mY;
     }
 
     @Override
     public boolean equals(Object o) {
-	if (o == null) {
-	    return false;
-	}
-	if (o.getClass() != this.getClass()) {
-	    return false;
-	}
+        if (o == null) {
+            return false;
+        }
+        if (o.getClass() != this.getClass()) {
+            return false;
+        }
 
-	return ((Vector2D) o).mX == this.mX && ((Vector2D) o).mY == this.mY;
+        return ((Vector2D) o).mX == this.mX && ((Vector2D) o).mY == this.mY;
     }
 }

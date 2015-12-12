@@ -17,7 +17,7 @@ public class Panda extends RandomChooser {
     private static final int TILE_NEVER_MARKED = 1;
     private static final int TILE_MARKED_ONCE = 2;
     private static final int TILE_MARKED_TWICE = 3;
-    
+
     private ArrayList<Vector2D> _markedOnce = new ArrayList<Vector2D>();
     private ArrayList<Vector2D> _markedTwice = new ArrayList<Vector2D>();
 
@@ -29,7 +29,7 @@ public class Panda extends RandomChooser {
      */
 
     public Panda(Vector2D position) {
-	super(position);
+        super(position);
     }
 
     /**
@@ -40,12 +40,12 @@ public class Panda extends RandomChooser {
      * @param lastMove
      */
 
-    public Panda(Vector2D position, ArrayList<Vector2D> markedOnce, ArrayList<Vector2D> markedTwice,
-	    Direction lastMove) {
-	super(position);
-	setLast(lastMove);
-	_markedOnce = markedOnce;
-	_markedTwice = markedTwice;
+    public Panda(Vector2D position, ArrayList<Vector2D> markedOnce,
+            ArrayList<Vector2D> markedTwice, Direction lastMove) {
+        super(position);
+        setLast(lastMove);
+        _markedOnce = markedOnce;
+        _markedTwice = markedTwice;
     }
 
     /**
@@ -57,115 +57,117 @@ public class Panda extends RandomChooser {
 
     @Override
     public Direction move(Direction[] choices) {
-	boolean mark = true;
-	Direction chosen = Direction.NONE;
-	ArrayList<Direction> never = sortNeverMarkedTiles(choices);
-	ArrayList<Direction> once = sortMarkedOnceTiles(choices);
-	ArrayList<Direction> twice = sortMarkedTwiceTiles(choices);
+        boolean mark = true;
+        Direction chosen = Direction.NONE;
+        ArrayList<Direction> never = sortNeverMarkedTiles(choices);
+        ArrayList<Direction> once = sortMarkedOnceTiles(choices);
+        ArrayList<Direction> twice = sortMarkedTwiceTiles(choices);
 
-	if (isIntersection(choices) && (once.size() == choices.length))
-	    chosen = getLast().reverse();
+        if (isIntersection(choices) && (once.size() == choices.length))
+            chosen = getLast().reverse();
 
-	// We mark the tile only once because it will marked a second time
-	// before the return
-	if ((choices.length == 1) && (getTileMark(getPosition().addDirectionTo(choices[0])) == TILE_MARKED_ONCE))
-	    markTile(getPosition());
+        // We mark the tile only once because it will marked a second time
+        // before the return
+        if ((choices.length == 1)
+                && (getTileMark(getPosition().addDirectionTo(choices[0])) == TILE_MARKED_ONCE))
+            markTile(getPosition());
 
-	if (chosen == Direction.NONE) {
-	    if (!never.isEmpty())
-		chosen = randomMove(never);
-	    else if (!once.isEmpty())
-		chosen = randomMove(once);
-	    else if (!twice.isEmpty())
-		chosen = randomMove(twice);
-	    else
-		return Direction.NONE;
-	}
+        if (chosen == Direction.NONE) {
+            if (!never.isEmpty())
+                chosen = randomMove(never);
+            else if (!once.isEmpty())
+                chosen = randomMove(once);
+            else if (!twice.isEmpty())
+                chosen = randomMove(twice);
+            else
+                return Direction.NONE;
+        }
 
-	once.remove(chosen);
-	never.remove(chosen);
-	if (isIntersection(choices) && (getTileMark(getPosition()) == TILE_MARKED_ONCE)
-		&& ((never.size() + once.size()) >= 1))
-	    mark = false;
+        once.remove(chosen);
+        never.remove(chosen);
+        if (isIntersection(choices)
+                && (getTileMark(getPosition()) == TILE_MARKED_ONCE)
+                && ((never.size() + once.size()) >= 1))
+            mark = false;
 
-	if (mark)
-	    markTile(getPosition());
+        if (mark)
+            markTile(getPosition());
 
-	setLast(chosen);
-	return chosen;
+        setLast(chosen);
+        return chosen;
     }
 
     @Override
     public Animal copy() {
-	return new Panda(getPosition(), _markedOnce, _markedTwice, getLast());
+        return new Panda(getPosition(), _markedOnce, _markedTwice, getLast());
     }
 
     @Override
     public void resetAnimal() {
-	super.resetAnimal();
-	_markedOnce.clear();
-	_markedTwice.clear();
-	setLast(Direction.NONE);
+        super.resetAnimal();
+        _markedOnce.clear();
+        _markedTwice.clear();
+        setLast(Direction.NONE);
     }
 
     private void markTile(Vector2D v) {
-	if (!_markedOnce.contains(v) && !_markedTwice.contains(v)) {
-	    _markedOnce.add(v);
-	} else if (_markedOnce.contains(v)) {
-	    _markedOnce.remove(v);
-	    _markedTwice.add(v);
-	} else {
-	    return;
-	}
+        if (!_markedOnce.contains(v) && !_markedTwice.contains(v)) {
+            _markedOnce.add(v);
+        } else if (_markedOnce.contains(v)) {
+            _markedOnce.remove(v);
+            _markedTwice.add(v);
+        } else {
+            return;
+        }
     }
 
     private int getTileMark(Vector2D v) {
-	if (_markedOnce.contains(v))
-	    return TILE_MARKED_ONCE;
-	else if (_markedTwice.contains(v))
-	    return TILE_MARKED_TWICE;
-	else
-	    return TILE_NEVER_MARKED;
+        if (_markedOnce.contains(v))
+            return TILE_MARKED_ONCE;
+        else if (_markedTwice.contains(v))
+            return TILE_MARKED_TWICE;
+        else
+            return TILE_NEVER_MARKED;
     }
 
     private boolean isIntersection(Direction choices[]) {
-	if (choices.length >= 3)
-	    return true;
+        if (choices.length >= 3)
+            return true;
 
-	return false;
+        return false;
     }
 
     private ArrayList<Direction> sortNeverMarkedTiles(Direction[] choices) {
-	ArrayList<Direction> neverMarked = new ArrayList<Direction>();
-	for (Direction dir : choices) {
-	    Vector2D v = getPosition().addDirectionTo(dir);
-	    if (!_markedOnce.contains(v) && !_markedTwice.contains(v))
-		neverMarked.add(dir);
-	}
+        ArrayList<Direction> neverMarked = new ArrayList<Direction>();
+        for (Direction dir : choices) {
+            Vector2D v = getPosition().addDirectionTo(dir);
+            if (!_markedOnce.contains(v) && !_markedTwice.contains(v))
+                neverMarked.add(dir);
+        }
 
-	return neverMarked;
+        return neverMarked;
 
     }
 
     private ArrayList<Direction> sortMarkedOnceTiles(Direction[] choices) {
-	ArrayList<Direction> markedOnce = new ArrayList<Direction>();
-	for (Direction dir : choices) {
-	    Vector2D v = getPosition().addDirectionTo(dir);
-	    if (_markedOnce.contains(v) && !_markedTwice.contains(v))
-		markedOnce.add(dir);
-	}
+        ArrayList<Direction> markedOnce = new ArrayList<Direction>();
+        for (Direction dir : choices) {
+            Vector2D v = getPosition().addDirectionTo(dir);
+            if (_markedOnce.contains(v) && !_markedTwice.contains(v))
+                markedOnce.add(dir);
+        }
 
-	return markedOnce;
+        return markedOnce;
     }
 
     private ArrayList<Direction> sortMarkedTwiceTiles(Direction[] choices) {
-	ArrayList<Direction> markedTwice = new ArrayList<Direction>();
-	for (Direction dir : choices) {
-	    Vector2D v = getPosition().addDirectionTo(dir);
-	    if (!_markedOnce.contains(v) && _markedTwice.contains(v))
-		markedTwice.add(dir);
-	}
+        ArrayList<Direction> markedTwice = new ArrayList<Direction>();
+        for (Direction dir : choices) {
+            Vector2D v = getPosition().addDirectionTo(dir);
+            if (!_markedOnce.contains(v) && _markedTwice.contains(v))
+                markedTwice.add(dir);
+        }
 
-	return markedTwice;
+        return markedTwice;
     }
 }

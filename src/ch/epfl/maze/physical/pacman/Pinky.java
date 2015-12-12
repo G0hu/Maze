@@ -27,7 +27,7 @@ public class Pinky extends Predator {
      */
 
     public Pinky(Vector2D position) {
-	super(position);
+        super(position);
     }
 
     /**
@@ -43,77 +43,79 @@ public class Pinky extends Predator {
      *            Number of steps since last mode swap, defaults to 0
      */
 
-    public Pinky(Vector2D position, Vector2D previousPos, Prey target, Direction last, int mode, int modeCount) {
-	super(position);
-	setLast(last);
-	setMode(mode);
-	setTarget(target);
-	setModeCount(modeCount);
-	setPreviousTargetPos(previousPos);
+    public Pinky(Vector2D position, Vector2D previousPos, Prey target,
+            Direction last, int mode, int modeCount) {
+        super(position);
+        setLast(last);
+        setMode(mode);
+        setTarget(target);
+        setModeCount(modeCount);
+        setPreviousTargetPos(previousPos);
     }
 
     @Override
     public Direction move(Direction[] choices, Daedalus daedalus) {
-	if (daedalus.getPreys().isEmpty())
-	    return move(choices);
+        if (daedalus.getPreys().isEmpty())
+            return move(choices);
 
-	int mode = computeMode();
-	if (mode == CHASE_MODE) {
-	    return moveToTarget(choices, forecastPosition(daedalus));
-	} else
-	    return moveToTarget(choices, getStartPosition());
+        int mode = computeMode();
+        if (mode == CHASE_MODE) {
+            return moveToTarget(choices, forecastPosition(daedalus));
+        } else
+            return moveToTarget(choices, getStartPosition());
     }
 
     @Override
     public Animal copy() {
-	Pinky p = new Pinky(getPosition(), getPreviousTargetPos(), getTarget(), getLast(), getMode(), getModeCount());
-	p.setStartPosition(getStartPosition());
+        Pinky p = new Pinky(getPosition(), getPreviousTargetPos(), getTarget(),
+                getLast(), getMode(), getModeCount());
+        p.setStartPosition(getStartPosition());
 
-	return p;
+        return p;
     }
 
     @Override
     public void resetAnimal() {
-	super.resetAnimal();
+        super.resetAnimal();
     }
 
     public Vector2D getPreviousTargetPos() {
-	return _previousPos;
+        return _previousPos;
     }
 
     public void setPreviousTargetPos(Vector2D pos) {
-	_previousPos = pos;
+        _previousPos = pos;
     }
 
     public Prey getTarget() {
-	return _target;
+        return _target;
     }
 
     public void setTarget(Prey p) {
-	_target = p;
+        _target = p;
     }
 
     private Vector2D forecastPosition(Daedalus d) {
-	Direction orientation = computeTargetOrientation(d.getPreys());
-	Vector2D forecast = getTarget().getPosition();
-	for (int i = 0; i < 4; i++)
-	    forecast = forecast.addDirectionTo(orientation);
+        Direction orientation = computeTargetOrientation(d.getPreys());
+        Vector2D forecast = getTarget().getPosition();
+        for (int i = 0; i < 4; i++)
+            forecast = forecast.addDirectionTo(orientation);
 
-	return forecast;
+        return forecast;
     }
 
     private Direction computeTargetOrientation(List<Prey> preys) {
-	if (preys.get(0) != getTarget()) {
-	    setTarget(preys.get(0));
-	    setPreviousTargetPos(getTarget().getPosition());
-	    return Direction.UP;
-	} else if (getPreviousTargetPos() == INVALID_POS) {
-	    setPreviousTargetPos(getTarget().getPosition());
-	    return Direction.UP;
-	}
+        if (preys.get(0) != getTarget()) {
+            setTarget(preys.get(0));
+            setPreviousTargetPos(getTarget().getPosition());
+            return Direction.UP;
+        } else if (getPreviousTargetPos() == INVALID_POS) {
+            setPreviousTargetPos(getTarget().getPosition());
+            return Direction.UP;
+        }
 
-	Vector2D diff = getTarget().getPosition().sub(getPreviousTargetPos());
-	setPreviousTargetPos(getTarget().getPosition());
-	return diff.toDirection();
+        Vector2D diff = getTarget().getPosition().sub(getPreviousTargetPos());
+        setPreviousTargetPos(getTarget().getPosition());
+        return diff.toDirection();
     }
 }

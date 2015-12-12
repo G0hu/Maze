@@ -22,7 +22,7 @@ public class Clyde extends Predator {
      */
 
     public Clyde(Vector2D position) {
-	super(position);
+        super(position);
     }
 
     /**
@@ -39,45 +39,46 @@ public class Clyde extends Predator {
      */
 
     public Clyde(Vector2D position, Direction last, int mode, int modeCount) {
-	super(position);
-	setLast(last);
-	setMode(mode);
-	setModeCount(modeCount);
+        super(position);
+        setLast(last);
+        setMode(mode);
+        setModeCount(modeCount);
     }
 
     @Override
     public Direction move(Direction[] choices, Daedalus daedalus) {
-	if (daedalus.getPreys().isEmpty())
-	    return move(choices);
+        if (daedalus.getPreys().isEmpty())
+            return move(choices);
 
-	int mode = computeMode();
-	boolean fakingScatter = false;
-	double dist = euclidianDistance(getPosition(), daedalus.getPreys().get(0).getPosition());
-	if (dist <= 4)
-	    fakingScatter = true;
+        int mode = computeMode();
+        boolean fakingScatter = false;
+        double dist = euclidianDistance(getPosition(),
+                daedalus.getPreys().get(0).getPosition());
+        if (dist <= 4)
+            fakingScatter = true;
 
-	Vector2D target = null;
-	if (mode == SCATTER_MODE || fakingScatter)
-	    target = getStartPosition();
-	else if (mode == CHASE_MODE)
-	    target = daedalus.getPreys().get(0).getPosition();
+        Vector2D target = null;
+        if (mode == SCATTER_MODE || fakingScatter)
+            target = getStartPosition();
+        else if (mode == CHASE_MODE)
+            target = daedalus.getPreys().get(0).getPosition();
 
-	if (target == null)
-	    return move(choices);
+        if (target == null)
+            return move(choices);
 
-	return moveToTarget(choices, target);
+        return moveToTarget(choices, target);
     }
 
     @Override
     public Animal copy() {
-	Clyde c = new Clyde(getPosition(), getLast(), getMode(), getModeCount());
-	c.setStartPosition(getStartPosition());
+        Clyde c = new Clyde(getPosition(), getLast(), getMode(), getModeCount());
+        c.setStartPosition(getStartPosition());
 
-	return c;
+        return c;
     }
 
     @Override
     public void resetAnimal() {
-	super.resetAnimal();
+        super.resetAnimal();
     }
 }

@@ -17,23 +17,23 @@ public enum Direction {
      */
 
     public int intValue() {
-	switch (this) {
-	case DOWN:
-	    return 0;
+        switch (this) {
+        case DOWN:
+            return 0;
 
-	case UP:
-	    return 1;
+        case UP:
+            return 1;
 
-	case RIGHT:
-	    return 2;
+        case RIGHT:
+            return 2;
 
-	case LEFT:
-	    return 3;
+        case LEFT:
+            return 3;
 
-	case NONE:
-	default:
-	    return 4;
-	}
+        case NONE:
+        default:
+            return 4;
+        }
     }
 
     /**
@@ -43,23 +43,23 @@ public enum Direction {
      */
 
     public Vector2D toVector() {
-	switch (this) {
-	case DOWN:
-	    return new Vector2D(0, 1);
+        switch (this) {
+        case DOWN:
+            return new Vector2D(0, 1);
 
-	case UP:
-	    return new Vector2D(0, -1);
+        case UP:
+            return new Vector2D(0, -1);
 
-	case RIGHT:
-	    return new Vector2D(1, 0);
+        case RIGHT:
+            return new Vector2D(1, 0);
 
-	case LEFT:
-	    return new Vector2D(-1, 0);
+        case LEFT:
+            return new Vector2D(-1, 0);
 
-	case NONE:
-	default:
-	    return new Vector2D(0, 0);
-	}
+        case NONE:
+        default:
+            return new Vector2D(0, 0);
+        }
     }
 
     /**
@@ -69,23 +69,23 @@ public enum Direction {
      */
 
     public Direction reverse() {
-	switch (this) {
-	case DOWN:
-	    return UP;
+        switch (this) {
+        case DOWN:
+            return UP;
 
-	case UP:
-	    return DOWN;
+        case UP:
+            return DOWN;
 
-	case RIGHT:
-	    return LEFT;
+        case RIGHT:
+            return LEFT;
 
-	case LEFT:
-	    return RIGHT;
+        case LEFT:
+            return RIGHT;
 
-	case NONE:
-	default:
-	    return NONE;
-	}
+        case NONE:
+        default:
+            return NONE;
+        }
     }
 
     /**
@@ -98,7 +98,7 @@ public enum Direction {
      */
 
     public boolean isOpposite(Direction d) {
-	return this == d.reverse();
+        return this == d.reverse();
     }
 
     /**
@@ -112,23 +112,23 @@ public enum Direction {
      */
 
     public Direction relativeDirection(Direction dir) {
-	switch (this) {
-	case DOWN:
-	    return dir.reverse();
+        switch (this) {
+        case DOWN:
+            return dir.reverse();
 
-	case UP:
-	    return dir;
+        case UP:
+            return dir;
 
-	case RIGHT:
-	    return dir.rotateLeft();
+        case RIGHT:
+            return dir.rotateLeft();
 
-	case LEFT:
-	    return dir.rotateRight();
+        case LEFT:
+            return dir.rotateRight();
 
-	case NONE:
-	default:
-	    return NONE;
-	}
+        case NONE:
+        default:
+            return NONE;
+        }
     }
 
     /**
@@ -141,23 +141,23 @@ public enum Direction {
      */
 
     public Direction unRelativeDirection(Direction dir) {
-	switch (this) {
-	case DOWN:
-	    return dir.reverse();
+        switch (this) {
+        case DOWN:
+            return dir.reverse();
 
-	case UP:
-	    return dir;
+        case UP:
+            return dir;
 
-	case RIGHT:
-	    return dir.rotateRight();
+        case RIGHT:
+            return dir.rotateRight();
 
-	case LEFT:
-	    return dir.rotateLeft();
+        case LEFT:
+            return dir.rotateLeft();
 
-	case NONE:
-	default:
-	    return NONE;
-	}
+        case NONE:
+        default:
+            return NONE;
+        }
     }
 
     /**
@@ -167,23 +167,23 @@ public enum Direction {
      */
 
     public Direction rotateRight() {
-	switch (this) {
-	case DOWN:
-	    return LEFT;
+        switch (this) {
+        case DOWN:
+            return LEFT;
 
-	case UP:
-	    return RIGHT;
+        case UP:
+            return RIGHT;
 
-	case RIGHT:
-	    return DOWN;
+        case RIGHT:
+            return DOWN;
 
-	case LEFT:
-	    return UP;
+        case LEFT:
+            return UP;
 
-	case NONE:
-	default:
-	    return NONE;
-	}
+        case NONE:
+        default:
+            return NONE;
+        }
     }
 
     /**
@@ -193,23 +193,23 @@ public enum Direction {
      */
 
     public Direction rotateLeft() {
-	switch (this) {
-	case DOWN:
-	    return RIGHT;
+        switch (this) {
+        case DOWN:
+            return RIGHT;
 
-	case UP:
-	    return LEFT;
+        case UP:
+            return LEFT;
 
-	case RIGHT:
-	    return UP;
+        case RIGHT:
+            return UP;
 
-	case LEFT:
-	    return DOWN;
+        case LEFT:
+            return DOWN;
 
-	case NONE:
-	default:
-	    return NONE;
-	}
+        case NONE:
+        default:
+            return NONE;
+        }
     }
 
     /**
@@ -224,12 +224,12 @@ public enum Direction {
      */
 
     public Direction[] relativeDirections(Direction[] dir) {
-	Direction[] relativeDirections = new Direction[dir.length];
+        Direction[] relativeDirections = new Direction[dir.length];
 
-	for (int i = 0; i < dir.length; i++) {
-	    relativeDirections[i] = this.relativeDirection(dir[i]);
-	}
+        for (int i = 0; i < dir.length; i++) {
+            relativeDirections[i] = this.relativeDirection(dir[i]);
+        }
 
-	return relativeDirections;
+        return relativeDirections;
     }
 }

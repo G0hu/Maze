@@ -20,7 +20,8 @@ public abstract class World {
     public static final int START = 2;
     public static final int EXIT = 3;
     public static final int NOTHING = -1;
-    public static final Direction[] DIRECTIONS = { Direction.UP, Direction.DOWN, Direction.RIGHT, Direction.LEFT, };
+    public static final Direction[] DIRECTIONS = { Direction.UP,
+            Direction.DOWN, Direction.RIGHT, Direction.LEFT, };
 
     private int[][] _labyrinth;
 
@@ -32,7 +33,7 @@ public abstract class World {
      */
 
     public World(int[][] labyrinth) {
-	_labyrinth = labyrinth;
+        _labyrinth = labyrinth;
     }
 
     /**
@@ -69,12 +70,12 @@ public abstract class World {
      */
 
     public final int getTile(int x, int y) {
-	if ((x >= _labyrinth[0].length) || (y >= _labyrinth.length))
-	    return World.NOTHING;
-	else if ((x < 0) || (y < 0))
-	    return World.NOTHING;
-	else
-	    return _labyrinth[y][x];
+        if ((x >= _labyrinth[0].length) || (y >= _labyrinth.length))
+            return World.NOTHING;
+        else if ((x < 0) || (y < 0))
+            return World.NOTHING;
+        else
+            return _labyrinth[y][x];
     }
 
     /**
@@ -88,10 +89,10 @@ public abstract class World {
      */
 
     public final boolean isFree(int x, int y) {
-	if ((getTile(x, y) == World.NOTHING) || (getTile(x, y) == World.WALL))
-	    return false;
-	else
-	    return true;
+        if ((getTile(x, y) == World.NOTHING) || (getTile(x, y) == World.WALL))
+            return false;
+        else
+            return true;
     }
 
     /**
@@ -103,7 +104,7 @@ public abstract class World {
      */
 
     public final boolean isFree(Vector2D pos) {
-	return isFree(pos.getX(), pos.getY());
+        return isFree(pos.getX(), pos.getY());
     }
 
     /**
@@ -117,17 +118,17 @@ public abstract class World {
      */
 
     public final Direction[] getChoices(Vector2D position) {
-	List<Direction> availableDirections = new ArrayList<Direction>();
-	for (Direction dir : DIRECTIONS)
-	    if (isFree(position.addDirectionTo(dir)))
-		availableDirections.add(dir);
+        List<Direction> availableDirections = new ArrayList<Direction>();
+        for (Direction dir : DIRECTIONS)
+            if (isFree(position.addDirectionTo(dir)))
+                availableDirections.add(dir);
 
-	if (availableDirections.isEmpty())
-	    availableDirections.add(Direction.NONE);
+        if (availableDirections.isEmpty())
+            availableDirections.add(Direction.NONE);
 
-	Direction[] returnArray = new Direction[availableDirections.size()];
-	availableDirections.toArray(returnArray);
-	return returnArray;
+        Direction[] returnArray = new Direction[availableDirections.size()];
+        availableDirections.toArray(returnArray);
+        return returnArray;
     }
 
     /**
@@ -137,7 +138,7 @@ public abstract class World {
      */
 
     public final int getWidth() {
-	return _labyrinth[0].length;
+        return _labyrinth[0].length;
     }
 
     /**
@@ -147,7 +148,7 @@ public abstract class World {
      */
 
     public final int getHeight() {
-	return _labyrinth.length;
+        return _labyrinth.length;
     }
 
     /**
@@ -158,12 +159,12 @@ public abstract class World {
      */
 
     public final Vector2D getStart() {
-	for (int i = 0; i < _labyrinth.length; i++)
-	    for (int j = 0; j < _labyrinth[i].length; j++)
-		if (_labyrinth[i][j] == World.START)
-		    return new Vector2D(j, i);
+        for (int i = 0; i < _labyrinth.length; i++)
+            for (int j = 0; j < _labyrinth[i].length; j++)
+                if (_labyrinth[i][j] == World.START)
+                    return new Vector2D(j, i);
 
-	return null;
+        return null;
     }
 
     /**
@@ -173,11 +174,11 @@ public abstract class World {
      */
 
     public final Vector2D getExit() {
-	for (int i = 0; i < _labyrinth.length; i++)
-	    for (int j = 0; j < _labyrinth[i].length; j++)
-		if (_labyrinth[i][j] == World.EXIT)
-		    return new Vector2D(j, i);
+        for (int i = 0; i < _labyrinth.length; i++)
+            for (int j = 0; j < _labyrinth[i].length; j++)
+                if (_labyrinth[i][j] == World.EXIT)
+                    return new Vector2D(j, i);
 
-	return null;
+        return null;
     }
 }

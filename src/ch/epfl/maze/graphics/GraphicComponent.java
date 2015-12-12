@@ -41,23 +41,24 @@ public final class GraphicComponent {
      *            Action that the component needs to perform
      */
 
-    public GraphicComponent(BufferedImage image, Vector2D position, Action action) {
-	// sanity checks
-	if (image == null) {
-	    throw new IllegalArgumentException("BufferedImage cannot be null.");
-	}
-	if (position == null) {
-	    throw new IllegalArgumentException("Position cannot be null.");
-	}
-	if (action == null) {
-	    action = new Action(Direction.NONE, false);
-	}
+    public GraphicComponent(BufferedImage image, Vector2D position,
+            Action action) {
+        // sanity checks
+        if (image == null) {
+            throw new IllegalArgumentException("BufferedImage cannot be null.");
+        }
+        if (position == null) {
+            throw new IllegalArgumentException("Position cannot be null.");
+        }
+        if (action == null) {
+            action = new Action(Direction.NONE, false);
+        }
 
-	// default values
-	mImage = image;
-	mPosition = position;
-	mRotate = true;
-	mAction = action;
+        // default values
+        mImage = image;
+        mPosition = position;
+        mRotate = true;
+        mAction = action;
     }
 
     /**
@@ -65,7 +66,8 @@ public final class GraphicComponent {
      */
 
     public void willDieMoving() {
-	mAction = new Action(mAction.getDirection(), mAction.isSuccessful(), true);
+        mAction = new Action(mAction.getDirection(), mAction.isSuccessful(),
+                true);
     }
 
     /**
@@ -81,19 +83,19 @@ public final class GraphicComponent {
      */
 
     public void paint(float ratio, Graphics2D g, ImageObserver targetWindow) {
-	if (mAction.getDirection() == Direction.NONE) {
-	    renderStuck(g, targetWindow);
-	} else {
-	    if (ratio > 0.5) {
-		if (!mAction.diesBetweenSquares() && !mAction.isSuccessful()) {
-		    renderMove(1 - ratio, g, targetWindow, true);
-		} else if (!mAction.diesBetweenSquares()) {
-		    renderMove(ratio, g, targetWindow, false);
-		}
-	    } else {
-		renderMove(ratio, g, targetWindow, false);
-	    }
-	}
+        if (mAction.getDirection() == Direction.NONE) {
+            renderStuck(g, targetWindow);
+        } else {
+            if (ratio > 0.5) {
+                if (!mAction.diesBetweenSquares() && !mAction.isSuccessful()) {
+                    renderMove(1 - ratio, g, targetWindow, true);
+                } else if (!mAction.diesBetweenSquares()) {
+                    renderMove(ratio, g, targetWindow, false);
+                }
+            } else {
+                renderMove(ratio, g, targetWindow, false);
+            }
+        }
     }
 
     /**
@@ -111,39 +113,41 @@ public final class GraphicComponent {
      *            Buzzes the animal, used when he has just hit a wall
      */
 
-    private void renderMove(float ratio, Graphics2D g, ImageObserver targetWindow, boolean buzz) {
-	// transforms direction into vector
-	Vector2D heading = mAction.getDirection().toVector().mul(SQUARE_SIZE);
-	Vector2D normalized = heading.normalize();
+    private void renderMove(float ratio, Graphics2D g,
+            ImageObserver targetWindow, boolean buzz) {
+        // transforms direction into vector
+        Vector2D heading = mAction.getDirection().toVector().mul(SQUARE_SIZE);
+        Vector2D normalized = heading.normalize();
 
-	// loads the correct frame
-	BufferedImage img = cropImage(ratio, mAction.getDirection());
+        // loads the correct frame
+        BufferedImage img = cropImage(ratio, mAction.getDirection());
 
-	AffineTransform reset = new AffineTransform();
+        AffineTransform reset = new AffineTransform();
 
-	// applies translation
-	double newX = (mPosition.getX() + ratio * heading.getX());
-	double newY = (mPosition.getY() + ratio * heading.getY());
-	reset.translate(newX, newY);
+        // applies translation
+        double newX = (mPosition.getX() + ratio * heading.getX());
+        double newY = (mPosition.getY() + ratio * heading.getY());
+        reset.translate(newX, newY);
 
-	// applies rotation
-	double rotation = 0;
-	if (buzz) {
-	    rotation = -(Math.PI / 6.0) * Math.sin((60 * ratio) / Math.PI);
-	}
-	if (mRotate) {
-	    rotation += Math.atan2(normalized.getY(), normalized.getX()) - Math.PI / 2;
-	}
-	reset.rotate(rotation, SQUARE_SIZE / 2, SQUARE_SIZE / 2);
+        // applies rotation
+        double rotation = 0;
+        if (buzz) {
+            rotation = -(Math.PI / 6.0) * Math.sin((60 * ratio) / Math.PI);
+        }
+        if (mRotate) {
+            rotation += Math.atan2(normalized.getY(), normalized.getX())
+                    - Math.PI / 2;
+        }
+        reset.rotate(rotation, SQUARE_SIZE / 2, SQUARE_SIZE / 2);
 
-	// transforms and draws image
-	g.setTransform(reset);
-	g.drawImage(img, 0, 0, targetWindow);
+        // transforms and draws image
+        g.setTransform(reset);
+        g.drawImage(img, 0, 0, targetWindow);
 
-	// inverts transformations
-	reset.rotate(-rotation, SQUARE_SIZE / 2, SQUARE_SIZE / 2);
-	reset.translate(-newX, -newY);
-	g.setTransform(reset);
+        // inverts transformations
+        reset.rotate(-rotation, SQUARE_SIZE / 2, SQUARE_SIZE / 2);
+        reset.translate(-newX, -newY);
+        g.setTransform(reset);
     }
 
     /**
@@ -158,29 +162,30 @@ public final class GraphicComponent {
      */
 
     private void renderStuck(Graphics2D g, ImageObserver targetWindow) {
-	// loads default frame of image with default direction
-	BufferedImage img = cropImage(-1, Direction.NONE);
+        // loads default frame of image with default direction
+        BufferedImage img = cropImage(-1, Direction.NONE);
 
-	AffineTransform reset = new AffineTransform();
+        AffineTransform reset = new AffineTransform();
 
-	// applies translation
-	double newX = mPosition.getX();
-	double newY = mPosition.getY();
-	reset.translate(newX, newY);
+        // applies translation
+        double newX = mPosition.getX();
+        double newY = mPosition.getY();
+        reset.translate(newX, newY);
 
-	// transforms and draws image
-	g.setTransform(reset);
-	g.drawImage(img, 0, 0, targetWindow);
+        // transforms and draws image
+        g.setTransform(reset);
+        g.drawImage(img, 0, 0, targetWindow);
 
-	// draws interrogation mark
-	if (!mAction.isSuccessful()) {
-	    ImageIcon icon = new ImageIcon("img/unknown.png");
-	    g.drawImage(icon.getImage(), SQUARE_SIZE - icon.getIconWidth() - 2, 2, targetWindow);
-	}
+        // draws interrogation mark
+        if (!mAction.isSuccessful()) {
+            ImageIcon icon = new ImageIcon("img/unknown.png");
+            g.drawImage(icon.getImage(), SQUARE_SIZE - icon.getIconWidth() - 2,
+                    2, targetWindow);
+        }
 
-	// inverts translation
-	reset.translate(-newX, -newY);
-	g.setTransform(reset);
+        // inverts translation
+        reset.translate(-newX, -newY);
+        g.setTransform(reset);
     }
 
     /**
@@ -194,44 +199,48 @@ public final class GraphicComponent {
      */
 
     private BufferedImage cropImage(float ratio, Direction dir) {
-	int width = mImage.getWidth();
-	int height = mImage.getHeight();
-	int frames = width / SQUARE_SIZE;
-	int moves = height / SQUARE_SIZE;
+        int width = mImage.getWidth();
+        int height = mImage.getHeight();
+        int frames = width / SQUARE_SIZE;
+        int moves = height / SQUARE_SIZE;
 
-	// sanity checks
-	if (width % SQUARE_SIZE != 0 || height % SQUARE_SIZE != 0) {
-	    throw new UnsupportedOperationException(
-		    "Image size is not a multiple of " + SQUARE_SIZE + " pixels, but " + width + "x" + height);
-	}
-	if (moves > Direction.values().length) {
-	    throw new UnsupportedOperationException(
-		    "Image height has more than " + Direction.values().length + " moves (" + height + ")");
-	}
-	if (frames > MAXIMUM_FRAMES) {
-	    throw new UnsupportedOperationException(
-		    "Image width has more than " + MAXIMUM_FRAMES + " frames (" + frames + ")");
-	}
+        // sanity checks
+        if (width % SQUARE_SIZE != 0 || height % SQUARE_SIZE != 0) {
+            throw new UnsupportedOperationException(
+                    "Image size is not a multiple of " + SQUARE_SIZE
+                            + " pixels, but " + width + "x" + height);
+        }
+        if (moves > Direction.values().length) {
+            throw new UnsupportedOperationException(
+                    "Image height has more than " + Direction.values().length
+                            + " moves (" + height + ")");
+        }
+        if (frames > MAXIMUM_FRAMES) {
+            throw new UnsupportedOperationException(
+                    "Image width has more than " + MAXIMUM_FRAMES + " frames ("
+                            + frames + ")");
+        }
 
-	// selects frame
-	int frame = ((int) (ratio * 2 * frames)) % frames;
-	if (frame >= frames) {
-	    frame = 0;
-	} else if (ratio < 0 || ratio > 1) { // handles bad ratio
-	    frame = (int) (frames / 2);
-	}
+        // selects frame
+        int frame = ((int) (ratio * 2 * frames)) % frames;
+        if (frame >= frames) {
+            frame = 0;
+        } else if (ratio < 0 || ratio > 1) { // handles bad ratio
+            frame = (int) (frames / 2);
+        }
 
-	// selects move
-	int move = dir.intValue();
-	mRotate = false;
-	if (move >= moves) {
-	    mRotate = true;
-	    move = 0;
-	}
+        // selects move
+        int move = dir.intValue();
+        mRotate = false;
+        if (move >= moves) {
+            mRotate = true;
+            move = 0;
+        }
 
-	// selects subimage according to frame and move
-	BufferedImage img = mImage.getSubimage(frame * SQUARE_SIZE, move * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
+        // selects subimage according to frame and move
+        BufferedImage img = mImage.getSubimage(frame * SQUARE_SIZE, move
+                * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
 
-	return img;
+        return img;
     }
 }

@@ -23,7 +23,7 @@ abstract public class Animal {
      */
 
     public Animal(Vector2D position) {
-	_position = position;
+        _position = position;
     }
 
     /**
@@ -50,7 +50,7 @@ abstract public class Animal {
      */
 
     public final void update(Direction dir) {
-	_position = _position.addDirectionTo(dir);
+        _position = _position.addDirectionTo(dir);
     }
 
     /**
@@ -63,7 +63,7 @@ abstract public class Animal {
      */
 
     public final void setPosition(Vector2D position) {
-	_position = position;
+        _position = position;
     }
 
     /**
@@ -73,20 +73,20 @@ abstract public class Animal {
      */
 
     public final Vector2D getPosition() {
-	return _position;
+        return _position;
     }
 
     public final Vector2D getStartPosition() {
-	return _startPos;
+        return _startPos;
     }
 
     public final void setStartPosition(Vector2D pos) {
-	if (_startPos.equals(INVALID_POS))
-	    _startPos = pos;
+        if (_startPos.equals(INVALID_POS))
+            _startPos = pos;
     }
 
     public void resetAnimal() {
-	setPosition(getStartPosition());
+        setPosition(getStartPosition());
     };
 
     abstract public Animal copy();

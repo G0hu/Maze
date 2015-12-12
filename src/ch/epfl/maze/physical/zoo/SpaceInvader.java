@@ -24,7 +24,7 @@ import ch.epfl.maze.util.Vector2D;
  */
 
 public class SpaceInvader extends WallFollower {
-    
+
     private boolean _reseted = false;
     private boolean _unknown = false;
     private Direction _last = Direction.NONE;
@@ -40,28 +40,29 @@ public class SpaceInvader extends WallFollower {
      */
 
     public SpaceInvader(Vector2D position) {
-	super(position);
-	setReseted(false);
-	setUnknown(false);
-	setLast(Direction.NONE);
-	setOrientation(Direction.UP);
-	setLastPosition(INVALID_POS);
+        super(position);
+        setReseted(false);
+        setUnknown(false);
+        setLast(Direction.NONE);
+        setOrientation(Direction.UP);
+        setLastPosition(INVALID_POS);
     }
 
-    public SpaceInvader(Vector2D position, Direction orientation, Direction last, ArrayList<Vector2D> markedOnce,
-	    ArrayList<Vector2D> markedTwice, Vector2D lastPosition) {
-	super(position);
-	setLast(last);
-	_markedOnce = markedOnce;
-	_markedTwice = markedTwice;
-	setOrientation(orientation);
-	setLastPosition(lastPosition);
+    public SpaceInvader(Vector2D position, Direction orientation,
+            Direction last, ArrayList<Vector2D> markedOnce,
+            ArrayList<Vector2D> markedTwice, Vector2D lastPosition) {
+        super(position);
+        setLast(last);
+        _markedOnce = markedOnce;
+        _markedTwice = markedTwice;
+        setOrientation(orientation);
+        setLastPosition(lastPosition);
     }
 
     /*
-     * 		GETTERS AND SETTERS
+     * GETTERS AND SETTERS
      */
-    
+
     public boolean getReseted() {
         return _reseted;
     }
@@ -93,88 +94,89 @@ public class SpaceInvader extends WallFollower {
     public void setLast(Direction last) {
         _last = last;
     }
-    
+
     /**
      * Moves according to (... please complete with as many details as you can).
      */
 
     @Override
     public Direction move(Direction[] choices) {
-	if (getPosition().equals(getLastPosition()))
-	    setUnknown(true);
-	if (getUnknown())
-	    return discoveryMode(choices);
-	else
-	    return memoryMode(choices);
+        if (getPosition().equals(getLastPosition()))
+            setUnknown(true);
+        if (getUnknown())
+            return discoveryMode(choices);
+        else
+            return memoryMode(choices);
     }
 
     @Override
     public Animal copy() {
-	return new SpaceInvader(getPosition(), getOrientation(), getLast(), _markedOnce, _markedTwice, getLastPosition());
+        return new SpaceInvader(getPosition(), getOrientation(), getLast(),
+                _markedOnce, _markedTwice, getLastPosition());
     }
 
     @Override
     public void resetAnimal() {
-	setLastPosition(getPosition());
-	super.resetAnimal();
-	
-	setReseted(true);
-	setUnknown(false);
-	setLast(Direction.NONE);
-	setOrientation(Direction.UP);
+        setLastPosition(getPosition());
+        super.resetAnimal();
+
+        setReseted(true);
+        setUnknown(false);
+        setLast(Direction.NONE);
+        setOrientation(Direction.UP);
     }
 
     private void markTile(Vector2D v) {
-	if (_markedOnce.contains(v)) {
-	    _markedTwice.add(v);
-	    _markedOnce.remove(v);
-	} else if (!_markedTwice.contains(v))
-	    _markedOnce.add(v);
+        if (_markedOnce.contains(v)) {
+            _markedTwice.add(v);
+            _markedOnce.remove(v);
+        } else if (!_markedTwice.contains(v))
+            _markedOnce.add(v);
     }
 
     private Direction discoveryMode(Direction[] choices) {
-	setLast(followLeftWall((choices)));
-	computeOrientation(getLast());
-	markTile(getPosition());
-	return getLast();
+        setLast(followLeftWall((choices)));
+        computeOrientation(getLast());
+        markTile(getPosition());
+        return getLast();
     }
 
     private boolean isIntersection(Direction choices[]) {
-	if (choices.length >= 3)
-	    return true;
+        if (choices.length >= 3)
+            return true;
 
-	return false;
+        return false;
     }
 
     private Direction memoryMode(Direction[] choices) {
-	Direction next = Direction.NONE;
-	if (isIntersection(choices)) {
-	    for (Direction dir : choices) {
-		Vector2D v = getPosition().addDirectionTo(dir);
-		if ((_markedOnce.contains(v)) && (!getLast().isOpposite(dir)))
-		    next = dir;
-	    }
+        Direction next = Direction.NONE;
+        if (isIntersection(choices)) {
+            for (Direction dir : choices) {
+                Vector2D v = getPosition().addDirectionTo(dir);
+                if ((_markedOnce.contains(v)) && (!getLast().isOpposite(dir)))
+                    next = dir;
+            }
 
-	    if (next == Direction.NONE) {
-		setLast(followLeftWall(choices));
-		computeOrientation(getLast());
-		return getLast();
-	    }
+            if (next == Direction.NONE) {
+                setLast(followLeftWall(choices));
+                computeOrientation(getLast());
+                return getLast();
+            }
 
-	    setLast(next);
-	    if (getOrientation().relativeDirection(_last) == Direction.LEFT)
-		setOrientation(getOrientation().rotateLeft());
-	    else if (getOrientation().relativeDirection(_last) == Direction.RIGHT)
-		setOrientation(getOrientation().rotateRight());
-	    else if (getOrientation().relativeDirection(_last) == Direction.DOWN)
-		setOrientation(getOrientation().reverse());
+            setLast(next);
+            if (getOrientation().relativeDirection(_last) == Direction.LEFT)
+                setOrientation(getOrientation().rotateLeft());
+            else if (getOrientation().relativeDirection(_last) == Direction.RIGHT)
+                setOrientation(getOrientation().rotateRight());
+            else if (getOrientation().relativeDirection(_last) == Direction.DOWN)
+                setOrientation(getOrientation().reverse());
 
-	    return getLast();
+            return getLast();
 
-	} else {
-	    setLast(followLeftWall(choices));
-	    computeOrientation(getLast());
-	    return getLast();
-	}
+        } else {
+            setLast(followLeftWall(choices));
+            computeOrientation(getLast());
+            return getLast();
+        }
     }
 }

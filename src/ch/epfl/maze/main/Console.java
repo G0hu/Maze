@@ -36,16 +36,18 @@ public class Console {
     public static final int NUMBER_OF_SIMULATIONS = 1000;
 
     public static void main(String[] args) {
-	Simulation simulation;
+        Simulation simulation;
 
-	simulation = getMazeSimulation();
-	// simulation = getDaedalusSimulation();
+        simulation = getMazeSimulation();
+        // simulation = getDaedalusSimulation();
 
-	System.out.print("Launching " + NUMBER_OF_SIMULATIONS + " simulations...");
-	Map<String, List<Integer>> results = Statistics.computeStatistics(simulation, NUMBER_OF_SIMULATIONS);
-	System.out.println(" done !");
+        System.out.print("Launching " + NUMBER_OF_SIMULATIONS
+                + " simulations...");
+        Map<String, List<Integer>> results = Statistics.computeStatistics(
+                simulation, NUMBER_OF_SIMULATIONS);
+        System.out.println(" done !");
 
-	printStats(results);
+        printStats(results);
     }
 
     /**
@@ -58,29 +60,29 @@ public class Console {
      */
 
     public static Simulation getMazeSimulation() {
-	int[][] labyrinth = LabyrinthGenerator.getLarge();
-	Maze m = new Maze(labyrinth);
-	Simulation simulation = new MazeSimulation(m);
+        int[][] labyrinth = LabyrinthGenerator.getLarge();
+        Maze m = new Maze(labyrinth);
+        Simulation simulation = new MazeSimulation(m);
 
-	// adds a Mouse
-	m.addAnimal(new Mouse(m.getStart()));
+        // adds a Mouse
+        m.addAnimal(new Mouse(m.getStart()));
 
-	// adds a Monkey
-	m.addAnimal(new Monkey(m.getStart()));
+        // adds a Monkey
+        m.addAnimal(new Monkey(m.getStart()));
 
-	// adds a Hamster
-	m.addAnimal(new Hamster(m.getStart()));
+        // adds a Hamster
+        m.addAnimal(new Hamster(m.getStart()));
 
-	// adds a Bear (if this bonus is coded)
-	m.addAnimal(new Bear(m.getStart()));
+        // adds a Bear (if this bonus is coded)
+        m.addAnimal(new Bear(m.getStart()));
 
-	// adds a Panda
-	m.addAnimal(new Panda(m.getStart()));
-	
-	// adds a SpaceInvader
-	m.addAnimal(new SpaceInvader(m.getStart()));
+        // adds a Panda
+        m.addAnimal(new Panda(m.getStart()));
 
-	return simulation;
+        // adds a SpaceInvader
+        m.addAnimal(new SpaceInvader(m.getStart()));
+
+        return simulation;
     }
 
     /**
@@ -93,26 +95,26 @@ public class Console {
      */
 
     public static Simulation getDaedalusSimulation() {
-	int[][] labyrinth = LabyrinthGenerator.getPacMan();
-	Daedalus d = new Daedalus(labyrinth);
-	Simulation simulation = new DaedalusSimulation(d);
+        int[][] labyrinth = LabyrinthGenerator.getPacMan();
+        Daedalus d = new Daedalus(labyrinth);
+        Simulation simulation = new DaedalusSimulation(d);
 
-	// adds Pac-Man
-	d.addPrey(new PacMan(new Vector2D(9, 15)));
+        // adds Pac-Man
+        d.addPrey(new PacMan(new Vector2D(9, 15)));
 
-	// adds Blinky
-	d.addPredator(new Blinky(new Vector2D(17, 1)));
+        // adds Blinky
+        d.addPredator(new Blinky(new Vector2D(17, 1)));
 
-	// adds Pinky
-	d.addPredator(new Pinky(new Vector2D(1, 1)));
+        // adds Pinky
+        d.addPredator(new Pinky(new Vector2D(1, 1)));
 
-	// adds Inky
-	d.addPredator(new Inky(new Vector2D(17, 17)));
+        // adds Inky
+        d.addPredator(new Inky(new Vector2D(17, 17)));
 
-	// adds Clyde
-	d.addPredator(new Clyde(new Vector2D(1, 17)));
+        // adds Clyde
+        d.addPredator(new Clyde(new Vector2D(1, 17)));
 
-	return simulation;
+        return simulation;
     }
 
     /**
@@ -123,42 +125,43 @@ public class Console {
      */
 
     public static void printStats(Map<String, List<Integer>> results) {
-	// computes statistics
-	for (Map.Entry<String, List<Integer>> entry : results.entrySet()) {
-	    String name = entry.getKey();
-	    List<Integer> list = entry.getValue();
-	    if (list.isEmpty()) {
-		continue;
-	    }
-	    Collections.sort(list);
+        // computes statistics
+        for (Map.Entry<String, List<Integer>> entry : results.entrySet()) {
+            String name = entry.getKey();
+            List<Integer> list = entry.getValue();
+            if (list.isEmpty()) {
+                continue;
+            }
+            Collections.sort(list);
 
-	    String max, min, std, mean, median, total;
-	    // handles infinite values
-	    if (Statistics.total(list) == Integer.MAX_VALUE) {
-		total = "Infinite";
-		mean = "Infinite";
-		std = "Infinite";
-		max = "Infinite";
-	    } else {
-		total = Integer.toString(Statistics.total(list));
-		mean = Integer.toString(Statistics.mean(list));
-		std = Double.toString(Statistics.std(list));
-		max = Integer.toString(list.get(list.size() - 1));
-	    }
-	    // min and median are special
-	    min = (list.get(0) == Integer.MAX_VALUE) ? "Infinite" : Integer.toString(list.get(0));
-	    median = (list.get(list.size() / 2) == Integer.MAX_VALUE) ? "Infinite"
-		    : Integer.toString(list.get(list.size() / 2));
+            String max, min, std, mean, median, total;
+            // handles infinite values
+            if (Statistics.total(list) == Integer.MAX_VALUE) {
+                total = "Infinite";
+                mean = "Infinite";
+                std = "Infinite";
+                max = "Infinite";
+            } else {
+                total = Integer.toString(Statistics.total(list));
+                mean = Integer.toString(Statistics.mean(list));
+                std = Double.toString(Statistics.std(list));
+                max = Integer.toString(list.get(list.size() - 1));
+            }
+            // min and median are special
+            min = (list.get(0) == Integer.MAX_VALUE) ? "Infinite" : Integer
+                    .toString(list.get(0));
+            median = (list.get(list.size() / 2) == Integer.MAX_VALUE) ? "Infinite"
+                    : Integer.toString(list.get(list.size() / 2));
 
-	    System.out.println("\n\n========== " + name + " ==========\n");
-	    System.out.println(" * total number of steps : " + total);
-	    System.out.println(" * average steps : " + mean);
-	    System.out.println(" * median steps : " + median);
-	    System.out.println(" * standard deviation : " + std);
-	    System.out.println(" * minimum steps : " + min);
-	    System.out.println(" * maximum steps : " + max);
-	    System.out.println("\nDistribution :");
-	    Statistics.printDistribution(list);
-	}
+            System.out.println("\n\n========== " + name + " ==========\n");
+            System.out.println(" * total number of steps : " + total);
+            System.out.println(" * average steps : " + mean);
+            System.out.println(" * median steps : " + median);
+            System.out.println(" * standard deviation : " + std);
+            System.out.println(" * minimum steps : " + min);
+            System.out.println(" * maximum steps : " + max);
+            System.out.println("\nDistribution :");
+            Statistics.printDistribution(list);
+        }
     }
 }

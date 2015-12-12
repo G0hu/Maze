@@ -25,7 +25,7 @@ public class Hamster extends RandomChooser {
      */
 
     public Hamster(Vector2D position) {
-	super(position);
+        super(position);
     }
 
     /**
@@ -34,13 +34,14 @@ public class Hamster extends RandomChooser {
      * @param deadLocks
      * @param last
      */
-    
-    public Hamster(Vector2D position, ArrayList<Vector2D> deadLocks, Direction last) {
-	super(position);
-	setLast(last);
-	_deadLock = deadLocks;
+
+    public Hamster(Vector2D position, ArrayList<Vector2D> deadLocks,
+            Direction last) {
+        super(position);
+        setLast(last);
+        _deadLock = deadLocks;
     }
-    
+
     /**
      * Moves without retracing directly its steps and by avoiding the dead-ends
      * it learns during its journey.
@@ -48,28 +49,28 @@ public class Hamster extends RandomChooser {
 
     @Override
     public Direction move(Direction[] choices) {
-	ArrayList<Direction> newChoices = removeDeadLockTiles(choices);
-	if (newChoices.isEmpty()) {
-	    return Direction.NONE;
-	} else if (newChoices.size() == 1) {
-	    _deadLock.add(getPosition());
-	    return newChoices.get(0);
-	} else {
-	    setLast(randomMove(newChoices));
-	    return getLast();
-	}
+        ArrayList<Direction> newChoices = removeDeadLockTiles(choices);
+        if (newChoices.isEmpty()) {
+            return Direction.NONE;
+        } else if (newChoices.size() == 1) {
+            _deadLock.add(getPosition());
+            return newChoices.get(0);
+        } else {
+            setLast(randomMove(newChoices));
+            return getLast();
+        }
     }
 
     @Override
     public Animal copy() {
-	return new Hamster(getPosition(), _deadLock, getLast());
+        return new Hamster(getPosition(), _deadLock, getLast());
     }
 
     @Override
     public void resetAnimal() {
-	super.resetAnimal();
-	_deadLock.clear();
-	setLast(Direction.NONE);
+        super.resetAnimal();
+        _deadLock.clear();
+        setLast(Direction.NONE);
     }
 
     /**
@@ -81,13 +82,13 @@ public class Hamster extends RandomChooser {
      */
 
     private ArrayList<Direction> removeDeadLockTiles(Direction[] choices) {
-	ArrayList<Direction> newChoices = new ArrayList<Direction>();
-	for (Direction dir : choices) {
-	    Vector2D newPos = getPosition().addDirectionTo(dir);
-	    if (!_deadLock.contains(newPos))
-		newChoices.add(dir);
-	}
+        ArrayList<Direction> newChoices = new ArrayList<Direction>();
+        for (Direction dir : choices) {
+            Vector2D newPos = getPosition().addDirectionTo(dir);
+            if (!_deadLock.contains(newPos))
+                newChoices.add(dir);
+        }
 
-	return newChoices;
+        return newChoices;
     }
 }

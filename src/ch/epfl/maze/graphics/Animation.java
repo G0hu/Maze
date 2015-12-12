@@ -55,25 +55,26 @@ public final class Animation {
      */
 
     public Animation(List<Animal> animals) {
-	mGraphMap = new TreeMap<Integer, GraphicComponent>();
-	mImages = new HashMap<String, BufferedImage>();
+        mGraphMap = new TreeMap<Integer, GraphicComponent>();
+        mImages = new HashMap<String, BufferedImage>();
 
-	// sanity check
-	if (animals != null) {
-	    // puts default action to draw animals and loads corresponding image
-	    Action none = new Action(Direction.NONE);
-	    for (int i = 0; i < animals.size(); i++) {
-		Animal animal = animals.get(i);
-		BufferedImage img = loadImage(animal);
-		Vector2D position = animal.getPosition().mul(Display.SQUARE_SIZE);
+        // sanity check
+        if (animals != null) {
+            // puts default action to draw animals and loads corresponding image
+            Action none = new Action(Direction.NONE);
+            for (int i = 0; i < animals.size(); i++) {
+                Animal animal = animals.get(i);
+                BufferedImage img = loadImage(animal);
+                Vector2D position = animal.getPosition().mul(
+                        Display.SQUARE_SIZE);
 
-		mGraphMap.put(i, new GraphicComponent(img, position, none));
-	    }
-	}
+                mGraphMap.put(i, new GraphicComponent(img, position, none));
+            }
+        }
 
-	// default values
-	mDone = true;
-	mWaitingFrames = 0;
+        // default values
+        mDone = true;
+        mWaitingFrames = 0;
     }
 
     /**
@@ -90,19 +91,19 @@ public final class Animation {
      */
 
     public void update(Animal animal, int id, Action action) {
-	// sanity checks
-	if (action == null) {
-	    action = new Action(Direction.NONE, false);
-	}
-	if (animal != null) {
-	    // retrieves BufferedImage
-	    BufferedImage img = loadImage(animal);
+        // sanity checks
+        if (action == null) {
+            action = new Action(Direction.NONE, false);
+        }
+        if (animal != null) {
+            // retrieves BufferedImage
+            BufferedImage img = loadImage(animal);
 
-	    // transforms position
-	    Vector2D position = animal.getPosition().mul(Display.SQUARE_SIZE);
+            // transforms position
+            Vector2D position = animal.getPosition().mul(Display.SQUARE_SIZE);
 
-	    mGraphMap.put(id, new GraphicComponent(img, position, action));
-	}
+            mGraphMap.put(id, new GraphicComponent(img, position, action));
+        }
     }
 
     /**
@@ -115,10 +116,10 @@ public final class Animation {
      */
 
     public void updateDying(int id) {
-	GraphicComponent graphComp = mGraphMap.get(id);
-	if (graphComp != null) {
-	    graphComp.willDieMoving();
-	}
+        GraphicComponent graphComp = mGraphMap.get(id);
+        if (graphComp != null) {
+            graphComp.willDieMoving();
+        }
     }
 
     /**
@@ -127,7 +128,7 @@ public final class Animation {
      */
 
     public void doneUpdating() {
-	mDone = false;
+        mDone = false;
     }
 
     /**
@@ -144,29 +145,29 @@ public final class Animation {
      */
 
     public void paint(float dt, Graphics2D g, ImageObserver targetWindow) {
-	mRatio += dt;
-	if (mRatio > 1) {
-	    mRatio = 1;
-	}
+        mRatio += dt;
+        if (mRatio > 1) {
+            mRatio = 1;
+        }
 
-	// paints every graphic component stored so far
-	for (Map.Entry<Integer, GraphicComponent> entry : mGraphMap.entrySet()) {
-	    GraphicComponent comp = entry.getValue();
-	    comp.paint(mRatio, g, targetWindow);
-	}
+        // paints every graphic component stored so far
+        for (Map.Entry<Integer, GraphicComponent> entry : mGraphMap.entrySet()) {
+            GraphicComponent comp = entry.getValue();
+            comp.paint(mRatio, g, targetWindow);
+        }
 
-	// decides whether the animation is done
-	if (mDone || mRatio == 1 || mWaitingFrames == 1) {
-	    mWaitingFrames = 0;
-	    mDone = true;
-	    mGraphMap.clear();
-	    mRatio = 0;
-	}
+        // decides whether the animation is done
+        if (mDone || mRatio == 1 || mWaitingFrames == 1) {
+            mWaitingFrames = 0;
+            mDone = true;
+            mGraphMap.clear();
+            mRatio = 0;
+        }
 
-	// prevents screen from flashing when aborting
-	if (mWaitingFrames > 0) {
-	    mWaitingFrames--;
-	}
+        // prevents screen from flashing when aborting
+        if (mWaitingFrames > 0) {
+            mWaitingFrames--;
+        }
     }
 
     /**
@@ -176,7 +177,7 @@ public final class Animation {
      */
 
     public boolean isDone() {
-	return mDone;
+        return mDone;
     }
 
     /**
@@ -187,23 +188,24 @@ public final class Animation {
      */
 
     public void reset(List<Animal> animals) {
-	mGraphMap.clear();
-	if (animals != null) {
-	    // puts default action to draw animals
-	    Action none = new Action(Direction.NONE);
-	    for (int i = 0; i < animals.size(); i++) {
-		Animal animal = animals.get(i);
+        mGraphMap.clear();
+        if (animals != null) {
+            // puts default action to draw animals
+            Action none = new Action(Direction.NONE);
+            for (int i = 0; i < animals.size(); i++) {
+                Animal animal = animals.get(i);
 
-		// loads corresponding image
-		BufferedImage img = loadImage(animal);
+                // loads corresponding image
+                BufferedImage img = loadImage(animal);
 
-		// transforms position
-		Vector2D position = animal.getPosition().mul(Display.SQUARE_SIZE);
+                // transforms position
+                Vector2D position = animal.getPosition().mul(
+                        Display.SQUARE_SIZE);
 
-		mGraphMap.put(i, new GraphicComponent(img, position, none));
-	    }
-	}
-	mWaitingFrames = DEFAULT_WAITING_FRAMES;
+                mGraphMap.put(i, new GraphicComponent(img, position, none));
+            }
+        }
+        mWaitingFrames = DEFAULT_WAITING_FRAMES;
     }
 
     /**
@@ -216,29 +218,29 @@ public final class Animation {
      */
 
     private BufferedImage loadImage(Animal animal) {
-	// traverses hierarchy until a file "img/superclass/class.png" exists
-	Class<?> superClass = animal.getClass().getSuperclass();
-	String file = animal.getClass().getSimpleName();
-	String folder = "";
-	File f = new File(file);
-	while (superClass != null && !f.exists()) {
-	    folder = superClass.getSimpleName() + File.separator;
-	    String path = "img/" + folder + file + ".png";
-	    f = new File(path);
-	    superClass = superClass.getSuperclass();
-	}
+        // traverses hierarchy until a file "img/superclass/class.png" exists
+        Class<?> superClass = animal.getClass().getSuperclass();
+        String file = animal.getClass().getSimpleName();
+        String folder = "";
+        File f = new File(file);
+        while (superClass != null && !f.exists()) {
+            folder = superClass.getSimpleName() + File.separator;
+            String path = "img/" + folder + file + ".png";
+            f = new File(path);
+            superClass = superClass.getSuperclass();
+        }
 
-	// adds image to buffer if not already there
-	BufferedImage img = mImages.get(folder + file);
-	if (img == null) {
-	    try {
-		img = ImageIO.read(f);
-		mImages.put(folder + "." + file, img);
-	    } catch (IOException e) {
-		e.printStackTrace();
-	    }
-	}
+        // adds image to buffer if not already there
+        BufferedImage img = mImages.get(folder + file);
+        if (img == null) {
+            try {
+                img = ImageIO.read(f);
+                mImages.put(folder + "." + file, img);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
-	return img;
+        return img;
     }
 }

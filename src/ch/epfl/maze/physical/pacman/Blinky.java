@@ -21,7 +21,7 @@ public class Blinky extends Predator {
      */
 
     public Blinky(Vector2D position) {
-	super(position);
+        super(position);
     }
 
     /**
@@ -38,34 +38,35 @@ public class Blinky extends Predator {
      */
 
     public Blinky(Vector2D position, Direction last, int mode, int modeCount) {
-	super(position, last, mode, modeCount);
+        super(position, last, mode, modeCount);
     }
 
     @Override
     public Direction move(Direction[] choices, Daedalus daedalus) {
-	if (daedalus.getPreys().isEmpty())
-	    return move(choices);
+        if (daedalus.getPreys().isEmpty())
+            return move(choices);
 
-	Vector2D target = null;
-	int mode = computeMode();
-	if (mode == CHASE_MODE)
-	    target = daedalus.getPreys().get(0).getPosition();
-	else
-	    target = getStartPosition();
+        Vector2D target = null;
+        int mode = computeMode();
+        if (mode == CHASE_MODE)
+            target = daedalus.getPreys().get(0).getPosition();
+        else
+            target = getStartPosition();
 
-	return moveToTarget(choices, target);
+        return moveToTarget(choices, target);
     }
 
     @Override
     public Animal copy() {
-	Blinky b = new Blinky(getPosition(), getLast(), getMode(), getModeCount());
-	b.setStartPosition(getStartPosition());
+        Blinky b = new Blinky(getPosition(), getLast(), getMode(),
+                getModeCount());
+        b.setStartPosition(getStartPosition());
 
-	return b;
+        return b;
     }
 
     @Override
     public void resetAnimal() {
-	super.resetAnimal();
+        super.resetAnimal();
     }
 }

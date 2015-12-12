@@ -20,7 +20,7 @@ public class Mouse extends RandomChooser {
      */
 
     public Mouse(Vector2D position) {
-	super(position);
+        super(position);
     }
 
     /**
@@ -33,8 +33,8 @@ public class Mouse extends RandomChooser {
      */
 
     public Mouse(Vector2D position, Direction last) {
-	super(position);
-	setLast(last);
+        super(position);
+        setLast(last);
     }
 
     /**
@@ -44,18 +44,18 @@ public class Mouse extends RandomChooser {
 
     @Override
     public Direction move(Direction[] choices) {
-	setLast(randomMove(choices));
-	return getLast();
+        setLast(randomMove(choices));
+        return getLast();
     }
 
     @Override
     public Animal copy() {
-	return new Mouse(getPosition(), getLast());
+        return new Mouse(getPosition(), getLast());
     }
 
     @Override
     public void resetAnimal() {
-	super.resetAnimal();
-	setLast(Direction.NONE);
+        super.resetAnimal();
+        setLast(Direction.NONE);
     }
 }

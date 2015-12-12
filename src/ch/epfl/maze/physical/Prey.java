@@ -24,12 +24,12 @@ abstract public class Prey extends Animal {
      */
 
     public Prey(Vector2D position) {
-	super(position);
+        super(position);
     }
 
     public Prey(Vector2D position, Direction last) {
-	super(position);
-	setLast(last);
+        super(position);
+        setLast(last);
     }
 
     /**
@@ -40,32 +40,33 @@ abstract public class Prey extends Animal {
 
     @Override
     public final Direction move(Direction[] choices) {
-	if (choices.length == 0) {
-	    setLast(Direction.NONE);
-	    return Direction.NONE;
-	} else if (choices.length == 1) {
-	    setLast(choices[0]);
-	    return choices[0];
-	}
+        if (choices.length == 0) {
+            setLast(Direction.NONE);
+            return Direction.NONE;
+        } else if (choices.length == 1) {
+            setLast(choices[0]);
+            return choices[0];
+        }
 
-	List<Direction> filteredChoices = new ArrayList<Direction>();
-	for (Direction dir : choices)
-	    if (!dir.isOpposite(getLast()))
-		filteredChoices.add(dir);
+        List<Direction> filteredChoices = new ArrayList<Direction>();
+        for (Direction dir : choices)
+            if (!dir.isOpposite(getLast()))
+                filteredChoices.add(dir);
 
-	Random rand = new Random();
-	Direction choice = filteredChoices.get(rand.nextInt(filteredChoices.size()));
+        Random rand = new Random();
+        Direction choice = filteredChoices.get(rand.nextInt(filteredChoices
+                .size()));
 
-	setLast(choice);
-	return choice;
+        setLast(choice);
+        return choice;
     }
 
     public final Direction getLast() {
-	return _last;
+        return _last;
     }
 
     public final void setLast(Direction last) {
-	_last = last;
+        _last = last;
     }
 
     /**

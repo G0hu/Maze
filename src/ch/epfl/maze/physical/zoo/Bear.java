@@ -23,7 +23,7 @@ public class Bear extends WallFollower {
      */
 
     public Bear(Vector2D position) {
-	super(position);
+        super(position);
     }
 
     /**
@@ -40,10 +40,11 @@ public class Bear extends WallFollower {
      *            Rotation counter
      */
 
-    public Bear(Vector2D position, Direction preferred, Direction orientation, int counter) {
-	super(position, orientation);
-	setPreferred(preferred);
-	setCounter(_counter);
+    public Bear(Vector2D position, Direction preferred, Direction orientation,
+            int counter) {
+        super(position, orientation);
+        setPreferred(preferred);
+        setCounter(_counter);
     }
 
     /*
@@ -51,19 +52,19 @@ public class Bear extends WallFollower {
      */
 
     public Direction getPreferred() {
-	return _preferred;
+        return _preferred;
     }
 
     public int getCounter() {
-	return _counter;
+        return _counter;
     }
 
     public void setPreferred(Direction d) {
-	_preferred = d;
+        _preferred = d;
     }
 
     public void setCounter(int c) {
-	_counter = c;
+        _counter = c;
     }
 
     /**
@@ -77,65 +78,66 @@ public class Bear extends WallFollower {
 
     @Override
     public Direction move(Direction[] choices) {
-	if (getPreferred() == Direction.NONE) {
-	    if (choices.length == 0)
-		return Direction.NONE;
+        if (getPreferred() == Direction.NONE) {
+            if (choices.length == 0)
+                return Direction.NONE;
 
-	    // choose favorite direction from the available one at Start
-	    // position
-	    setPreferred(choices[0]);
-	}
+            // choose favorite direction from the available one at Start
+            // position
+            setPreferred(choices[0]);
+        }
 
-	// check if favorite direction is available
-	boolean preferred = false;
-	for (Direction dir : choices)
-	    if (dir == getPreferred())
-		preferred = true;
+        // check if favorite direction is available
+        boolean preferred = false;
+        for (Direction dir : choices)
+            if (dir == getPreferred())
+                preferred = true;
 
-	if (getCounter() == 0) {
-	    if (preferred) {
-		if (getOrientation().relativeDirection(getPreferred()) == Direction.LEFT)
-		    setOrientation(getOrientation().rotateLeft());
-		else if (getOrientation().relativeDirection(getPreferred()) == Direction.DOWN)
-		    setOrientation(getOrientation().reverse());
-		else if (getOrientation().relativeDirection(getPreferred()) == Direction.RIGHT)
-		    setOrientation(getOrientation().rotateRight());
+        if (getCounter() == 0) {
+            if (preferred) {
+                if (getOrientation().relativeDirection(getPreferred()) == Direction.LEFT)
+                    setOrientation(getOrientation().rotateLeft());
+                else if (getOrientation().relativeDirection(getPreferred()) == Direction.DOWN)
+                    setOrientation(getOrientation().reverse());
+                else if (getOrientation().relativeDirection(getPreferred()) == Direction.RIGHT)
+                    setOrientation(getOrientation().rotateRight());
 
-		return getPreferred();
+                return getPreferred();
 
-	    } else {
-		setCounter(1);
-		setOrientation(getOrientation().rotateRight());
+            } else {
+                setCounter(1);
+                setOrientation(getOrientation().rotateRight());
 
-		// Monkey Move
-		Direction choice = followLeftWall(choices);
-		computeRotationCounter(choice);
-		computeOrientation(choice);
+                // Monkey Move
+                Direction choice = followLeftWall(choices);
+                computeRotationCounter(choice);
+                computeOrientation(choice);
 
-		return choice;
-	    }
+                return choice;
+            }
 
-	} else {
-	    // Monkey Move
-	    Direction choice = followLeftWall(choices);
-	    computeRotationCounter(choice);
-	    computeOrientation(choice);
+        } else {
+            // Monkey Move
+            Direction choice = followLeftWall(choices);
+            computeRotationCounter(choice);
+            computeOrientation(choice);
 
-	    return choice;
-	}
+            return choice;
+        }
     }
 
     @Override
     public Animal copy() {
-	return new Bear(getPosition(), getPreferred(), getOrientation(), getCounter());
+        return new Bear(getPosition(), getPreferred(), getOrientation(),
+                getCounter());
     }
 
     @Override
     public void resetAnimal() {
-	super.resetAnimal();
-	setCounter(0);
-	setPreferred(Direction.NONE);
-	setOrientation(Direction.UP);
+        super.resetAnimal();
+        setCounter(0);
+        setPreferred(Direction.NONE);
+        setOrientation(Direction.UP);
     }
 
     /**
@@ -152,11 +154,11 @@ public class Bear extends WallFollower {
      */
 
     private void computeRotationCounter(Direction choice) {
-	if (getOrientation().relativeDirection(choice) == Direction.LEFT)
-	    setCounter(getCounter() - 1);
-	else if (getOrientation().relativeDirection(choice) == Direction.RIGHT)
-	    setCounter(getCounter() + 1);
-	else if (getOrientation().relativeDirection(choice) == Direction.DOWN)
-	    setCounter(getCounter() + 2);
+        if (getOrientation().relativeDirection(choice) == Direction.LEFT)
+            setCounter(getCounter() - 1);
+        else if (getOrientation().relativeDirection(choice) == Direction.RIGHT)
+            setCounter(getCounter() + 1);
+        else if (getOrientation().relativeDirection(choice) == Direction.DOWN)
+            setCounter(getCounter() + 2);
     }
 }
