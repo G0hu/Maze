@@ -43,7 +43,7 @@ derniere position du singe.
 * _lastPosition : Derniere position qui à été reset qui sert à connaitre la position ou il a arreté son marquage
 * _last : Derniere direction pour éviter de repartir en arriere lorsque la case est marquée une seule fois.
 * _markedOnce : List des cases deja marques une seule fois.
-* _markedTwice : List des cases deja marques une seule fois.
+* _markedTwice : List des cases deja marques deux fois.
 
 ######Methode utilitaire
 * *private void markTile(Vector2D v)*: Methode qui est appele dans move pour marquer la case sur laquelle le singe passe
