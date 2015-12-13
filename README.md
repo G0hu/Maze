@@ -48,11 +48,11 @@ derniere position du singe.
 ######Methode utilitaire
 * *private void markTile(Vector2D v)*: Methode qui est appele dans move pour marquer la case sur laquelle le singe passe
 en mode decouverte.
-* *private Direction discoveryMode(Direction[] choices)*: Methode qui renvois la prochaine direction en discoveyMode
+* *private Direction discoveryMode(Direction[] choices)*: Methode qui renvoie la prochaine direction en discoveyMode
 et qui appele markTile(Vector2D v) pour marquer la case.
-* *private Direction memoryMode(Direction[] choices)*: Methode qui renvois la prochaine direction en memoryMode
+* *private Direction memoryMode(Direction[] choices)*: Methode qui renvoie la prochaine direction en memoryMode
 Elle fait son choix en parcourant les choix et en allant dans la case qui est marque une seule fois lorque le
-space ivader est dans une intersection ou renvois un mouvement de singe si il n'est pas dans une intersection.
+space ivader est dans une intersection ou renvoie un mouvement de singe si il n'est pas dans une intersection.
 * *private boolean isIntersection(Direction choices[])*: Methode qui determine si le SI est dans une intersection.
 
 ######Algorithme
