@@ -1,7 +1,8 @@
 #Maze Project 2 - Bachelor 1
 
 ##Auteurs
-* 
+* NASSIM OUZEROUHANE, SCIPER _
+* HUGO POLSINELLI, SCIPER 261356
 
 ##Partie 1
 Nous avons ajouté une methode *void resetAnimal()* dans la classe Animal afin de pouvoir effacer la memoire de chacun des animaux
