@@ -82,8 +82,8 @@ le choix qui le conduit dans une impasse.
 * * List<Vector2D> analyseDaedalus(Daedalus d)* : methode qui sert a creer la liste qui est en attribut pour trouver les impasses.
 
 ######Algorithme
-toujour eviter les impasses.
-	si un predateur est dans un rayon critique: le fuir;
-	si aucun predateur n'est dans le rayon moyen, fuir le barycentre de tout les predateurs
-	si un seul predateur est dans le rayon moyen, le fuir
-	si plusieurs predateurs sont dans le rayon moyen, fuir leur barycentre
+toujour eviter les impasses.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;si un predateur est dans un rayon critique: le fuir;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;si aucun predateur n'est dans le rayon moyen, fuir le barycentre de tout les predateurs<br />
+&nbsp;&nbsp;&nbsp;&nbsp;si un seul predateur est dans le rayon moyen, le fuir<br />
+&nbsp;&nbsp;&nbsp;&nbsp;si plusieurs predateurs sont dans le rayon moyen, fuir leur barycentre<br />
