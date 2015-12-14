@@ -33,7 +33,7 @@ public class PacMan extends Prey {
 	setOrientation(o);
 
     }
-    
+
     public Direction getOrientation() {
 	return _orientation;
     }
@@ -41,7 +41,7 @@ public class PacMan extends Prey {
     public void setOrientation(Direction d) {
 	_orientation = d;
     }
-    
+
     @Override
     public Direction move(Direction[] choices, Daedalus daedalus) {
 	boolean critic = false;
@@ -53,22 +53,22 @@ public class PacMan extends Prey {
 	    if (euclidianDistance(getPosition(), pos.getPosition()) <= CRITIC_DISTANCE)
 		critic = true;
 	if (critic) {
-	    Direction choice = moveToTarget1(choices, positions.get(0).getPosition(), daedalus);
+	    Direction choice = moveToTarget(choices, positions.get(0).getPosition(), daedalus, true);
 	    computeOrientation(choice);
 	    return choice;
 	}
 
 	if (positions.size() == 0) {
-	    Direction choice = moveToTarget0(choices, baryCentreTile(daedalus.getPredators(), daedalus, LARGE_DISTANCE),
-		    daedalus);
+	    Direction choice = moveToTarget(choices, baryCentreTile(daedalus.getPredators(), daedalus, LARGE_DISTANCE),
+		    daedalus, false);
 	    computeOrientation(choice);
 	    return choice;
 	} else if (positions.size() == 1) {
-	    Direction choice = moveToTarget1(choices, positions.get(0).getPosition(), daedalus);
+	    Direction choice = moveToTarget(choices, positions.get(0).getPosition(), daedalus, true);
 	    computeOrientation(choice);
 	    return choice;
 	} else {
-	    Direction choice = moveToTarget0(choices, baryCentreTile(positions, daedalus, MEDIUM_DISTANCE), daedalus);
+	    Direction choice = moveToTarget(choices, baryCentreTile(positions, daedalus, MEDIUM_DISTANCE), daedalus, false);
 	    computeOrientation(choice);
 	    return choice;
 	}
@@ -107,7 +107,7 @@ public class PacMan extends Prey {
 
     }
 
-    private Direction moveToTarget0(Direction[] choices, Vector2D target, Daedalus daedalus) {
+    private Direction moveToTarget(Direction[] choices, Vector2D target, Daedalus daedalus, boolean ignoreLast) {
 
 	Direction deadlockNext = Direction.NONE;
 
@@ -130,40 +130,11 @@ public class PacMan extends Prey {
 	for (Direction dir : choices) {
 	    Vector2D newPos = getPosition().addDirectionTo(dir);
 	    double distance = euclidianDistance(newPos, target);
-	    if ((distance > bestValue) && (!dir.isOpposite(getLast())) && !(dir == deadlockNext)) {
-		bestValue = distance;
-		bestDirection = dir;
-	    }
-	}
-
-	setLast(bestDirection);
-	return bestDirection;
-    }
-
-    private Direction moveToTarget1(Direction[] choices, Vector2D target, Daedalus daedalus) {
-	Direction deadlockNext = Direction.NONE;
-	if (_deadLock.isEmpty())
-	    _deadLock.equals(analyseDaedalus(daedalus));
-
-	if (_deadLock.contains(getPosition())) {
-	    for (Direction dir : choices) {
-		Vector2D newPos = getPosition().addDirectionTo(dir);
-		if (_deadLock.contains(newPos))
-		    deadlockNext = dir;
-	    }
-	}
-
-	if ((choices.length == 0) || (choices.length == 1))
-	    return move(choices);
-
-	Direction bestDirection = Direction.NONE;
-	double bestValue = Double.NEGATIVE_INFINITY;
-	for (Direction dir : choices) {
-	    Vector2D newPos = getPosition().addDirectionTo(dir);
-	    double distance = euclidianDistance(newPos, target);
-	    if ((distance > bestValue) && !(deadlockNext == dir)) {
-		bestValue = distance;
-		bestDirection = dir;
+	    if (!dir.isOpposite(getLast()) || ignoreLast) {
+		if ((distance > bestValue) && !(dir == deadlockNext)) {
+		    bestValue = distance;
+		    bestDirection = dir;
+		}
 	    }
 	}
 
@@ -199,19 +170,17 @@ public class PacMan extends Prey {
     }
 
     private Vector2D next(Vector2D pos, List<Vector2D> deadLock, Direction[] choices) {
-	if (choices.length > 2)
-	    return null;
 	List<Vector2D> v = new ArrayList<Vector2D>();
 	for (Direction dir : choices)
 	    if (!deadLock.contains(pos.addDirectionTo(dir)))
 		v.add(pos.addDirectionTo(dir));
-	
-	if (v.isEmpty())
+
+	if (v.isEmpty() || v.size() > 2)
 	    return null;
 	else
 	    return v.get(0);
     }
-
+    
     private final void computeOrientation(Direction choice) {
 	if (getOrientation().relativeDirection(choice) == Direction.LEFT)
 	    setOrientation(getOrientation().rotateLeft());
@@ -220,7 +189,7 @@ public class PacMan extends Prey {
 	else if (getOrientation().relativeDirection(choice) == Direction.DOWN)
 	    setOrientation(getOrientation().reverse());
     }
-    
+
     private double euclidianDistance(Vector2D a, Vector2D b) {
 	Vector2D diff = a.sub(b);
 	return diff.dist();
