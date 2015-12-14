@@ -81,7 +81,7 @@ le choix qui le conduit dans une impasse.
 * *private double euclidianDistance(Vector2D a, Vector2D b)* : methode qui renvoit la distance euclidienne entre deux positions dans le daedalus.   
 * * List<Vector2D> analyseDaedalus(Daedalus d)* : methode qui sert a creer la liste qui est en attribut pour trouver les impasses.
 
-######Algorithmz
+######Algorithme
 toujour eviter les impasses.
 	si un predateur est dans un rayon critique: le fuir;
 	si aucun predateur n'est dans le rayon moyen, fuir le barycentre de tout les predateurs
