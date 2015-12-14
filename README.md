@@ -79,7 +79,7 @@ est dans ce rayon, le pac man le fuit juste lui sans prendre en compte le baryce
 le choix qui le conduit dans une impasse.
 * *private Direction moveToTarget1(Direction[] choices, Vector2D target)* : Methode qui va renvoyer le choix qui s'eloigne le plus du barycentre et autorisant le retour en arriere du pacman et dans le cas ou le pac man est dans une case intersection, il elimine le choix qui le conduit dans une impasse.
 * *private double euclidianDistance(Vector2D a, Vector2D b)* : methode qui renvoit la distance euclidienne entre deux positions dans le daedalus.   
-* * List<Vector2D> analyseDaedalus(Daedalus d)* : methode qui sert a creer la liste qui est en attribut pour trouver les impasses.
+* *List<Vector2D> analyseDaedalus(Daedalus d)* : methode qui sert a creer la liste qui est en attribut pour trouver les impasses.
 
 ######Algorithme
 toujour eviter les impasses.<br />
