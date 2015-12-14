@@ -61,28 +61,25 @@ Si il est dans un territoire inconnu (unknown=true): lancement du mode memoire, 
 
 ####PacMan
 
-*Le pac Man codé dans notre Projet se deplace avec une I.A de sorte a fuir les predateurs et d'eviter les impasses qui sont fatales.
+Le pac Man codé dans notre Projet se deplace avec une I.A de sorte a fuir les predateurs et d'eviter les impasses qui sont fatales.
 Pour cela il utilise le barycentre des predateurs et prends la direction qui s'en eloigne le plus lorque les predateurs sont
 2 ou plus dans un rayon qui influe avec pertinence la position du barycentre(si un predateur est tres eloigne
 son barycentre va fausser la position moyenne des predateurs dangereux et est donc ignoré).Si seulement un predateur
 est dans ce rayon, le pac man le fuit juste lui sans prendre en compte le barycentre. Le pac man fuit donc les predateurs par ordre d'importance par rapport au different rayon de distance de presence de predateur.Pour cela on definit en static les trois rayons. 
 ######Attributs
-    private final  int criticDistance=1; : rayon critique, un predateur est juste a proximite
-    private final  int mediumDistance=5; : rayon moyennement dangerueux
-    private final  int largeDistance=10; : rayon pas tres dangereux
-    private Direction _orientation  : l'orientation  du pac man , initialise en Direction.UP
-    
-    List<Vector2D> _deadLock= new ArrayList<Vector2D>(); List des cases menant a une impasse obtenu grace a la methode utilitaire analyseDaedalus(Daedalus daedalus)
-elle nous permettra d'eviter de rentrer dans les impasses.
+* _criticDistance=1; : rayon critique, un predateur est juste a proximite
+* _mediumDistance=5; : rayon moyennement dangerueux
+* _largeDistance=10; : rayon pas tres dangereux
+* _orientation  : l'orientation  du pac man , initialise en Direction.UP
+* _deadLock List des cases menant a une impasse obtenu grace a la methode utilitaire analyseDaedalus(Daedalus daedalus) elle nous permettra d'eviter de rentrer dans les impasses.
 
 ######Methode utilitaire
- public Vector2D baryCentreTile( List<Predator> pred,Daedalus daedalus ,int distance) : Methode qui renvoit la position 
-du barycentre des predateurs de "pred" dans le rayon "distance".
- private Direction moveToTarget0(Direction[] choices, Vector2D target) : Methode qui va renvoyer le choix qui s'eloigne le plus du barycentre sans autoriser le retour en arriere du pacman et dans le cas ou le pac man est dans une case intersection, il elimine
+* *public Vector2D baryCentreTile( List<Predator> pred,Daedalus daedalus ,int distance) *: Methode qui renvoit la position du barycentre des predateurs de "pred" dans le rayon "distance".
+* *private Direction moveToTarget0(Direction[] choices, Vector2D target) : Methode qui va renvoyer le choix qui s'eloigne le plus du barycentre sans autoriser le retour en arriere du pacman et dans le cas ou le pac man est dans une case intersection, il elimine
 le choix qui le conduit dans une impasse.
     private Direction moveToTarget1(Direction[] choices, Vector2D target) : Methode qui va renvoyer le choix qui s'eloigne le plus du barycentre et autorisant le retour en arriere du pacman et dans le cas ou le pac man est dans une case intersection, il elimine le choix qui le conduit dans une impasse.
-   private double euclidianDistance(Vector2D a, Vector2D b) : methode qui renvoit la distance euclidienne entre deux positions dans le daedalus.   
-   private List<Vector2D> analyseDaedalus(Daedalus d) : methode qui sert a creer la liste qui est en attribut pour trouver les impasses.
+* *private double euclidianDistance(Vector2D a, Vector2D b) *: methode qui renvoit la distance euclidienne entre deux positions dans le daedalus.   
+* * List<Vector2D> analyseDaedalus(Daedalus d) *: methode qui sert a creer la liste qui est en attribut pour trouver les impasses.
 
 ######Algo
 toujour eviter les impasses.
