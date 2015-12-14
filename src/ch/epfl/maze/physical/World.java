@@ -118,6 +118,9 @@ public abstract class World {
      */
 
     public final Direction[] getChoices(Vector2D position) {
+	if (!isFree(position))
+	    return new Direction[0];
+	
         List<Direction> availableDirections = new ArrayList<Direction>();
         for (Direction dir : DIRECTIONS)
             if (isFree(position.addDirectionTo(dir)))
