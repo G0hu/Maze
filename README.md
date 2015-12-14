@@ -65,7 +65,7 @@ Le pac Man codé dans notre Projet se deplace avec une I.A de sorte a fuir les p
 Pour cela il utilise le barycentre des predateurs et prends la direction qui s'en eloigne le plus lorque les predateurs sont
 2 ou plus dans un rayon qui influe avec pertinence la position du barycentre(si un predateur est tres eloigne
 son barycentre va fausser la position moyenne des predateurs dangereux et est donc ignoré).Si seulement un predateur
-est dans ce rayon, le pac man le fuit juste lui sans prendre en compte le barycentre. Le pac man fuit donc les predateurs par ordre d'importance par rapport au different rayon de distance de presence de predateur.Pour cela on definit en static les trois rayons. 
+est dans ce rayon, le pac man le fuit juste lui sans prendre en compte le barycentre. Le pac man fuit donc les predateurs par ordre d'importance par rapport au different rayon de distance de presence de predateur.Pour cela on definit en final les trois rayons. 
 ######Attributs
 * _criticDistance : rayon critique, un predateur est juste a proximite
 * _mediumDistance : rayon moyennement dangerueux
